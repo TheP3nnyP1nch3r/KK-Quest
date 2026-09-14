@@ -2,7 +2,7 @@
    Precaches the splash map, the icons, the theme and the character. The weapon models
    under models/gear/ are deliberately NOT precached: they are only fetched when a piece
    is actually equipped, and then cached on the way past. */
-const CACHE='kkquest-v1.2.0'; // bump this with APP_VERSION in index.html on every deploy
+const CACHE='kkquest-v1.3.0'; // bump this with APP_VERSION in index.html on every deploy
 const ICONS=['book','bridge','campfire','cave','chamber','chest','cottage','dragon','dragon-asleep',
  'knight','minotaur','owl','potion','ranger','signpost','sword-shield','tower','traveler','witch','wizard'];
 const ASSETS=['./','index.html','three.min.js','manifest.webmanifest','map.jpg','theme.mp3',

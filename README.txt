@@ -1,4 +1,4 @@
-Kaitlyn's Quest — v1.2.0
+Kaitlyn's Quest — v1.3.0
 Ashcombe Hall · House Kestrel
 
 DEPLOY (drag and drop)
@@ -24,11 +24,20 @@ No audio files — the login fanfare is synthesized in code.
 3D CHARACTER (models/)
 ----------------------
   hero.glb        Quaternius Universal Base Characters — Superhero Female,
-                  light skin texture, resized to 512px and re-encoded
+                  light skin texture, resized and re-encoded
   hair-down.glb   Hair_Long      (shown when her hair is down)
   hair-up.glb     Hair_Buns      (shown with the ponytail setting)
   anims.glb       Quaternius Universal Animation Library, pruned to six clips
                   and stripped to rotation-only channels
+
+v1.3.0 rebuilt all four of these from scratch with a proper glTF toolchain
+(@gltf-transform/core) instead of hand-written binary packing, after the
+hand-rolled version silently corrupted the character's skin — the body,
+eyebrows, and eyes stopped rendering while the code-built clothing (which
+isn't skinned) kept showing, which is why only a torso-shaped shell was
+visible with no head or limbs. All four files now pass the official
+Khronos glTF validator with zero errors, and every bone name in the hair
+and animation files was cross-checked against the hero skeleton.
 
 All Quaternius assets are CC0 — free for personal and commercial use, no
 attribution required. Credited here anyway because it is the decent thing.

@@ -1867,7 +1867,7 @@ el('logmatch').onclick=()=>{
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');if(S.pending)setTimeout(showLoot,600)}
   else toast(`+${grand} xp. That is the session.`)};
-const APP_VERSION='1.2.0';
+const APP_VERSION='1.3.0';
 const TABS={
  today:['p-commit','p-today','p-board','p-boss','p-draw'],
  plan:['p-log','p-season','p-week'],
@@ -2189,6 +2189,11 @@ async function h3assets(){
   const [hero,anims,down,up]=await Promise.all([
     h3load('models/hero.glb'),h3load('models/anims.glb'),
     h3load('models/hair-down.glb'),h3load('models/hair-up.glb')]);
+  let body=null,skel=null;
+  hero.scene.traverse(o=>{if(o.isSkinnedMesh&&/Superhero/i.test(o.name)){body=o;skel=o.skeleton}});
+  if(!body||!skel)throw new Error('hero.glb has no skinned body mesh');
+  if(!skel.bones.length)throw new Error('hero.glb skeleton has no bones');
+  if(!anims.animations.length)throw new Error('anims.glb has no clips');
   H3.assets.hero=hero.scene;
   H3.assets.raw=hero;
   anims.animations.forEach(c=>H3.assets.clips[c.name]=c);
@@ -2390,8 +2395,12 @@ function hero3dLoadModel(cls,then){
     if(H3.cheerQueued||!first){H3.cheerQueued=false;hero3dPlay('Dance_Loop')}
     if(then&&first)then();
   }).catch(err=>{
-    H3.loading=false;console.warn('character failed',err);
-    if(!H3.R){H3.failed=true;el('stage3d').classList.add('hid')}
+    H3.loading=false;console.error('character failed to load:',err);
+    if(!H3.R){
+      H3.failed=true;
+      const ld3=el('stage3dload');
+      if(ld3){ld3.textContent='Character art failed to load. Check that the models/ folder deployed correctly.';ld3.classList.remove('hid')}
+    }
   });
 }
 
