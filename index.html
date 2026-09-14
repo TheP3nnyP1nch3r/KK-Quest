@@ -1,37 +1,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#E4E8DD">
+<meta name="theme-color" content="#E4D5B4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=UnifrakturMaguntia&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
-<title>Kaitlyn’s Quest</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
   :root{
-    --bg:#DCE0D5; --s1:#EEF0E8; --s2:#E2E6DA; --line:#B6BEAC; --line2:#8C9684;
-    --tx:#232A26; --mu:#5A665C; --dim:#8A968C; --ink:#2C3630;
+    --bg:#E4D5B4; --s1:#F2E7CF; --s2:#E8DABB; --line:#C9B48C; --line2:#9C8460;
+    --tx:#2B2117; --mu:#6E5B44; --dim:#9C8A6E; --ink:#3A2C1E;
     --gold:#A35B3C; --gold-ink:#FFF6F0; --teal:#436B74; --teal-ink:#FFFFFF; --green:#4F7A5C; --red:#9B3F36; --amber:#B07A32;
     --f:'Crimson Pro',Georgia,'Times New Roman',serif;
     --fd:'Cinzel','Crimson Pro',Georgia,serif;
     --r:6px; --rs:4px;
-    --paper:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18 0 0 0 0 .22 0 0 0 0 .18 0 0 0 .07 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    --paper:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .32 0 0 0 0 .24 0 0 0 0 .12 0 0 0 .09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
     --panel:var(--s1); --raised:var(--s2); --gold-dim:var(--line2);
     --parch:var(--tx); --muted:var(--mu); --moss:var(--green); --ember:var(--red);
-    --rare:#436B74; --epic:#6E5A86; --f-disp:var(--fd); --f-ui:var(--f);
+    --rare:#436B74; --epic:#7A6193; --f-disp:var(--fd); --f-ui:var(--f);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;background:var(--bg);background-image:var(--paper);color:var(--tx);font:17px/1.4 var(--f);
     font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
   .hid{display:none!important}
-  .ic-art{width:74px;height:74px;object-fit:contain;flex:0 0 74px;opacity:.92;
-    filter:drop-shadow(0 1px 0 rgba(255,255,255,.5));margin-right:2px}
-  .ic-tag{width:17px;height:17px;object-fit:contain;vertical-align:-3px;opacity:.6;margin-right:4px}
-  .ic-head{width:26px;height:26px;object-fit:contain;vertical-align:-6px;opacity:.65;margin-right:7px}
-  .ic-card{width:62px;height:62px;object-fit:contain;opacity:.9;margin:0 auto 2px}
 
   /* ---------- sticky top bar ---------- */
   .topbar{position:sticky;top:0;z-index:12;background:var(--bg);background-image:var(--paper);
@@ -192,6 +186,15 @@
   #sabbath{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 94%,transparent);background-image:var(--paper);backdrop-filter:blur(6px);
     z-index:20;display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
   #sabbath.on{display:flex}
+  #church{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 94%,transparent);background-image:var(--paper);backdrop-filter:blur(6px);
+    z-index:20;display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
+  #church.on{display:flex}
+  .crow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--line2);text-align:left}
+  .crow:first-child{border-top:none}
+  .crow label{font-size:14.5px;color:var(--tx)}
+  .cscale{display:flex;gap:5px}
+  .cscale button{width:32px;height:32px;padding:0;border-radius:50%;font-size:14px;flex:none}
+  .cscale button.pick{background:var(--gold);color:#2a1f10;border-color:var(--gold)}
   .sabbox{max-width:460px;width:100%;text-align:center;background:var(--s1);background-image:var(--paper);
     border:1px solid var(--line2);border-radius:var(--r);padding:26px 22px;box-shadow:1px 2px 0 var(--line),0 10px 30px rgba(60,40,10,.18)}
   .sabhead{font-family:var(--fd);font-size:24px;font-weight:700;color:var(--ink);margin-bottom:10px}
@@ -289,12 +292,12 @@
   @keyframes breath{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.018)}}
   @keyframes blink{0%,94%,100%{transform:scaleY(0)}96%,98%{transform:scaleY(1)}}
 
-  #splash{position:fixed;inset:0;z-index:60;background:#1A1510;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;cursor:pointer;transition:opacity .6s;overflow:hidden}
+  #splash{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:opacity .6s;overflow:hidden;padding:max(10px,env(safe-area-inset-top)) 10px calc(env(safe-area-inset-bottom) + 14px)}
   #splash.out{opacity:0;pointer-events:none}
-  #splash .splash-map{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none;animation:rise 1.1s ease both}
-  #splash .splash-grain{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,16,10,.72),rgba(20,16,10,0) 42%);z-index:-1;pointer-events:none}
-  #splash{justify-content:flex-end;padding-bottom:calc(env(safe-area-inset-bottom) + 34px)}
-  #splash .tap{font-family:var(--fd);color:#E8D9AE;letter-spacing:.14em;text-transform:uppercase;font-size:12px;animation:pulse 2.2s ease-in-out infinite;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+  #splash .splash-map{width:auto;height:auto;max-width:100%;max-height:calc(100% - 34px);object-fit:contain;pointer-events:none;border-radius:3px;animation:rise 1s ease both;box-shadow:0 6px 26px rgba(70,50,20,.30)}
+  
+  
+  #splash .tap{font-family:var(--fd);color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:12px;animation:pulse 2.2s ease-in-out infinite;flex:0 0 auto}
   @keyframes rise{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
   @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
   .q.done .box,.ci.yes .box{transition:transform .15s}
@@ -304,26 +307,33 @@
   html,body{background-size:auto,auto,auto,auto,320px 320px;background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='%236a4a22' fill-opacity='.10'%3E%3Ccircle cx='23' cy='41' r='1.2'/%3E%3Ccircle cx='140' cy='22' r='.9'/%3E%3Ccircle cx='260' cy='77' r='1.6'/%3E%3Ccircle cx='88' cy='130' r='1'/%3E%3Ccircle cx='201' cy='160' r='.8'/%3E%3Ccircle cx='47' cy='221' r='1.4'/%3E%3Ccircle cx='170' cy='250' r='1.1'/%3E%3Ccircle cx='280' cy='210' r='.9'/%3E%3Ccircle cx='120' cy='290' r='1.3'/%3E%3Ccircle cx='230' cy='120' r='.7'/%3E%3Ccircle cx='12' cy='170' r='.8'/%3E%3Ccircle cx='300' cy='10' r='1'/%3E%3C/g%3E%3Cg fill='%234a3a26' fill-opacity='.07'%3E%3Cellipse cx='190' cy='60' rx='3' ry='1.4'/%3E%3Cellipse cx='60' cy='280' rx='2.6' ry='1.2'/%3E%3Cellipse cx='250' cy='250' rx='2' ry='3'/%3E%3Cpath d='M100 200l3 1-1 3-3-1z'/%3E%3C/g%3E%3C/svg%3E"),radial-gradient(ellipse at 12% 8%,rgba(110,70,20,.10),transparent 32%),radial-gradient(ellipse at 88% 92%,rgba(110,70,20,.12),transparent 36%),var(--paper),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22320%22%20height%3D%22320%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%237C8A96%22%20stroke-opacity%3D%22.16%22%20stroke-width%3D%221%22%3E%3Cpath%20d%3D%22M-10%2C60%20C40%2C30%2080%2C80%20130%2C50%20C180%2C20%20220%2C70%20270%2C45%20C300%2C30%20320%2C40%20340%2C25%22%20stroke-dasharray%3D%221%207%22/%3E%3Cpath%20d%3D%22M-10%2C220%20C30%2C250%2070%2C200%20120%2C235%20C170%2C265%20210%2C215%20260%2C245%20C295%2C265%20310%2C255%20330%2C270%22%20stroke-dasharray%3D%221%207%22/%3E%3Cpath%20d%3D%22M40%2C-10%20C60%2C40%2030%2C90%2055%2C140%20C78%2C186%2045%2C230%2060%2C280%20C68%2C300%2062%2C312%2058%2C330%22%20stroke-dasharray%3D%221%206%22/%3E%3Ccircle%20cx%3D%22150%22%20cy%3D%22150%22%20r%3D%2270%22/%3E%3C/g%3E%3Cg%20fill%3D%22%237C8A96%22%20fill-opacity%3D%22.14%22%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2288%22%20r%3D%221.3%22/%3E%3Ccircle%20cx%3D%22205%22%20cy%3D%2240%22%20r%3D%221%22/%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22150%22%20r%3D%221.4%22/%3E%3Ccircle%20cx%3D%2295%22%20cy%3D%22200%22%20r%3D%221.1%22/%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22260%22%20r%3D%221.2%22/%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%22270%22%20r%3D%221%22/%3E%3Ccircle%20cx%3D%22160%22%20cy%3D%22290%22%20r%3D%221.3%22/%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%2290%22%20r%3D%221%22/%3E%3C/g%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%237C8A96%22%20stroke-opacity%3D%22.2%22%20stroke-width%3D%221.1%22%3E%3Cpath%20d%3D%22M255%2C205%20L262%2C188%20269%2C205%20Z%22/%3E%3Cpath%20d%3D%22M266%2C205%20L272%2C192%20278%2C205%20Z%22/%3E%3C/g%3E%3Cg%20stroke%3D%22%237C8A96%22%20stroke-opacity%3D%22.2%22%20stroke-width%3D%221%22%3E%3Cpath%20d%3D%22M40%2C150%20L40%2C138%20M34%2C144%20L46%2C144%22/%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%22144%22%20r%3D%227%22%20fill%3D%22none%22/%3E%3C/g%3E%3C/svg%3E")}
   :root{--speck:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='%236a4a22' fill-opacity='.10'%3E%3Ccircle cx='23' cy='41' r='1.2'/%3E%3Ccircle cx='140' cy='22' r='.9'/%3E%3Ccircle cx='260' cy='77' r='1.6'/%3E%3Ccircle cx='88' cy='130' r='1'/%3E%3Ccircle cx='201' cy='160' r='.8'/%3E%3Ccircle cx='47' cy='221' r='1.4'/%3E%3Ccircle cx='170' cy='250' r='1.1'/%3E%3Ccircle cx='280' cy='210' r='.9'/%3E%3Ccircle cx='120' cy='290' r='1.3'/%3E%3Ccircle cx='230' cy='120' r='.7'/%3E%3Ccircle cx='12' cy='170' r='.8'/%3E%3Ccircle cx='300' cy='10' r='1'/%3E%3C/g%3E%3Cg fill='%234a3a26' fill-opacity='.07'%3E%3Cellipse cx='190' cy='60' rx='3' ry='1.4'/%3E%3Cellipse cx='60' cy='280' rx='2.6' ry='1.2'/%3E%3Cellipse cx='250' cy='250' rx='2' ry='3'/%3E%3Cpath d='M100 200l3 1-1 3-3-1z'/%3E%3C/g%3E%3C/svg%3E")}
   .panel{overflow:hidden;background-image:var(--speck),radial-gradient(ellipse at 100% 100%,rgba(110,70,20,.08),transparent 45%),var(--paper);box-shadow:inset 0 0 28px rgba(90,60,20,.10),1px 2px 0 var(--line),0 6px 16px rgba(60,40,10,.10)}
-  .panel::before{content:"";position:absolute;width:92px;height:92px;right:6px;bottom:4px;background:var(--motif) center/contain no-repeat;opacity:.34;pointer-events:none;transform:rotate(-6deg)}
+  .panel::before{content:"";position:absolute;width:104px;height:104px;right:6px;bottom:4px;background:var(--motif) center/contain no-repeat;opacity:.4;pointer-events:none;transform:rotate(-6deg)}
   .panel::after{content:"";position:absolute;left:5px;top:5px;width:22px;height:22px;border-left:1.5px solid var(--line2);border-top:1.5px solid var(--line2);border-radius:3px 0 0 0;opacity:.7;pointer-events:none;
     box-shadow:calc(100vw - 0px) 0 0 transparent}
   .panel>*{position:relative;z-index:1}
-  .tabpane>.panel:nth-child(11n+1){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M60 110 C58 80 50 50 30 20'/%3E%3Cpath d='M52 92c-10-2-18-8-22-16M55 78c-9-3-15-9-18-17M50 66c-8-3-14-9-16-16M46 54c-7-3-12-8-14-14M42 43c-6-2-10-7-12-12M52 92c6-8 8-16 7-24M55 78c5-7 7-14 6-21M50 66c5-6 7-12 6-18M46 54c4-5 6-10 5-15M42 43c3-4 4-8 3-12'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+2){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='60' cy='60' r='40'/%3E%3Ccircle cx='60' cy='60' r='30' stroke-dasharray='2 4'/%3E%3Cpath d='M60 14l8 46-8 46-8-46z' fill='%234a3a26' fill-opacity='.18'/%3E%3Cpath d='M14 60l46-8 46 8-46 8z'/%3E%3Ccircle cx='60' cy='60' r='3' fill='%234a3a26'/%3E%3Cpath d='M60 6v-4M60 118v-4M2 60h4M114 60h4'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+3){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M60 112 C62 80 60 50 64 22'/%3E%3Cpath d='M64 22l-5 6 5 6 5-6zM61 34l-5 6 5 6 5-6zM66 46l-5 6 5 6 5-6zM60 58l-5 6 5 6 5-6zM65 70l-5 6 5 6 5-6z' fill='%236a5a7a' fill-opacity='.35'/%3E%3Cpath d='M60 100c-10-2-16-10-18-18M61 96c8-4 12-10 13-18'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+4){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 100 C40 70 70 40 104 18 C96 46 74 72 44 90 Z'/%3E%3Cpath d='M20 100 L60 60M50 70c-4 6-6 12-6 18M64 56c-2 8-2 14 0 20M38 82c4-8 10-14 18-20'/%3E%3Cpath d='M14 108l6-8'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+5){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 100 C30 92 50 70 62 44 C70 28 90 18 114 16'/%3E%3Cpath d='M40 80c-8 2-14 0-18-6 6-4 12-4 18 6zM56 58c-9 0-14-4-16-11 7-2 13 1 16 11zM72 40c-8-2-12-7-12-14 7 0 12 5 12 14zM92 22c-8-2-11-7-10-13 7 1 11 6 10 13zM44 72c6 6 6 12 2 18-6-4-8-10-2-18z' fill='%234a3a26' fill-opacity='.14'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+6){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='34' cy='40' r='16'/%3E%3Ccircle cx='34' cy='40' r='7'/%3E%3Cpath d='M46 52l52 52M84 90l8-8M92 98l8-8M76 82l6-6'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+7){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 96l28-44 16 22 12-16 22 38zM66 92l22-36 26 40'/%3E%3Cpath d='M34 52l6 10-6 4-6-4zM88 56l5 8-5 3-5-3z' fill='%234a3a26' fill-opacity='.2'/%3E%3Cpath d='M60 30l3 6 6 1-4 4 1 6-6-3-6 3 1-6-4-4 6-1z' fill='%234a3a26' fill-opacity='.25'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+8){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='20' cy='60' r='10'/%3E%3Cpath d='M50 50a10 10 0 1 0 0 20a7 10 0 1 1 0-20z' fill='%234a3a26' fill-opacity='.25'/%3E%3Ccircle cx='80' cy='60' r='10' fill='%234a3a26' fill-opacity='.35'/%3E%3Cpath d='M110 50a10 10 0 1 1 0 20a7 10 0 1 0 0-20z' fill='%234a3a26' fill-opacity='.25'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+9){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 96c8-30 24-52 46-62c-4 8-4 16 2 22c10-8 22-10 32-4c-8 2-14 8-16 16c8-2 16 0 20 8c-10 0-18 4-22 12c4 10 2 20-6 26'/%3E%3Cpath d='M62 34c6-10 16-14 26-10c-6 4-10 10-10 16'/%3E%3Cpath d='M96 44c6 2 10 8 10 14M96 44c-2 6-2 10 2 14' /%3E%3Ccircle cx='60' cy='38' r='1.6' fill='%234a3a26'/%3E%3Cpath d='M106 58l10-2-6 8 8 4-10 2' stroke='%23c2573c' stroke-width='1.5' opacity='.8'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+10){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M26 18c8 22 8 44 0 66'/%3E%3Cpath d='M26 84c-16-4-24-18-22-34c14 2 22 10 22 22c10-8 22-10 34-6c-8 8-20 14-34 18z'/%3E%3Cpath d='M26 40c-6 4-10 10-10 18M26 56c6 2 12 2 18-2'/%3E%3Ccircle cx='26' cy='22' r='1.6' fill='%234a3a26'/%3E%3C/svg%3E")}
-  .tabpane>.panel:nth-child(11n+11){--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M40 30c-10 8-10 22 0 30c10 8 30 8 40 0c10-8 10-22 0-30' /%3E%3Cpath d='M40 30c-6-10 0-18 8-14c2-8 10-8 12 0c2-8 10-8 12 0c8-4 14 4 8 14'/%3E%3Cpath d='M52 66l-4 30M68 66l4 30M46 96h28'/%3E%3Ccircle cx='52' cy='42' r='2' fill='%234a3a26'/%3E%3Ccircle cx='68' cy='42' r='2' fill='%234a3a26'/%3E%3C/svg%3E")}
+  #p-commit{--motif:url("icons/knight-swinging-sword.png")}
+  #p-lift{--motif:url("icons/sword-and-shield.png")}
+  #p-today{--motif:url("icons/signpost.png")}
+  #p-board{--motif:url("icons/treasure-chest.png")}
+  #p-special{--motif:url("icons/owl.png")}
+  #p-boss{--motif:url("icons/minotaur.png")}
+  #p-draw{--motif:url("icons/potion-bottle.png")}
+  #p-log{--motif:url("icons/journal-and-quill.png")}
+  #p-season{--motif:url("icons/watchtower.png")}
+  #p-week{--motif:url("icons/stone-bridge.png")}
+  #p-hero{--motif:url("icons/flying-dragon.png")}
+  #p-comps{--motif:url("icons/castle-room.png")}
+  #p-attrs{--motif:url("icons/witch-with-staff.png")}
+  #p-skills{--motif:url("icons/wizard-fireball.png")}
+  #p-pb{--motif:url("icons/hunter-and-wolf.png")}
+  #p-gear{--motif:url("icons/sleeping-dragon.png")}
+  #p-stats{--motif:url("icons/cave.png")}
+  #p-bw{--motif:url("icons/witch-hut.png")}
+  #p-review{--motif:url("icons/hooded-traveler.png")}
+  #cipanel{--motif:url("icons/campfire.png")}
 
   .tabpane>.panel:nth-child(3n)::before{right:auto;left:8px;bottom:6px;transform:rotate(5deg) scaleX(-1)}
   .tabpane>.panel:nth-child(4n+2)::before{opacity:.24;width:110px;height:110px;top:30px;bottom:auto;right:-8px;transform:rotate(12deg)}
-  #p-boss{--motif:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%234a3a26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M60 8l6 14v58l-6 10-6-10V22z' fill='%234a3a26' fill-opacity='.12'/%3E%3Cpath d='M40 84h40M60 84v22M54 106h12'/%3E%3Cpath d='M60 22v56'/%3E%3C/svg%3E")}
-  #p-hero::before{display:none}
   .stain{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(120,80,30,.16),rgba(120,80,30,.05) 60%,transparent 72%);z-index:0}
   .stain.a{width:120px;height:110px;right:-30px;top:-20px}
   .stain.b{width:80px;height:70px;left:30%;bottom:-20px;background:radial-gradient(circle,transparent 55%,rgba(120,80,30,.14) 60%,transparent 66%)}
@@ -359,7 +369,6 @@
 
 <div id="splash" role="button" aria-label="Enter">
   <img class="splash-map" src="map.jpg" alt="Kaitlyn&rsquo;s Map">
-  <div class="splash-grain"></div>
   <div class="tap">Tap to begin</div></div>
 <div class="topbar">
   <div id="status"></div>
@@ -412,7 +421,7 @@
   </div>
 
   <div class="panel" id="p-comps"><i class="stain a"></i><i class="stain b"></i>
-    <h2><img class="ic-head" src="icons/cottage.png" alt="">Her people <span class="sub" style="margin:0;font-weight:400">slow to drain, but they drain</span></h2>
+    <h2>Her people <span class="sub" style="margin:0;font-weight:400">slow to drain, but they drain</span></h2>
     <div id="comps"></div>
   </div>
 
@@ -446,7 +455,7 @@
   </div>
 
   <div class="panel" id="p-season"><i class="stain a"></i><i class="stain b"></i>
-    <h2><img class="ic-head" src="icons/signpost.png" alt="">Season</h2>
+    <h2>Season</h2>
     <div id="season"></div>
   </div>
 
@@ -473,7 +482,7 @@
   </div>
 
   <div class="panel" id="p-board"><i class="stain a"></i><i class="stain b"></i>
-    <h2><img class="ic-head" src="icons/chest.png" alt="">Quest board</h2>
+    <h2>Quest board</h2>
     <p class="sub" id="boardsub"></p>
     <div id="board"></div>
   </div>
@@ -482,6 +491,11 @@
     <div class="row"><button id="roll">Draw a quest</button><button class="ghost" id="bonus">Bonus quest</button></div>
     <div id="reveal"></div>
     <button class="quiet" id="redraw" style="margin-top:6px;font-size:12.5px">Redraw (Galvanize)</button>
+  </div>
+
+  <div class="panel boss" id="p-special" style="display:none"><i class="stain a"></i><i class="stain b"></i>
+    <h2>Today is worth noticing</h2>
+    <div id="specialbox"></div>
   </div>
 
   <div class="panel boss" id="p-boss"><i class="stain a"></i><i class="stain b"></i><div class="seal">K</div>
@@ -498,31 +512,40 @@
   </div>
 
   <div class="panel" id="p-review"><i class="stain a"></i><i class="stain b"></i>
-    <h2><img class="ic-head" src="icons/book.png" alt="">Weekly review</h2>
+    <h2>Weekly review</h2>
     <div id="review"></div>
   </div>
 
   <div class="panel" id="p-pb"><i class="stain a"></i><i class="stain b"></i>
-    <h2><img class="ic-head" src="icons/campfire.png" alt="">Burn Boot Camp</h2>
+    <h2>Burn Boot Camp</h2>
     <div id="pbtree"></div>
+  </div>
+
+  <div class="panel" id="p-lift"><i class="stain a"></i><i class="stain b"></i>
+    <h2>Strength block</h2>
+    <p class="sub" id="liftsub">Three days a week. Starting slow on purpose.</p>
+    <div class="track"><div class="tfill" id="liftbar" style="background:#C2573C"></div></div>
+    <div id="liftlist" style="margin-top:10px"></div>
+    <div class="row" style="margin-top:10px"><button id="liftlog">Log today's lift</button></div>
+    <div class="log" id="liftout"></div>
   </div>
 
   <div class="panel" id="p-match"><i class="stain a"></i><i class="stain b"></i>
     <h2>Session log</h2>
-    <p class="sub" id="focusquest">Log a session. Showing up is the score.</p>
+    <p class="sub" id="focusquest">Log a pickleball session. Winning is a bonus, not the score.</p>
     <div class="frow">
-      <div><label for="g">Rounds</label><input id="g" type="number" inputmode="numeric" min="0" value="0"></div>
-      <div><label for="w">Finished strong</label><input id="w" type="number" inputmode="numeric" min="0" value="0"></div>
+      <div><label for="g">Games</label><input id="g" type="number" inputmode="numeric" min="0" value="0"></div>
+      <div><label for="w">Wins</label><input id="w" type="number" inputmode="numeric" min="0" value="0"></div>
       <div><label for="h">Hours</label><input id="h" type="number" inputmode="decimal" min="0" step="0.5" value="0"></div>
     </div>
     <div class="frow" style="grid-template-columns:1fr 1fr">
-      <div><label for="rate">How the session went (1–10)</label><input id="rate" type="number" inputmode="numeric" min="1" max="10" value="6"></div>
+      <div><label for="rate">Overall performance (1–10)</label><input id="rate" type="number" inputmode="numeric" min="1" max="10" value="6"></div>
       <div><label for="focus" id="focuslab">Focus hit?</label>
         <select id="focus"><option value="0">No</option><option value="1">Yes</option></select></div>
     </div>
     <div class="frow">
-      <div><label for="anger">Kind to yourself (1–10)</label><input id="anger" type="number" inputmode="numeric" min="1" max="10" value="7"></div>
-      <div><label for="light">Encouraged someone there (1–10)</label><input id="light" type="number" inputmode="numeric" min="1" max="10" value="7"></div>
+      <div><label for="anger">Kept my temper (1–10)</label><input id="anger" type="number" inputmode="numeric" min="1" max="10" value="7"></div>
+      <div><label for="light">Shined light on others (1–10)</label><input id="light" type="number" inputmode="numeric" min="1" max="10" value="7"></div>
       <div><label for="fun">Fun had (1–10)</label><input id="fun" type="number" inputmode="numeric" min="1" max="10" value="8"></div>
     </div>
     <div class="row" style="margin-top:10px"><button id="logmatch">Log session</button></div>
@@ -543,6 +566,7 @@
       <div><label>&nbsp;</label><button id="ddb" class="ghost">Log</button></div>
     </div>
     <div class="log" id="ddout"></div>
+    <div class="sub" id="ddroll" style="margin-top:4px"></div>
     <div class="frow" style="grid-template-columns:2fr 1fr;margin-top:12px">
       <div><label for="sleep">Hours of sleep last night</label>
         <input id="sleep" type="number" inputmode="decimal" min="0" max="14" step="0.5" value="7"></div>
@@ -581,9 +605,15 @@
 <div id="sabbath"><div class="sabbox">
   <div class="sabhead">A Day of Rest</div>
   <p class="sabv">“On the seventh day God finished his work… and he rested.” <span>Genesis 2:2</span></p>
-  <p class="sabtx">Today isn’t for catching up. It’s for the people in front of you, the quiet you keep putting off,
-    and a nap you don’t have to justify. The board is lighter on purpose — enjoy the day the Lord made.</p>
+  <p class="sabtx">Today isn't for catching up. It's for the family in front of you, the quiet you keep avoiding,
+    and a nap you don't have to justify. The board is lighter on purpose — enjoy the day the Lord made.</p>
   <button id="sabgo">Begin the day</button>
+</div></div>
+<div id="church"><div class="sabbox">
+  <div class="sabhead" id="churchhead">How was it?</div>
+  <p class="sabtx" id="churchsub">A few honest numbers. Nobody's grading you — this is just for you.</p>
+  <div id="churchrows"></div>
+  <button id="churchgo" style="margin-top:14px">Log it</button>
 </div></div>
 <div id="pop"><div id="popbox"></div></div>
 <canvas id="fx"></canvas><div id="critterLayer"></div>
@@ -600,12 +630,12 @@ const KEY='liferpg:kk:v1';
 const ATTRS=[
  {k:'vig',n:'Vigor',d:'camp, movement, strength',c:'#B9643F'},
  {k:'stl',n:'Stillness',d:'reading, phone down, quiet',c:'#5D7A86'},
- {k:'dev',n:'Devotion',d:'prayer, devotional, scripture',c:'#6E5A86'},
+ {k:'dev',n:'Devotion',d:'prayer, devotional, scripture',c:'#7A6193'},
  {k:'kin',n:'Kinship',d:'friends, family, showing up',c:'#4F7A5C'},
  {k:'nrv',n:'Nerve',d:'the hard sentence, the loose end',c:'#A35B3C'}
 ];
 const WG={Enablement:2,Tenacity:1.75,Discernment:1.25,Galvanizing:1.25,Wonder:1,Invention:1};
-const RAR=[['Common','#8C9684',62],['Uncommon','#4F7A5C',24],['Rare','#436B74',11],['Epic','#6E5A86',3]];
+const RAR=[['Common','#8C9684',62],['Uncommon','#4F7A5C',24],['Rare','#436B74',11],['Epic','#7A6193',3]];
 const SKIN=[['#F1D8C4','#DCBBA2','#C29E84'],['#F6E2D1','#E3C6B0','#CBAA91'],['#E8C8AC','#CFA98B','#B48D6E'],
             ['#D6AE8C','#BB9068','#9D744F'],['#B98A62','#9B6C46','#7C5333']];
 const HAIR=[['#5B3B24','#3E2716'],['#7A4F2C','#59361B'],['#3B2A1C','#241A11'],['#9C6B3A','#774E26'],['#C6A36B','#9C7A46']];
@@ -658,10 +688,6 @@ const ITEMS=[
 
 let S=null;
 const el=id=>document.getElementById(id);
-/* hand-drawn icons, one per idea. Swap a filename here and it changes everywhere. */
-const CATICON={Body:'campfire',Faith:'chamber',Stillness:'book',Kinship:'cottage',
-  Nerve:'bridge',Order:'signpost',Rest:'potion',Sabbath:'owl',Courage:'minotaur'};
-const ic=(name,cls)=>`<img class="${cls||'ic-tag'}" src="icons/${name}.png" alt="" loading="lazy">`;
 const today=()=>dstr(new Date());
 function weekKey(){const d=new Date();const day=d.getDay();d.setDate(d.getDate()-day);return dstr(d)}
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -683,6 +709,10 @@ async function load(){
   S.settings=Object.assign({penalties:true,cap:60},S.settings||{});S.commit.stretch=S.commit.stretch||{};S.gear3dOwned=S.gear3dOwned||Object.values(S.gear3d||{});
   let settled=null;
   if(S.day!==today()){
+    if(S.vacation){
+      if(S.season){const d=new Date(S.season.start+'T12:00:00');d.setDate(d.getDate()+1);S.season.start=dstr(d)}
+      S.days++;S.day=today();S.checkin={date:today(),done:{},sleep:null};S.commit={date:today(),done:{},stretch:{}};
+    } else {
     settled=settleYesterday();settleCompanions();
     S.days++;S.done=[];S.checkin={date:today(),done:{},sleep:null};
     S.commit={date:today(),done:{},stretch:{}};
@@ -698,6 +728,7 @@ async function load(){
       S.rolledNote=`${rolled} unfinished item${rolled>1?'s':''} rolled over. −${loss} xp.`}
     S.custom=S.custom.filter(c=>!(c.done&&c.scope!=='week'));
     S.day=today();
+    }
   }
   if(S.week!==weekKey()){S.week=weekKey();S.custom=S.custom.filter(c=>c.scope!=='week'||!c.done)}
   if(await syncPull()){toast('Newer save pulled from the cloud.')}
@@ -713,6 +744,76 @@ function showSabbath(){
   el('sabbath').classList.add('on');
   el('sabgo').onclick=()=>{S.sabbathSeen=today();el('sabbath').classList.remove('on');save()};
 }
+
+/* ---------- lifting: three days a week, ramped slow on purpose ---------- */
+const LIFT_TIERS=[
+ {n:'Showing up',ex:[['Goblet squat','2\u00d78, light'],['Dumbbell press','2\u00d78, light'],['Farmer carry','one lap, light']]},
+ {n:'Full sets',ex:[['Goblet squat','3\u00d710'],['Dumbbell press','3\u00d710'],['Farmer carry','two laps']]},
+ {n:'Adding a pull',ex:[['Goblet squat','3\u00d710'],['Dumbbell press','3\u00d710'],['Farmer carry','two laps'],['Bent-over row','3\u00d710']]},
+ {n:'The finisher',ex:[['Goblet squat','3\u00d710'],['Dumbbell press','3\u00d710'],['Farmer carry','two laps'],['Bent-over row','3\u00d710'],['Hip bridge','3\u00d712 \u2014 finisher']]}
+];
+function liftState(){
+  S.lift=S.lift||{week:weekKey(),count:0,tier:0,checked:false};
+  if(S.lift.week!==weekKey()){
+    if(S.lift.count>=3&&S.lift.tier<LIFT_TIERS.length-1)S.lift.tier++;
+    S.lift={week:weekKey(),count:0,tier:S.lift.tier,checked:false};
+  }
+  return S.lift;
+}
+function renderLift(){
+  const L=liftState(),tier=LIFT_TIERS[L.tier];
+  el('liftsub').textContent=`${tier.n} · ${L.count}/3 sessions this week`;
+  el('liftbar').style.width=Math.min(100,L.count/3*100)+'%';
+  el('liftlist').innerHTML=tier.ex.map(e=>`<div class="crow" style="border-top:none;padding:3px 0">
+    <label>${e[0]}</label><span class="meta" style="font-size:13px">${e[1]}</span></div>`).join('');
+  el('liftlog').textContent = L.count>=3 ? 'Bonus session' : 'Log today\'s lift';
+}
+el('liftlog').onclick=()=>{
+  const L=liftState(),base=40+LIFT_TIERS[L.tier].ex.length*15,bonus=L.count>=3?20:0;
+  L.count++;
+  const x=Math.round((base+bonus)*perkMult('vig','Tenacity'));
+  el('liftout').textContent=`${LIFT_TIERS[L.tier].ex.length} moves logged. +${x} xp.`;
+  award(x,'vig','Tenacity','lifted — '+LIFT_TIERS[L.tier].n);
+  render();save();
+};
+
+/* ---------- church check-in: Sunday 12pm, Wednesday 8pm ---------- */
+const CHURCH_QS=[['attentive','Present, not elsewhere'],['application','Took something with me'],['spoke','Said something out loud'],['met','Talked to someone new']];
+function churchState(){S.church=S.church||{lastSun:null,lastWed:null,log:[]};return S.church}
+function churchDue(){
+  const d=new Date(),dow=d.getDay(),h=d.getHours(),cs=churchState();
+  if(dow===0&&h>=12&&cs.lastSun!==today())return 'Sunday service';
+  if(dow===3&&h>=20&&cs.lastWed!==today())return 'Ladies\u2019 devotional';
+  return null;
+}
+function checkChurchPrompt(){
+  if(el('church').classList.contains('on')||el('sabbath').classList.contains('on'))return;
+  const which=churchDue();if(!which)return;
+  el('churchhead').textContent='How was '+which+'?';
+  const picks={};
+  el('churchrows').innerHTML=CHURCH_QS.map(([k,label])=>`<div class="crow">
+    <label>${label}</label><div class="cscale" data-k="${k}">
+      ${[1,2,3,4,5].map(n=>`<button data-v="${n}">${n}</button>`).join('')}</div></div>`).join('');
+  el('churchrows').querySelectorAll('.cscale').forEach(row=>{
+    const k=row.dataset.k;
+    row.querySelectorAll('button').forEach(b=>{
+      b.onclick=()=>{picks[k]=+b.dataset.v;
+        row.querySelectorAll('button').forEach(x=>x.classList.toggle('pick',x===b))};
+    });
+  });
+  el('church').classList.add('on');
+  el('churchgo').onclick=()=>{
+    const vals=CHURCH_QS.map(([k])=>picks[k]).filter(v=>v!=null);
+    if(!vals.length){toast('Pick at least one number.');return}
+    const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
+    const cs=churchState();
+    if(which==='Sunday service')cs.lastSun=today();else cs.lastWed=today();
+    cs.log=(cs.log||[]).concat([{d:today(),which,avg:+avg.toFixed(1),picks:{...picks}}]).slice(-30);
+    el('church').classList.remove('on');
+    award(Math.round(20+avg*8),'dev','Enablement',which+' check-in');
+  };
+}
+
 const SYNC={get(){try{return JSON.parse(localStorage.getItem('liferpg:kk:sync')||'null')}catch(e){return null}},set(v){localStorage.setItem('liferpg:kk:sync',JSON.stringify(v))}};
 let syncT=null,syncState='off';
 function syncPush(){const c=SYNC.get();if(!c||!c.url||!c.token)return;
@@ -741,6 +842,7 @@ function level(){let l=1,need=400,xp=S.xp;while(xp>=need){xp-=need;l++;need=Math
 function toast(t){const e=el('toast');e.textContent=t;e.classList.add('on');
   clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2400)}
 
+/* ---------- the character (flat vector, athletic build) ---------- */
 /* ---------- the character (flat vector) — ranger of Ashcombe, ponytail ---------- */
 function sprite(look,gear,cond){
   cond=cond||0;
@@ -829,9 +931,9 @@ function renderFigure(){
     : '<div class="empty">Nothing yet. Gear drops when you level.</div>';
   const k3=Object.entries(S.gear3d||{}).map(([s,id])=>g3(id)).filter(Boolean).filter(g3ok);
   el('clsline').textContent=CLASSES[heroClass()].n+' — House Kestrel';
-  el('gear').innerHTML+=`<h3><img class="ic-head" src="icons/ranger.png" alt="">On the ${CLASSES[heroClass()].n.toLowerCase()}</h3>`+(k3.length?k3.map(g=>`<div class="gi"><span>${g[1]}</span><em style="color:${G3_RAR[g[4]]}">${G3_SLOT[g[2]]}</em></div>`).join('')
-    :'<div class="empty">Bare, for now. Every second level she gets a pick.</div>');
-  if(has('k2')){const own=(S.gear3dOwned||[]).map(g3).filter(Boolean).filter(g3ok);
+  el('gear').innerHTML+=`<h3>On the ${CLASSES[heroClass()].n.toLowerCase()}</h3>`+(k3.length?k3.map(g=>`<div class="gi"><span>${g[1]}</span><em style="color:${G3_RAR[g[4]]}">${G3_SLOT[g[2]]}</em></div>`).join('')
+    :'<div class="empty">Bare, for now. Every second level he gets a pick.</div>');
+  if(has('h2')){const own=(S.gear3dOwned||[]).map(g3).filter(Boolean).filter(g3ok);
     el('gear').innerHTML+=`<h3>Wardrobe</h3><div class="chips">${own.map(g=>`<div class="chip2${S.gear3d[g[2]]===g[0]?' used':''}" data-wear="${g[0]}" style="text-decoration:none">${g[1]}</div>`).join('')||'<span class="empty">Nothing earned yet.</span>'}</div><div class="sub" style="margin-top:6px">Tap to wear; tap again to take off.</div>`;
     [...el('gear').querySelectorAll('[data-wear]')].forEach(n=>{n.onclick=()=>{const g=g3(n.dataset.wear);
       if(S.gear3d[g[2]]===g[0])delete S.gear3d[g[2]];else{S.gear3d[g[2]]=g[0];if(TWOH.includes(g[0]))delete S.gear3d.l;if(g[2]==='l'&&TWOH.includes(S.gear3d.r))delete S.gear3d.r}
@@ -913,7 +1015,8 @@ function floatXp(n){const t=(window.event&&window.event.target)||null;const e=do
   let x=innerWidth/2,y=innerHeight*.55;if(t&&t.getBoundingClientRect){const r=t.getBoundingClientRect();if(r.width){x=r.right-40;y=r.top+r.height/2}}
   e.style.left=x+'px';e.style.top=y+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1200)}
 function award(amount,attr,wg,label,special){
-  const mult=(WG[wg]||1)*perkMult(attr,wg,special),gain=Math.round(amount*mult),before=level().l;
+  const pushMult=(S.season&&S.season.diff==='push')?1.15:1;
+  const mult=(WG[wg]||1)*perkMult(attr,wg,special)*pushMult,gain=Math.round(amount*mult),before=level().l;
   if(!reduced)floatXp(gain);sfx('tick');
   S.xp+=gain;S.attr[attr]=(S.attr[attr]||0)+Math.round(amount*((WG[wg]||1)>1?1:1.5));
   S.log.unshift(`+${gain} xp — ${label}`);S.log=S.log.slice(0,25);
@@ -978,6 +1081,7 @@ function addCustom(){
       if(res==='now'||res==='no'){S.custom=S.custom.filter(x=>x.id!==item.id)}
       if(res==='park'){item.scope='todo';item.due=null;toast('Parked on the to-do list.')}
       if(res==='later'){item.scope='today';item.due=today();toast("Staying on today's board.")}
+      if(res==='na'){toast("Kept on today's board.")}
       render();save()});
   }
 }
@@ -1020,7 +1124,7 @@ function renderCustom(){
       box.appendChild(d)})});
 }
 function renderWeek(){
-  const fixed={0:['Church'],3:['Yard route','Bible class'],4:['Yard route']};
+  const fixed={0:['Church'],2:['Ladies\u2019 devotional'],3:['Camp']};
   let out='';
   { const mon=new Date();mon.setHours(12,0,0,0);mon.setDate(mon.getDate()-mon.getDay());
     let held=0,seen=0,dots='';
@@ -1158,7 +1262,7 @@ function renderBoard(){
     const id='b'+i,done=S.done.includes(id),d=document.createElement('div');
     d.className='q'+(done?' done':'');d.dataset.undo='bq:'+id;
     d.innerHTML=`<div class="box"></div><div style="flex:1"><div class="qt">${q.t}</div>
-      <div class="meta">${CATICON[q.c]?ic(CATICON[q.c]):''}<span class="tag">${q.c}</span> · ${q.wg}${i===4?' · growth quest':''}</div></div>
+      <div class="meta"><span class="tag">${q.c}</span> · ${q.wg}${i===4?' · growth quest':''}</div></div>
       <div class="xp">${Math.round(q.x*(WG[q.wg]||1))}</div>${has('s2')&&!(S.rr&&S.rr.day===S.day)&&!done&&i<4?`<div class="del" data-rr="${i}" title="Reroll (Clear Head)">↻</div>`:''}`;
     const rrb=d.querySelector('[data-rr]');if(rrb)rrb.onclick=e=>{e.stopPropagation();S.rr={day:S.day,i};save();render();toast('Rerolled.')};
     d.onclick=()=>{if(S.done.includes(id)){tryUndo('bq:'+id);return}undoable('bq:'+id,()=>{S.done.push(id);award(q.x,q.a,q.wg,q.t.slice(0,34)+'…')})};
@@ -1192,6 +1296,7 @@ function gate(q,host,onResolve){
       <button data-a="now">Yes — doing it right now <span style="float:right;opacity:.8">+25%</span></button>
       <button class="ghost" data-a="later">Longer than five minutes</button>
       <button class="ghost" data-a="park">Not in a position to do it</button>
+      <button class="ghost" data-a="na">Doesn't apply right now</button>
       <button class="no" data-a="no">Not doing this one</button>
     </div></div>`;
   [...box.querySelectorAll('button')].forEach(b=>{
@@ -1204,6 +1309,7 @@ function gate(q,host,onResolve){
       if(a==='park'&&!q.noList){S.custom.push({id:'c'+Date.now(),t:q.t,scope:'todo',a:q.a,due:null,
         x:Math.round(q.x*(WG[q.wg]||1)),m:1,done:false,made:today()});
         toast('Parked on the to-do list.');render();save()}
+      if(a==='na'){toast("Fair enough — doesn't apply.");save();render()}
       if(a==='no'){S.skips++;S.log.unshift('passed — '+q.t.slice(0,28));toast('Passed.');save();render()}
       if(onResolve)onResolve(a)}});
 }
@@ -1220,7 +1326,7 @@ function weighted(){
   return bag[Math.floor(Math.random()*bag.length)];
 }
 function rarity(){
-  const boost=has('s1');let r=Math.random()*100;
+  const boost=has('i1');let r=Math.random()*100;
   const table=boost?[['Common','#8B98A5',40],['Uncommon','#5CC46A',30],['Rare','#5B8FC7',22],['Epic','#8A6FB0',8]]:RAR;
   for(const[n,c,p]of table){if(r<p)return[n,c];r-=p}return['Common','#8B98A5']}
 function draw(){
@@ -1236,14 +1342,49 @@ const BOSSES=[
  {n:'The Open Loop',ic:'tower',d:'Every thread you left half-finished because closing it means one more conversation. Close the oldest one today.',x:200,a:'nrv',wg:'Tenacity'},
  {n:'The Quiet Hour',ic:'cave',d:'One hour, phone in another room, spent on something that is yours. Not errands, not anyone else\u2019s list.',x:175,a:'stl',wg:'Wonder'}
 ];
+/* ---------- birthdays & holidays: toggleable, off is not the default ---------- */
+const BIRTHDAYS=[
+ ['Kaitlyn','01-04'],['Ty','04-04'],['Lawson','06-18'],['Mauree','01-08'],['Dad','01-12'],
+ ['Kurt','06-19'],['Mom','09-08'],['Corey','09-07'],['Twins','01-09'],['Amy','03-16'],
+ ['Jeff','02-08'],['Pepir','11-25']
+];
+function thanksgivingMD(){
+  const y=new Date().getFullYear(),d=new Date(y,10,1);let count=0;
+  while(true){if(d.getDay()===4){count++;if(count===4)break}d.setDate(d.getDate()+1)}
+  return String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function specialToday(){
+  if(S.settings.bdays===false)return null;
+  const md=today().slice(5);
+  const bday=BIRTHDAYS.find(b=>b[1]===md);
+  if(bday)return {id:'bday-'+bday[0],n:bday[0]+'\u2019s birthday',d:'Reach out today. A call, a message, or something small that says you remembered.',x:60,a:'kin',wg:'Enablement'};
+  if(md==='12-25')return {id:'hol-xmas',n:'Christmas',d:'Be present. Nothing on the board matters more today than the people in the room.',x:70,a:'kin',wg:'Enablement'};
+  if(md===thanksgivingMD())return {id:'hol-tg',n:'Thanksgiving',d:'Name something out loud you are actually grateful for. Not the easy answer.',x:70,a:'dev',wg:'Wonder'};
+  if(md==='12-31')return {id:'hol-nye',n:'New Year\u2019s Eve',d:'Look back honestly before you look forward. What actually happened this year?',x:50,a:'stl',wg:'Wonder'};
+  if(md==='01-01')return {id:'hol-nyd',n:'New Year\u2019s Day',d:'One sentence for the year ahead. Not a resolution — an intention.',x:50,a:'stl',wg:'Wonder'};
+  return null;
+}
+function renderSpecial(){
+  const sp=specialToday(),panel=el('p-special');
+  if(!sp){panel.style.display='none';return}
+  panel.style.display='';
+  const done=S.done.includes(sp.id);
+  el('specialbox').innerHTML=`<div class="q${done?' done':''}" style="border:none;padding-top:0" data-undo="${sp.id}">
+    <div class="box"></div><div style="flex:1">
+    <div class="qt bname2">${sp.n}</div>
+    <div class="meta" style="font-size:12.5px;margin-top:4px">${sp.d}</div></div>
+    <div class="xp" style="color:var(--gold)">${Math.round(sp.x*WG[sp.wg])}</div></div>`;
+  el('specialbox').firstChild.onclick=()=>{if(S.done.includes(sp.id)){tryUndo(sp.id);return}
+    undoable(sp.id,()=>{S.done.push(sp.id);award(sp.x,sp.a,sp.wg,sp.n)})};
+}
 function renderBoss(){
   const r=seed('boss'+S.day),pick=(S.bossPick&&S.bossPick.day===S.day)?BOSSES[S.bossPick.i]:null,b=pick||BOSSES[Math.floor(r()*BOSSES.length)],done=S.done.includes('boss');
   el('bossbox').innerHTML=`<div class="q${done?' done':''}" style="border:none;padding-top:0">
-    <div class="box"></div>${b.ic?ic(b.ic,'ic-art'):''}<div style="flex:1">
+    <div class="box"></div><div style="flex:1">
     <div class="qt bname2">${b.n}</div>
     <div class="meta" style="font-size:12.5px;margin-top:4px">${b.d}</div></div>
     <div class="xp" style="color:var(--red)">${Math.round(b.x*WG[b.wg])}</div></div>`;
-  if(has('n1')){const tm=dstr(addDays(1)),cur=(S.bossPick&&S.bossPick.day===tm)?S.bossPick.i:'';
+  if(has('f2')){const tm=dstr(addDays(1)),cur=(S.bossPick&&S.bossPick.day===tm)?S.bossPick.i:'';
     el('bossbox').insertAdjacentHTML('beforeend',`<div class="frow" style="grid-template-columns:1fr;margin-top:6px"><div><label for="bosspick">Tomorrow's boss (Closer)</label><select id="bosspick"><option value="">Let the day decide</option>${BOSSES.map((x,i)=>`<option value="${i}"${cur===i?' selected':''}>${x.n}</option>`).join('')}</select></div></div>`);
     el('bosspick').onchange=()=>{const v=el('bosspick').value;S.bossPick=v===''?null:{day:tm,i:+v};save();toast(v===''?'Tomorrow decides.':'Boss chosen for tomorrow.')}}
   el('bossbox').firstChild.dataset.undo='boss';
@@ -1292,9 +1433,15 @@ function logSleep(){
   award(x,'vig','Discernment',note+` (${h}h)`);
 }
 
-/* ---------- loose ends tracker ---------- */
+/* ---------- DD tracker ---------- */
 function ddState(){S.dd=S.dd||{date:today(),posts:0,yards:0};
   if(S.dd.date!==today())S.dd={date:today(),posts:0,yards:0};return S.dd}
+function renderDDRoll(){
+  const h=S.history||[],d=ddState();
+  const sum=n=>{const rows=h.slice(-n);const p=rows.reduce((a,x)=>a+(x.posts||0),0)+d.posts,y=rows.reduce((a,x)=>a+(x.yards||0),0)+d.yards;return[p,y]};
+  const[p7,y7]=sum(6),[p30,y30]=sum(29);
+  el('ddroll').textContent=`Last 7 days: ${p7} posts, ${y7} yards · last 30: ${p30} posts, ${y30} yards`;
+}
 function logDD(){
   const posts=+el('ddposts').value||0,yards=+el('ddyards').value||0;
   if(!posts&&!yards){toast('Enter a number first.');return}
@@ -1305,7 +1452,8 @@ function logDD(){
   el('ddout').innerHTML=`today: ${d.posts} email${d.posts===1?'':'s'} cleared, ${d.yards} loose end${d.yards===1?'':'s'} closed · all time: ${S.ddTotal.posts} · ${S.ddTotal.yards}`;
   award(x,'nrv','Tenacity',`cleared ${posts} emails, closed ${yards} loose ends`);
 }
-/* ---------- camp progression ---------- */
+
+/* ---------- pickleball progression ---------- */
 const PBB=[['strength','Strength','#B9643F'],['mobility','Flexibility','#4F7A5C'],['agility','Agility','#436B74'],
   ['stamina','Stamina','#6E5A86'],['consistency','Consistency','#8A9B84'],
   ['nutrition','Fuel','#B07A32'],['mindset','Mindset','#5D7A86']];
@@ -1336,8 +1484,8 @@ function pbLevel(v){return 1+Math.floor(v/120)}
 function todaysFocus(){const r=seed('focus'+today());return FOCUS[Math.floor(r()*FOCUS.length)]}
 function renderPB(){
   const p=pbState();
-  el('focusquest').innerHTML=`<b style="color:var(--gold)">Today’s focus:</b> ${todaysFocus()}`;
-  el('focuslab').textContent='Held the focus?';
+  el('focusquest').innerHTML=`<b style="color:var(--gold)">Tonight's focus:</b> ${todaysFocus()}`;
+  el('focuslab').textContent='Focus hit?';
   el('pbtree').innerHTML=PBB.map(b=>{
     const v=p.xp[b[0]],lv=pbLevel(v),pct=Math.min(100,(v%120)/1.2);
     return `<div class="pbrow"><span>${b[1]}</span>
@@ -1364,10 +1512,14 @@ function renderReview(){
     kept=rows.reduce((a,b)=>a+b.kept,0),poss=rows.length*5,
     posts=rows.reduce((a,b)=>a+b.posts,0),yards=rows.reduce((a,b)=>a+b.yards,0),
     sess=rows.reduce((a,b)=>a+b.session,0);
+  const kkB=compState('kk').bond,lwB=compState('lawson').bond,low=[];
+  if(kkB<50)low.push('KK ('+Math.round(kkB)+')');
+  if(lwB<50)low.push('Lawson ('+Math.round(lwB)+')');
   el('review').innerHTML=`
+    ${low.length?`<div class="banner" style="border-color:var(--ember)"><b>Worth noticing:</b> ${low.join(' and ')} could use more of you this week. Bond drains quietly — it doesn't announce itself.</div>`:''}
     <p class="sub">${rows.length} days logged · ${xp} xp · commitments ${kept}/${poss} · streak ${S.streak||0}
-      · ${sess} camp session${sess===1?'':'s'} · ${posts} emails, ${yards} loose ends
-      · Ty ${Math.round(compState('ty').bond)} · Lawson ${Math.round(compState('lawson').bond)}</p>
+      · ${sess} pickleball session${sess===1?'':'s'} · DD ${posts} posts, ${yards} yards
+      · KK ${Math.round(kkB)} · Lawson ${Math.round(lwB)}</p>
     <input type="text" id="r1" placeholder="What actually worked this week?">
     <input type="text" id="r2" placeholder="What slipped, and be honest about why">
     <input type="text" id="r3" placeholder="One thing you are changing next week">
@@ -1415,51 +1567,70 @@ const SEASONS=[
  {n:'Bold Eyes, Kind Hands',sub:'The house motto, as a season. Say the hard thing and stay warm while you say it.',focus:'nrv',
   obj:{k:'steady',target:26,label:'26 days holding the streak'}}
 ];
+const EXTRA_SEASONS=[
+ {n:'The Mended Net',sub:'What you almost let go of, held together on purpose.',focus:'kin',
+  obj:{k:'bond',target:90,label:'both bonds at 90 or better when it ends'}},
+ {n:'Unhidden',sub:'Not smaller than you are, just to keep a room comfortable.',focus:'nrv',
+  obj:{k:'perfect',target:16,label:'16 days with all five kept'}},
+ {n:'The Long Obedience',sub:'Nothing dramatic. Just the next right thing, twenty-eight times.',focus:'dev',
+  obj:{k:'steady',target:22,label:'22 days holding the streak'}},
+ {n:'Clear the Hallway',sub:'Every awkward first step you have been walking past, one a day.',focus:'nrv',
+  obj:{k:'posts',target:26,label:'26 loose ends closed'}},
+ {n:'The Second Wind',sub:'Whatever this body has left after the first excuse, spend it.',focus:'vig',
+  obj:{k:'sessions',target:9,label:'9 camp sessions logged'}},
+ {n:'Undivided',sub:'One thing at a time, done all the way, instead of six things half done.',focus:'stl',
+  obj:{k:'perfect',target:18,label:'18 days with all five kept'}}
+];
+function seasonPool(){return SEASONS.concat(EXTRA_SEASONS)}
 function startSeason(){
-  const i=(S.seasonIdx||0)%SEASONS.length,d=SEASONS[i];
+  const pool=seasonPool(),i=(S.seasonIdx||0)%pool.length,d=pool[i];
   S.season={i,start:today(),startXp:S.xp,
     base:{posts:((S.ddTotal||{}).posts)||0,sessions:pbState().sessions}};
   S.log.unshift('season begun — '+d.n);
 }
 function seasonProgress(){
-  const s0=S.season,d=SEASONS[s0.i];
+  const s0=S.season,d=seasonPool()[s0.i];
   const since=(S.history||[]).filter(h=>h.d>=s0.start);
   if(d.obj.k==='perfect')return since.filter(h=>h.kept===5).length;
   if(d.obj.k==='steady')return since.filter(h=>h.kept>=3).length;
   if(d.obj.k==='posts')return (((S.ddTotal||{}).posts)||0)-s0.base.posts;
   if(d.obj.k==='sessions')return pbState().sessions-s0.base.sessions;
-  if(d.obj.k==='bond')return Math.round(Math.min(compState('ty').bond,compState('lawson').bond));
+  if(d.obj.k==='bond')return Math.round(Math.min(compState('kk').bond,compState('lawson').bond));
   return 0;
 }
 function renderSeason(){
   if(!S.season)startSeason();
-  const s0=S.season,d=SEASONS[s0.i];
+  const s0=S.season,d=seasonPool()[s0.i];
   const days=Math.floor((new Date(today()+'T12:00:00')-new Date(s0.start+'T12:00:00'))/864e5)+1;
   const pct=Math.min(100,days/28*100),earned=S.xp-s0.startXp;
-  const prog=seasonProgress(),met=prog>=d.obj.target,over=days>=28;
+  const prog=seasonProgress(),met=prog>=d.obj.target,over=days>=28,push=s0.diff==='push';
   el('season').innerHTML=`
     <div style="font-size:18px;font-weight:700;letter-spacing:-.02em">${d.n}</div>
     <div class="ttl" style="margin-bottom:9px">${d.sub}</div>
     <p class="sub" style="margin:0 0 5px">Day ${Math.min(days,28)} of 28 · focus ${(ATTRS.find(a=>a.k===d.focus)||{}).n} · ${earned} xp this season</p>
     <div class="track"><div class="tfill" style="width:${pct}%;background:var(--teal)"></div></div>
+    <div class="chips" style="margin-top:10px">
+      <div class="chip2" id="diffb" style="${push?'border-color:var(--gold);color:var(--gold)':''}">${push?'Push · +15% xp, ramps need 6/7':'Steady · standard pace'}</div>
+    </div>
     <p class="sub" style="margin:9px 0 4px">Campaign objective: ${d.obj.label}
       — <span style="color:${met?'var(--moss)':'var(--muted)'}">${prog} / ${d.obj.target}</span></p>
     <div class="track"><div class="tfill" style="width:${Math.min(100,prog/d.obj.target*100)}%;background:${met?'var(--green)':'#5B8FC7'}"></div></div>
     ${over?`<div class="row" style="margin-top:11px"><button id="send">Close the season${met?' — objective met':''}</button></div>`:''}`;
+  el('diffb').onclick=()=>{s0.diff=push?'steady':'push';save();render();toast(push?'Back to steady.':'Push mode: +15% xp, but tiers need 6 of 7 days.')};
   if(over)el('send').onclick=()=>{
     const since=(S.history||[]).filter(h=>h.d>=s0.start),held=since.filter(h=>h.kept>=3).length,perfect=since.filter(h=>h.kept===5).length;
     S.seasons=(S.seasons||[]).concat([{n:d.n,xp:earned,met,prog}]).slice(-12);
-    S.seasonIdx=(s0.i+1)%SEASONS.length;S.season=null;
+    S.seasonIdx=(s0.i+1)%seasonPool().length;S.season=null;
     confetti(180,'center');
     award(met?500:200,d.focus,'Tenacity',`season closed: ${d.n}${met?' (objective met)':''}`);
-    const nx=SEASONS[S.seasonIdx];
+    const nx=seasonPool()[S.seasonIdx];
     el('lootlv').textContent=d.n;el('lootsub').textContent='Season closed.';
     el('lootcards').innerHTML=`<div class="card" style="grid-column:1/-1;cursor:default;text-align:left">
       <div class="stat"><span>Season XP</span><b>${earned+(met?500:200)}</b></div>
       <div class="stat"><span>Days the streak held</span><b>${held} of ${since.length}</b></div>
       <div class="stat"><span>Perfect days</span><b>${perfect}</b></div>
       <div class="stat"><span>${d.obj.label}</span><b style="color:${met?'var(--green)':'var(--mu)'}">${prog} / ${d.obj.target}${met?' ✓':''}</b></div>
-      <div class="stat"><span>KK · Lawson</span><b>${Math.round(compState('ty').bond)} · ${Math.round(compState('lawson').bond)}</b></div>
+      <div class="stat"><span>KK · Lawson</span><b>${Math.round(compState('kk').bond)} · ${Math.round(compState('lawson').bond)}</b></div>
       <div class="sub" style="margin:12px 0 0"><b>Next:</b> ${nx.n} — ${nx.sub}</div>
       <div class="row" style="margin-top:12px"><button id="sstart">Begin ${nx.n}</button></div></div>`;
     el('sstart').onclick=()=>{el('loot').classList.remove('on');render();save()};
@@ -1597,15 +1768,38 @@ const COMMITS=[
  {id:'nerve',a:'nrv',wg:'Galvanizing',x:35,
   tiers:['One honest sentence this week','One a day','One a day, out loud','One a day, and you did not soften it after']}
 ];
+/* the sixth slot: optional, swaps to match the current season's focus attribute.
+   Ramps and pays XP the same way as the fixed five, but stays out of the
+   streak/perfect-day/shield math so it can't destabilize the tuned core loop. */
+const SIXTH_POOL=[
+ {a:'vig',id:'mobility',n:'Mobility work',tiers:['Two minutes of stretching','Five minutes','Ten minutes','Ten minutes, including whatever is tightest from camp']},
+ {a:'stl',id:'read',n:'Reading',tiers:['One page','Five pages','A full chapter','A chapter with the phone in another room']},
+ {a:'dev',id:'devoread',n:'Devotional reading',tiers:['One verse','One psalm','A full passage','A passage plus one line written down']},
+ {a:'kin',id:'affirm',n:'Say the good thing',tiers:['One kind word, out loud','One specific compliment','A compliment plus real attention','Tell them in front of someone else']},
+ {a:'nrv',id:'loose',n:'Close a loose end',tiers:['Name the oldest one','Take the first step on it','Finish one','Finish one and do not apologise for the delay']}
+];
+function sixthDef(){
+  const si=S.season?S.season.i:0,foc=S.season?seasonPool()[S.season.i].focus:'stl';
+  const cand=SIXTH_POOL.filter(c=>c.a===foc),pool=cand.length?cand:SIXTH_POOL;
+  return pool[si%pool.length];
+}
+function sixthState(){
+  const def=sixthDef(),si=S.season?S.season.i:-1;
+  S.sixth=S.sixth||{};
+  if(S.sixth.id!==def.id||S.sixth.seasonIdx!==si)S.sixth={id:def.id,seasonIdx:si,done:null};
+  return S.sixth;
+}
 function ramp(id){S.ramp=S.ramp||{};if(!S.ramp[id])S.ramp[id]={t:0,hits:[],miss:0};return S.ramp[id]}
 function commitXp(c){const r=ramp(c.id);return Math.round(c.x*(1+r.t*.35)*(S.comeback?1.5:1))}
 function renderCommit(){
   const C=S.commit.done,kept=COMMITS.filter(c=>C[c.id]).length;
   el('streakline').innerHTML=`<div class="streakrow"><span>Streak <b>${S.streak||0}</b> day${(S.streak||0)===1?'':'s'}</span>`
     +`<span>best ${S.best||0}${(S.shields||0)?` · ⛨ ${S.shields}`:''}</span><span><b>${kept}</b>/5 today</span></div>`;
-  const busy=S.busy===today();
-  el('streakline').querySelector('.streakrow').insertAdjacentHTML('beforeend',`<button class="quiet" id="busyb" style="width:auto;padding:0;font-size:12px">${busy?'Full day':'Busy day'}</button>`);
-  el('busyb').onclick=()=>{S.busy=busy?null:today();save();render();toast(busy?'Full day.':'Busy day: minimums only.')};
+  const busy=S.busy===today(),busyLocked=!busy&&S.busyWeek===weekKey();
+  el('streakline').querySelector('.streakrow').insertAdjacentHTML('beforeend',`<button class="quiet" id="busyb" style="width:auto;padding:0;font-size:12px${busyLocked?';opacity:.4':''}">${busy?'Full day':busyLocked?'Used this week':'Busy day'}</button>`);
+  el('busyb').onclick=()=>{
+    if(!busy){if(S.busyWeek===weekKey()){toast('Busy day already used this week.');return}S.busyWeek=weekKey()}
+    S.busy=busy?null:today();save();render();toast(busy?'Full day.':'Busy day: minimums only.')};
   el('comeback').innerHTML = (S.comeback
     ? '<div class="banner"><b>Back on the wagon.</b> Every commitment pays 1.5× today. Never miss twice.</div>' : '')
     +(busy?'<div class="banner"><b>Busy day.</b> Minimums only. No board, no boss, no penalty for skipping the stretch.</div>':'');
@@ -1620,7 +1814,11 @@ function renderCommit(){
       +(r.t>0&&!busy?`<div class="ci st${sy?' yes':''}" data-id="${c.id}" data-undo="cs:${c.id}" style="padding-top:0;border-top:0;margin-top:-6px"><div class="box"></div>
       <span style="font-size:13.5px;color:var(--mu)">Stretch: ${c.tiers[r.t]} <span class="due">tier ${r.t+1}</span></span>
       <div class="rt"><span class="xp" style="font-size:13px">+${Math.round(extra*m)}</span></div></div>`:'')
-      +(r.ready&&r.t<3&&!busy?`<div class="cy" data-up="${c.id}" style="border-color:var(--gold);cursor:pointer;margin:0 0 6px 32px"><div class="qt" style="font-size:13px"><b style="color:var(--gold)">Ready to step up.</b> Next stretch: ${c.tiers[r.t+1]}. Tap to accept, or keep it here.</div></div>`:'')}).join('');
+      +(r.ready&&r.t<3&&!busy?`<div class="cy" data-up="${c.id}" style="border-color:var(--gold);cursor:pointer;margin:0 0 6px 32px"><div class="qt" style="font-size:13px"><b style="color:var(--gold)">Ready to step up.</b> Next stretch: ${c.tiers[r.t+1]}. Tap to accept, or keep it here.</div></div>`:'')}).join('')
+    +(()=>{const sx=sixthState(),def=SIXTH_POOL.find(p=>p.id===sx.id),r6=ramp(sx.id),yes6=sx.done===today(),m6=perkMult(def.a,'Wonder');
+      return `<div class="ci${yes6?' yes':''}" data-sixth="1" style="border-top:2px dotted var(--line2)"><div class="box"></div>
+        <span>${def.tiers[r6.t]}<span class="meta" style="display:inline;margin-left:6px">this season · ${def.n}</span></span>
+        <div class="rt"><span class="xp">${Math.round((30+r6.t*12)*m6)}</span>${S.settings.penalties?'<span class="due pen">−10</span>':''}</div></div>`;})();
   [...el('commit').querySelectorAll('.ci:not(.st)')].forEach(row=>{
     row.onclick=()=>{const c=COMMITS.find(x=>x.id===row.dataset.id),key='ci:'+c.id;
       if(S.commit.done[c.id]){tryUndo(key);return}
@@ -1636,6 +1834,11 @@ function renderCommit(){
       award(had?extra:commitXp(c),c.a,c.wg,(had?'stretch: ':'')+c.tiers[ramp(c.id).t])})}});
   [...el('commit').querySelectorAll('[data-up]')].forEach(n=>{
     n.onclick=()=>{const r=ramp(n.dataset.up);r.t++;r.fresh=0;r.freshD=[];r.ready=false;S.log.unshift(`${n.dataset.up} stepped up to tier ${r.t+1}`);save();render();toast('Stepped up.')}});
+  const sixRow=el('commit').querySelector('[data-sixth]');
+  if(sixRow)sixRow.onclick=()=>{const sx=sixthState();
+    if(sx.done===today()){tryUndo('sixth');return}
+    const def=SIXTH_POOL.find(p=>p.id===sx.id),r6=ramp(sx.id),x=Math.round(30+r6.t*12);
+    undoable('sixth',()=>{sx.done=today();award(x,def.a,'Wonder',def.tiers[r6.t]+' ('+def.n+')')})};
 }
 function settleRamps(kept){
   const yest=dstr(addDays(-1));
@@ -1643,8 +1846,8 @@ function settleRamps(kept){
     const r=ramp(c.id),hit=S.commit.done[c.id],up=r.t===0?hit:!!(S.commit.stretch||{})[c.id];
     if(hit){r.hits.push(yest);r.hits=r.hits.slice(-14);r.miss=0;
       if(up){r.fresh=(r.fresh||0)+1;r.freshD=(r.freshD||[]).concat([yest]).slice(-14)}
-      const recent=(r.freshD||[]).filter(d=>d>=dstr(addDays(-7))).length;
-      if((r.fresh||0)>=5&&recent>=5&&r.t<3&&!r.ready){r.ready=true;S.log.unshift(`${c.id}: ready to step up`)}
+      const recent=(r.freshD||[]).filter(d=>d>=dstr(addDays(-7))).length,need=(S.season&&S.season.diff==='push')?6:5;
+      if((r.fresh||0)>=need&&recent>=need&&r.t<3&&!r.ready){r.ready=true;S.log.unshift(`${c.id}: ready to step up`)}
     } else {r.miss++;
       if(r.miss>=2&&r.t>0){r.t--;r.miss=0;r.fresh=0;r.freshD=[];r.ready=false;S.log.unshift(`${c.id} eased back to tier ${r.t+1}`)}}
   });
@@ -1662,11 +1865,23 @@ function settleRamps(kept){
   // a perfect week (five of five, seven days running) forges a shield
   const last7=(S.history||[]).slice(-6).map(h=>h.kept).concat([kept]);
   if(last7.length===7&&last7.every(k=>k===5)&&S.shieldWeek!==weekKey()){S.shields=(S.shields||0)+1;S.shieldWeek=weekKey();S.log.unshift('perfect week — a streak shield is yours')}
+  // the sixth slot ramps and pays its own small penalty, but never touches streak/shields/kept
+  {
+    const sx=sixthState(),r6=ramp(sx.id),hit6=sx.done===yest;
+    if(hit6){r6.hits.push(yest);r6.hits=r6.hits.slice(-14);r6.miss=0;
+      const recent6=r6.hits.filter(d=>d>=dstr(addDays(-7))).length;
+      if(recent6>=5&&r6.t<3)r6.t++;
+    } else {
+      r6.miss=(r6.miss||0)+1;
+      if(r6.miss>=2&&r6.t>0){r6.t--;r6.miss=0}
+      if(S.settings.penalties)S.xp=Math.max(0,S.xp-10);
+    }
+  }
 }
 function settleCompanions(){
   Object.keys(COMP).forEach(k=>{const c=compState(k);
     if(c.last!==dstr(addDays(-1))&&c.last!==today()){
-      c.bond=Math.max(0,c.bond-COMP[k].drain*(has('k2')?.67:1));
+      c.bond=Math.max(0,c.bond-COMP[k].drain*(has('h2')?.67:1));
     }});
 }
 function settleYesterday(){
@@ -1682,7 +1897,7 @@ function settleYesterday(){
   if(!missed.length){S.vitality=100;
     S.log.unshift('every commitment kept — fully rejuvenated');
     return 'All five kept. Vitality restored to full.'}
-  const drain=Math.round(missed.length*13*(has('k2')?.67:1)),want=missed.length*20;
+  const drain=Math.round(missed.length*13*(has('h2')?.67:1)),want=missed.length*20;
   const pen=!S.settings.penalties?0:S.settings.cap==null?want:Math.min(want,S.settings.cap);
   S.lossUsed=pen;
   S.vitality=Math.max(0,Math.min(100,v()-drain+kept*9));
@@ -1697,7 +1912,7 @@ const SKILLS=[
  {id:'v1',b:'vig',t:1,n:'Second Wind',f:'Body quests pay 15% more.',e:{attr:'vig',m:1.15}},
  {id:'v2',b:'vig',t:2,n:'Strong on the Last Round',f:'The movement commitment pays 25% more.',e:{attr:'vig',m:1.25}},
  {id:'v3',b:'vig',t:3,n:'Bold Eyes, Kind Hands',f:'Logged sessions pay 30% more, and everything else pays 8% more.',e:{special:'court',all:1.08}},
- {id:'s1',b:'stl',t:1,n:'Ten Pages',f:'Stillness quests pay 15% more, and rare micro-quests show up twice as often.',e:{attr:'stl',m:1.15,special:'rarity'}},
+ {id:'s1',b:'stl',t:1,n:'Ten Pages',f:'Stillness quests pay 15% more.',e:{attr:'stl',m:1.15}},
  {id:'s2',b:'stl',t:2,n:'Clear Head',f:'Stillness quests pay 25% more. Reroll one board quest a day.',e:{attr:'stl',m:1.25}},
  {id:'s3',b:'stl',t:3,n:'The Quiet Hour',f:'Weekly goals pay 40% more.',e:{special:'weekly'}},
  {id:'d1',b:'dev',t:1,n:'Morning Altar',f:'Faith quests pay 15% more.',e:{attr:'dev',m:1.15}},
@@ -1706,7 +1921,7 @@ const SKILLS=[
  {id:'k1',b:'kin',t:1,n:'Present',f:'Kinship quests pay 20% more.',e:{attr:'kin',m:1.2}},
  {id:'k2',b:'kin',t:2,n:'Keeper of the Home',f:'Vitality drains a third slower. Unlocks the wardrobe: swap between anything she has earned.',e:{special:'anchor'}},
  {id:'k3',b:'kin',t:3,n:'The Long Table',f:'Kinship quests pay 40% more.',e:{attr:'kin',m:1.35}},
- {id:'n1',b:'nrv',t:1,n:'First Through the Door',f:'Nerve quests pay 20% more. Lets you choose tomorrow’s boss.',e:{attr:'nrv',m:1.2}},
+ {id:'n1',b:'nrv',t:1,n:'First Through the Door',f:'Nerve quests pay 20% more.',e:{attr:'nrv',m:1.2}},
  {id:'n2',b:'nrv',t:2,n:'Say It Once',f:'Galvanizing work pays 30% more. One redraw a day on the quest draw.',e:{wg:'Galvanizing',m:1.3}},
  {id:'n3',b:'nrv',t:3,n:'Kestrel',f:'Boss encounters pay 50% more.',e:{special:'boss'}},
 ];
@@ -1742,13 +1957,13 @@ function renderStats(){
     <div class="stat"><span>Streak shields</span><b>${S.shields||0}</b></div>
     <div class="stat"><span>Seasons closed</span><b>${(S.seasons||[]).length}</b></div>
     <div class="stat"><span>Camp sessions</span><b>${pbState().sessions||0}</b></div>
-    <div class="stat"><span>Emails · loose ends</span><b>${posts} · ${yards}</b></div>`;
+    <div class="stat"><span>DD posts · yards</span><b>${posts} · ${yards}</b></div>`;
 }
 function renderSkills(){
   S.points=S.points||0;S.skills=S.skills||[];
   el('ptsline').textContent = S.points ? `${S.points} point${S.points>1?'s':''} to spend. One per level.`
     : 'No points to spend. You get one every level.';
-  const names={vig:'Vigor',stl:'Stillness',dev:'Devotion',kin:'Kinship',nrv:'Nerve'};
+  const names={vig:'Vigor',spr:'Spirit',hth:'Hearth',frg:'Forge',ins:'Insight',inf:'Influence'};
   el('skills').innerHTML=ATTRS.map(a=>{
     const row=SKILLS.filter(s=>s.b===a.k).map(s=>{
       const owned=has(s.id),open=canBuy(s);
@@ -1778,7 +1993,7 @@ function render(){
   el('bwnote').textContent = bw>75?'Clear. You released something recently.'
     : bw>40?'Slipping. Something is riding along that you did not agree to carry.'
     : 'Low. You are holding outcomes you can influence but do not control.';
-  renderStatus();renderFigure();renderComps();renderSkills();renderPB();renderReview();renderSeason();renderWeek();renderCustom();renderBoard();renderBoss();renderCommit();renderCheckin();renderCarry();renderPlan();
+  renderStatus();renderFigure();renderComps();renderSkills();renderPB();renderReview();renderSeason();renderWeek();renderCustom();renderBoard();renderSpecial();renderBoss();renderCommit();renderLift();renderCheckin();renderCarry();renderPlan();renderDDRoll();
   el('log').innerHTML=S.log.length?S.log.join('<br>'):'Nothing logged yet.';
   const st=S.settings;el('settings').innerHTML=`<h3>Settings</h3><div class="chips">
     <div class="chip2" data-set="pen">Penalties: ${st.penalties?'on':'off'}</div>
@@ -1786,9 +2001,14 @@ function render(){
     <div class="sub" style="margin-top:6px">Penalties are the −20 per skipped minimum and −10 per rolled item. The cap limits the total you can lose in one day.</div>`;
   el('settings').querySelector('[data-set="pen"]').onclick=()=>{st.penalties=!st.penalties;save();render();toast(st.penalties?'Penalties on.':'Penalties off. XP only goes up.')};
   el('settings').querySelector('[data-set="cap"]').onclick=()=>{const seq=[40,60,100,null];st.cap=seq[(seq.indexOf(st.cap)+1)%seq.length];save();render()};
-  el('settings').querySelector('.chips').insertAdjacentHTML('beforeend',`<div class="chip2" data-set="snd">Sounds: ${st.sound===false?'off':'on'}</div>`);
+  el('settings').querySelector('.chips').insertAdjacentHTML('beforeend',`<div class="chip2" data-set="snd">Sounds: ${st.sound===false?'off':'on'}</div><div class="chip2" data-set="bday">Birthdays &amp; holidays: ${st.bdays===false?'off':'on'}</div>`);
   el('settings').querySelector('[data-set="snd"]').onclick=()=>{st.sound=st.sound===false;save();render();if(st.sound!==false)sfx('tick')};
+  el('settings').querySelector('[data-set="bday"]').onclick=()=>{st.bdays=st.bdays===false;save();render()};
   /* fanfare() and sfx() both already check S.settings.sound before playing */
+  el('settings').insertAdjacentHTML('beforeend',`<div style="margin-top:18px;padding-top:12px;border-top:1px dashed var(--line2)">
+    <div class="chip2" id="vacb" style="${S.vacation?'border-color:var(--gold);color:var(--gold)':''}">Vacation mode: ${S.vacation?'ON — everything is frozen':'off'}</div>
+    <p class="sub" style="margin-top:6px">Freezes penalties, streaks, vitality, bond drain, and the season clock entirely, until you turn it back off. For real time away — not for a lazy afternoon.</p></div>`);
+  el('vacb').onclick=()=>{S.vacation=!S.vacation;save();render();toast(S.vacation?'Vacation mode on. Everything is paused.':'Welcome back. Vacation mode off.')};
   el('resetb').onclick=async()=>{
     const code=JSON.stringify(S);try{await navigator.clipboard.writeText(code)}catch(e){}
     if(!confirm('Reset your character? Your save code was just copied to the clipboard in case you want it back. This wipes everything: level, gear, streak, seasons.'))return;
@@ -1824,29 +2044,29 @@ el('relbtn').onclick=()=>{const v=el('release').value.trim();
 el('logmatch').onclick=()=>{
   const g=+el('g').value||0,w=+el('w').value||0,h=+el('h').value||0,rt=+el('rate').value||0,
     f=+el('focus').value,ang=+el('anger').value||0,lig=+el('light').value||0,fun=+el('fun').value||0;
-  if(!g&&!h){toast('Enter rounds or hours.');return}
-  const lines=[];let tot=0,dev=0,kin=0;
-  const play=g?50:30;lines.push(`showed up +${play} vigor`);tot+=play;
-  if(h>=.5){const e=Math.round(h*30);lines.push(`${h} hour${h===1?'':'s'} of work +${e} stamina`);tot+=e}
-  if(f){lines.push('held the focus +40');tot+=40}
-  if(g&&w/g>=.5){const b=Math.round((w/g)*30);lines.push(`finished ${w} of ${g} rounds strong +${b}`);tot+=b}
-  if(rt>=8){lines.push('a strong session +50');tot+=50}
-  if(rt<=4){lines.push('a hard one, and you came anyway +40');tot+=40}
-  if(ang){const x=ang>=8?50:ang>=6?30:10;dev+=x;
-    lines.push(`kind to yourself ${ang}/10 +${x}${ang>=8?' — no talking down to the mirror':''}`)}
-  if(lig){const x=lig>=8?55:lig>=6?32:12;kin+=x;
-    lines.push(`encouraged someone there ${lig}/10 +${x} kinship`)}
+  if(!g&&!h){toast('Enter games or hours.');return}
+  const lines=[];let tot=0,spr=0,inf=0;
+  const play=g?50:30;lines.push(`played the session +${play} vigor`);tot+=play;
+  if(h>=1){const e=Math.round(h*15);lines.push(`${h} hours on court +${e} endurance`);tot+=e}
+  if(f){lines.push('focus quest executed +40 control');tot+=40}
+  if(g&&w/g>=.5){const b=Math.round((w/g)*30);lines.push(`won ${w} of ${g} +${b} bonus`);tot+=b}
+  if(rt>=8){lines.push('performance in personal-best territory +50');tot+=50}
+  if(rt<=4){lines.push('rough night, showed up anyway +35');tot+=35}
+  if(ang){const x=ang>=8?50:ang>=6?30:10;spr+=x;
+    lines.push(`temper ${ang}/10 +${x} spirit${ang>=8?' — kept it clean':''}`)}
+  if(lig){const x=lig>=8?55:lig>=6?32:12;inf+=x;
+    lines.push(`shined light ${lig}/10 +${x} influence`)}
   if(fun){const x=fun>=8?40:fun>=6?24:8;tot+=x;
-    lines.push(`enjoyed it ${fun}/10 +${x} vigor${fun>=8?' — this is why it sticks':''}`)}
+    lines.push(`fun had ${fun}/10 +${x} vigor${fun>=8?' — this is why you play':''}`)}
   const P=pbState();
   P.sessions++;P.games+=g;
-  P.xp.strength+=g*5+w*6;
-  P.xp.agility+=f?40:10;
-  P.xp.stamina+=Math.round(h*36)+(rt>=6?15:5);
-  P.xp.mobility+=f?25:10;
-  P.xp.mindset+=ang*4;
-  P.xp.nutrition+=lig*3;
-  P.xp.consistency+=fun*3+(rt>=8?20:0)+15;
+  P.xp.power+=g*4+w*6;
+  P.xp.control+=f?40:10;
+  P.xp.consistency+=Math.round(h*18)+(rt>=6?15:5);
+  P.xp.mental+=ang>=7?25:10;
+  P.xp.emotion+=ang*4;
+  P.xp.faith+=lig*4;
+  P.xp.growth+=fun*3+(rt>=8?20:0);
   P.records.rate=Math.max(P.records.rate,rt);P.records.games=Math.max(P.records.games,g);
   P.records.longest=Math.max(P.records.longest,h);P.records.light=Math.max(P.records.light,lig);
   P.records.fun=Math.max(P.records.fun,fun);
@@ -1855,21 +2075,21 @@ el('logmatch').onclick=()=>{
   pbCheckBadges();
   const before=level().l;
   tot=Math.round(tot*perkMult('vig','Tenacity','court'));
-  dev=Math.round(dev*perkMult('dev','Enablement'));kin=Math.round(kin*perkMult('kin','Enablement'));
-  const grand=tot+dev+kin;
-  S.xp+=grand;S.attr.vig+=Math.round(tot*.8);S.attr.dev+=dev;S.attr.kin+=kin;
+  spr=Math.round(spr*perkMult('dev','Enablement'));inf=Math.round(inf*perkMult('kin','Enablement'));
+  const grand=tot+spr+inf;
+  S.xp+=grand;S.attr.vig+=Math.round(tot*.8);S.attr.dev+=spr;S.attr.kin+=inf;
   S.vitality=Math.min(100,(S.vitality==null?100:S.vitality)+(fun>=7?10:5));
-  S.checkin.done.camp=true;
-  S.log.unshift(`+${grand} xp — camp session`);
+  S.checkin.done.pickle=true;
+  S.log.unshift(`+${grand} xp — pickleball session`);
   const after=level().l;
   if(after>before){S.pending=offer(after);S.points=(S.points||0)+(after-before)}
   el('matchout').innerHTML=lines.join('<br>')+`<br><span style="color:var(--gold)">total +${grand} xp</span>`;
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');if(S.pending)setTimeout(showLoot,600)}
-  else toast(`+${grand} xp. That is the session.`)};
-const APP_VERSION='1.3.0';
+  else toast(`+${grand} xp on the court.`)};
+const APP_VERSION='2.0.0';
 const TABS={
- today:['p-commit','p-today','p-board','p-boss','p-draw'],
+ today:['p-commit','p-lift','p-today','p-board','p-special','p-boss','p-draw'],
  plan:['p-log','p-season','p-week'],
  hero:['p-hero','p-comps','p-attrs','p-skills','p-pb','p-gear','p-stats','p-bw'],
  night:['p-review','cipanel','p-match','p-recent']
@@ -1887,7 +2107,7 @@ function showTab(t){
 }
 function renderStatus(){
   const L=level(),[c,label,col]=condition();
-  const kk=compState('ty').bond,lw=compState('lawson').bond;
+  const kk=compState('kk').bond,lw=compState('lawson').bond;
   const v=Math.round(S.vitality==null?100:S.vitality);
   const open=COMMITS.filter(x=>!S.commit.done[x.id]).length+S.custom.filter(x=>!x.done&&bucket(x)==='today').length;
   el('status').innerHTML=`<div class="slv">Lv ${L.l}<small>${TITLES.filter(t=>t[0]<=L.l).pop()[1]}</small></div>
@@ -1899,6 +2119,10 @@ function renderStatus(){
   const tb=document.querySelector('.tabs button[data-t="today"]');
   if(tb){let n=tb.querySelector('.n');if(!n){n=document.createElement('span');n.className='n';tb.appendChild(n)}
     n.textContent=open;n.style.display=open?'':'none'}
+  const pending=S.custom.filter(x=>!x.done).length;
+  const pb=document.querySelector('.tabs button[data-t="plan"]');
+  if(pb){let n=pb.querySelector('.n');if(!n){n=document.createElement('span');n.className='n';pb.appendChild(n)}
+    n.textContent=pending;n.style.display=pending?'':'none'}
 }
 
 /* ---------- ten-second undo ----------
@@ -1922,8 +2146,9 @@ function markUndo(){
 }
 
 /* ---------- 3D gear: her own inventory ----------
-   Everything here is built in code from primitives — no external model files, nothing borrowed.
-   Starts bare. Every even level offers two pieces; she picks one. None of it touches XP. */
+   Starts bare. Every even level offers two pieces; she picks one. Weapons are Quaternius CC0;
+   pack (gear/models/*.glb, rigid hand props), the pieces built into the KayKit Knight, and a few
+   drawn in code. Nothing here touches XP. */
 const G3=[
  ['g-book','Whatever She Is Reading','r',2,'Common','A receipt for a bookmark.','code:book'],
  ['g-mug','Coffee, Alone','r',2,'Common','Hot the whole way through. Rare and holy.','code:mug'],
@@ -1943,32 +2168,27 @@ const G3=[
  ['g-staff','Staff of Small Wonders','r',12,'Epic','Every ordinary thing, noticed. Both hands.','code:staff'],
  ['g-tome','The Unabridged One','l',12,'Epic','The book she said she would never finish.','code:tome'],
  ['g-ledger','The Open Loop Ledger','r',14,'Epic','Every loose end, written down and then closed.','code:ledger'],
- ['g-ribbon','Kestrel Ribbon','head',2,'Common','Terracotta. Ties the curls back before class.','code:ribbon'],
- ['g-knit','Knit Cap','head',4,'Common','For the 5 a.m. parking lot in January.','code:knit'],
- ['g-wreath','Garden Wreath','head',6,'Uncommon','Made in the walled garden, kept far too long.','code:wreath'],
- ['g-hat','Ashcombe Hat','head',10,'Rare','Pointed, soft-brimmed, entirely hers.','code:hat'],
- ['g-circlet','Prefect\u2019s Circlet','head',14,'Rare','Thin copper. Easy to forget you are wearing it.','code:circlet'],
- ['g-crown','Crown of the Long Table','head',20,'Legendary','Earned at home, worn nowhere else.','code:crown'],
+ ['g-hood','Ranger\u2019s Hood','head',3,'Common','Up when the weather turns, or when she wants the quiet.','file:hood'],
  ['g-shawl','Sage Shawl','back',4,'Common','Lives on the back of the reading chair.','code:shawl'],
  ['g-bag','Camp Bag','back',6,'Uncommon','Packed the night before, most nights.','code:bag'],
  ['g-cloak','Kestrel Cloak','back',10,'Rare','Slate, with a terracotta lining nobody else sees.','code:cloak'],
  ['g-star','Nightwatch Cloak','back',16,'Epic','For the evenings she plans tomorrow.','code:star'],
- /* Quaternius Medieval Weapons (CC0), converted to glTF. Optional flavour — if a piece
+ /* Quaternius Medieval Weapons (CC0), converted to glTF. Optional flavour \u2014 if a piece
     does not fit the world, just do not pick it on the loot screen. */
  ['w-dagger','Belt Knife','r',3,'Common','For string, apples, and packing tape.','file:Dagger'],
  ['w-dagger2','Whittling Knife','l',3,'Common','Idle hands, better use.','file:Dagger_2'],
  ['w-axe-s','Hand Axe','r',5,'Common','Kindling for the fire pit.','file:Axe_Small'],
- ['w-bow','Ranger’s Bow','r',5,'Uncommon','Aim taken slowly, on purpose.','file:Bow_Wooden'],
+ ['w-bow','Ranger\u2019s Bow','r',5,'Uncommon','Aim taken slowly, on purpose.','file:Bow_Wooden'],
  ['w-bow2','Yew Longbow','r',7,'Uncommon','Draw, breathe, release.','file:Bow_Wooden2'],
  ['w-arrow','A Single Arrow','l',5,'Common','One is usually enough.','file:Arrow'],
  ['w-sword','Plain Sword','r',7,'Uncommon','Nothing fancy. It counts.','file:Sword'],
  ['w-sword2','Sidesword','r',9,'Uncommon','Quick, light, honest.','file:Sword_2'],
  ['w-hammer-s','Camp Mallet','r',7,'Common','Tent stakes and stubborn things.','file:Hammer_Small'],
  ['w-shield-r','Round Shield','l',7,'Uncommon','Between her people and the weather.','file:Shield_Round'],
- ['w-shield-r2','Painted Shield','l',9,'Uncommon','Marked as someone’s.','file:Shield_Round_2'],
+ ['w-shield-r2','Painted Shield','l',9,'Uncommon','Marked as someone\u2019s.','file:Shield_Round_2'],
  ['w-shield-h','Heater Shield','l',11,'Rare','Covers more than herself.','file:Shield_Heater'],
  ['w-shield-h2','Kestrel Shield','l',13,'Rare','Bold eyes, kind hands.','file:Shield_Heater_2'],
- ['w-axe','Woodcutter’s Axe','r',11,'Rare','For the thing she keeps walking past.','file:Axe'],
+ ['w-axe','Woodcutter\u2019s Axe','r',11,'Rare','For the thing she keeps walking past.','file:Axe'],
  ['w-sword-g','Gilded Sword','r',13,'Rare','Earned, not bought.','file:Sword_Golden'],
  ['w-bow-g','Golden Bow','r',15,'Rare','Patience, made ornamental.','file:Bow_Golden'],
  ['w-spear','Long Spear','r',15,'Epic','Both hands. Reach beyond the doubt.','file:Spear'],
@@ -1976,20 +2196,17 @@ const G3=[
  ['w-hammer-d','Great Hammer','r',17,'Epic','Both hands. Tenacity, made heavy.','file:Hammer_Double'],
  ['w-sword-big','Greatsword','r',19,'Epic','Both hands. No hedging.','file:Sword_Big'],
  ['w-claymore','Claymore','r',21,'Epic','Both hands. The long hallway, walked.','file:Claymore'],
- ['w-scythe','The Reaper’s Scythe','r',23,'Legendary','Both hands. Harvest of small things.','file:Scythe'],
+ ['w-scythe','The Reaper\u2019s Scythe','r',23,'Legendary','Both hands. Harvest of small things.','file:Scythe'],
  ['w-bow-e','Blackthorn Bow','r',25,'Legendary','Drawn only when it matters.','file:Bow_Evil'],
  ['w-shield-c','Celtic Shield','l',25,'Legendary','Gold, and old.','file:Shield_Celtic_Golden']
 ];
 const CLASSES={
- apprentice:{n:'Apprentice',robe:0x7E9479,trim:0xB9643F,
-   f:'First year. Everything is new and she is taking notes.'},
- scholar:{n:'Scholar',robe:0x5D7A86,trim:0xD8C48A,
-   f:'Reads, notices, remembers. The stillness years.'},
- warden:{n:'Warden',robe:0x4F6455,trim:0xB9643F,
-   f:'Holds the line, kindly. Says the thing when it needs saying.'},
- herbalist:{n:'Herbalist',robe:0x6E5A86,trim:0xC9DCC2,
-   f:'Tends what is already planted. Walled-garden work.'}
+ apprentice:{n:'Apprentice',nodes:[],f:'First year. Everything is new and she is taking notes.'},
+ scholar:{n:'Scholar',nodes:[],f:'Reads, notices, remembers. The stillness years.'},
+ warden:{n:'Warden',nodes:[],f:'Holds the line, kindly. Says the thing when it needs saying.'},
+ herbalist:{n:'Herbalist',nodes:[],f:'Tends what is already planted. Walled-garden work.'}
 };
+const NODE_CLS={};
 const TWOH=['g-staff','w-spear','w-axe-d','w-hammer-d','w-sword-big','w-claymore','w-scythe',
   'w-bow','w-bow2','w-bow-g','w-bow-e'];
 function heroClass(){return (S&&CLASSES[S.cls])?S.cls:'apprentice'}
@@ -1999,7 +2216,7 @@ function showClassPick(){
   const cur=heroClass();
   el('lootlv').textContent='Level '+S.pendingClass;el('lootsub').textContent='A new chapter. Choose who you walk as next.';
   el('lootcards').innerHTML=Object.entries(CLASSES).filter(([k])=>k!==cur).map(([k,c])=>`<div class="card clscard" tabindex="0" data-cls="${k}">
-    <div class="ico">${ic({apprentice:'traveler',scholar:'wizard',warden:'knight',herbalist:'witch'}[k]||'traveler','ic-card')}</div><b>${c.n}</b><em>${c.f}</em></div>`).join('');
+    <div class="ico">${{apprentice:'✨',scholar:'📖',warden:'🛡',herbalist:'🌿'}[k]}</div><b>${c.n}</b><em>${c.f}</em></div>`).join('');
   el('lootcards').style.gridTemplateColumns='repeat(3,1fr)';
   [...el('lootcards').children].forEach(cd=>{const take=()=>{S.cls=cd.dataset.cls;S.clsSince=S.pendingClass;S.pendingClass=null;
     S.log.unshift(`walks on as a ${CLASSES[S.cls].n}`);el('loot').classList.remove('on');el('lootcards').style.gridTemplateColumns='';
@@ -2030,7 +2247,7 @@ function showLoot3d(){
   confetti(90,'center');
   el('lootcards').innerHTML=S.pending3d.map(id=>{const g=g3(id);
     return `<div class="card" tabindex="0" data-id="${g[0]}" style="border-color:${G3_RAR[g[4]]}66">
-      <div class="ico">${ic({r:'sword-shield',l:'chest',head:'tower',back:'traveler'}[g[2]]||'chest','ic-card')}</div>
+      <div class="ico">${{r:'⚔',l:'⛨',head:'♛',back:'⚑'}[g[2]]}</div>
       <div class="r3" style="color:${G3_RAR[g[4]]}">${g[4]} · ${G3_SLOT[g[2]]}</div>
       <b>${g[1]}</b><em>${g[5]}</em></div>`}).join('');
   [...el('lootcards').children].forEach(c=>{
@@ -2047,132 +2264,60 @@ function showLoot3d(){
   el('loot').classList.add('on');
 }
 
-const H3={ready:false,failed:false,R:null,cheerQueued:false,attached:{},cls:null,
-  assets:{hero:null,clips:{},hair:{}},loading:false,gearCache:{},loadingSlot:{}};
-const MAT=(c,extra)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.8,metalness:.05},extra||{}));
-
-/* ---------- the ranger kit, built in code and pinned to the rig ----------
-   Rigid pieces parented to bones: the tunic rides spine_02, the boots ride the feet,
-   and so on. Swap any of these for real outfit meshes later without touching the rest. */
-function rangerKit(cls){
-  const C=CLASSES[cls]||CLASSES.apprentice;
-  const cloth=MAT(C.robe,{roughness:.95}),trim=MAT(C.trim,{roughness:.6}),
-        leather=MAT(0x6B4F33,{roughness:.9}),dark=MAT(0x3A2E22,{roughness:.95});
-  const kit={};
-  // tunic — a tapered shell over the torso
-  const tunic=new THREE.Group();
-  const shell=new THREE.Mesh(new THREE.CylinderGeometry(.215,.30,.60,18,1,true),cloth);
-  shell.material.side=THREE.DoubleSide;shell.position.y=.12;tunic.add(shell);
-  const skirt=new THREE.Mesh(new THREE.CylinderGeometry(.295,.34,.26,18,1,true),cloth);
-  skirt.material.side=THREE.DoubleSide;skirt.position.y=-.28;tunic.add(skirt);
-  const belt=new THREE.Mesh(new THREE.TorusGeometry(.275,.035,8,20),leather);
-  belt.rotation.x=Math.PI/2;belt.position.y=-.16;tunic.add(belt);
-  const buckle=new THREE.Mesh(new THREE.BoxGeometry(.09,.07,.03),trim);
-  buckle.position.set(0,-.16,.28);tunic.add(buckle);
-  const strap=new THREE.Mesh(new THREE.BoxGeometry(.30,.055,.02),leather);
-  strap.position.set(0,.10,.235);strap.rotation.z=-.72;tunic.add(strap);
-  const collar=new THREE.Mesh(new THREE.TorusGeometry(.175,.032,8,18),trim);
-  collar.rotation.x=Math.PI/2;collar.position.y=.41;tunic.add(collar);
-  kit.spine_02=tunic;
-  // hood, folded back between the shoulders
-  const hood=new THREE.Group();
-  const h=new THREE.Mesh(new THREE.SphereGeometry(.17,14,10,0,Math.PI*2,0,Math.PI*.62),cloth);
-  h.rotation.x=2.5;h.position.set(0,.06,-.16);hood.add(h);
-  kit.spine_03=hood;
-  // cloak from the shoulders
-  const cloak=new THREE.Group();
-  const cl=new THREE.Mesh(new THREE.CylinderGeometry(.24,.46,.86,18,1,true),
-    new THREE.MeshStandardMaterial({color:C.trim,roughness:1,side:THREE.DoubleSide}));
-  cl.position.set(0,-.30,-.05);cl.rotation.x=-.06;cloak.add(cl);
-  kit.spine_01=cloak;
-  // bracers
-  const brace=()=>{const b=new THREE.Mesh(new THREE.CylinderGeometry(.075,.085,.16,12,1,true),leather);
-    b.material.side=THREE.DoubleSide;b.position.y=-.10;return b};
-  kit.lowerarm_l=brace();kit.lowerarm_r=brace();
-  // boots
-  const boot=()=>{const g=new THREE.Group();
-    const shaft=new THREE.Mesh(new THREE.CylinderGeometry(.085,.10,.26,12),dark);shaft.position.y=.12;g.add(shaft);
-    const cuff=new THREE.Mesh(new THREE.TorusGeometry(.093,.024,8,14),leather);cuff.rotation.x=Math.PI/2;cuff.position.y=.24;g.add(cuff);
-    const toe=new THREE.Mesh(new THREE.BoxGeometry(.11,.075,.22),dark);toe.position.set(0,.0,.06);g.add(toe);
-    return g};
-  kit.foot_l=boot();kit.foot_r=boot();
-  return kit;
-}
-
-/* ---------- props, built in code ---------- */
-function h3piece(kind){
+function h3codePiece(kind){
   const o=new THREE.Group();
   const wood=MAT(0x7A5A3C,{roughness:.85}),paper=MAT(0xEEE8DA,{roughness:.95}),
         copper=MAT(0xB9643F,{metalness:.5,roughness:.45}),brass=MAT(0xB08A4E,{metalness:.6,roughness:.4}),
         slate=MAT(0x3C4C58),cream=MAT(0xEEF0E8),green=MAT(0x4F7A5C),purple=MAT(0x6E5A86);
   const book=(w,h,d,cover)=>{const b=new THREE.Group();
-    const c=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),cover);b.add(c);
+    b.add(new THREE.Mesh(new THREE.BoxGeometry(w,h,d),cover));
     const p=new THREE.Mesh(new THREE.BoxGeometry(w*.92,h*.92,d*.8),paper);p.position.x=w*.06;b.add(p);return b};
   if(kind==='book'){o.add(book(.05,.17,.13,purple))}
-  else if(kind==='journal'){o.add(book(.04,.15,.11,green));const band=new THREE.Mesh(new THREE.BoxGeometry(.012,.16,.012),copper);band.position.z=.06;o.add(band)}
+  else if(kind==='journal'){o.add(book(.04,.15,.11,green));const bd=new THREE.Mesh(new THREE.BoxGeometry(.012,.16,.012),copper);bd.position.z=.06;o.add(bd)}
   else if(kind==='tome'){o.add(book(.08,.23,.17,MAT(0x4A3A5C)));const cl=new THREE.Mesh(new THREE.BoxGeometry(.02,.035,.035),brass);cl.position.set(.012,0,.09);o.add(cl)}
   else if(kind==='stack'){[[0,purple,.16],[.055,green,.15],[.105,slate,.14]].forEach(([y,c,h])=>{const b=book(.04,h,.12,c);b.position.y=y;b.rotation.y=y*3;o.add(b)})}
   else if(kind==='ledger'){o.add(book(.035,.20,.15,MAT(0x8C5A3C)));const rib=new THREE.Mesh(new THREE.BoxGeometry(.008,.09,.012),copper);rib.position.set(0,-.13,.035);o.add(rib)}
-  else if(kind==='mug'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.043,.037,.085,14),cream);o.add(c);
+  else if(kind==='mug'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.043,.037,.085,14),cream));
     const h=new THREE.Mesh(new THREE.TorusGeometry(.028,.008,6,14,Math.PI*1.3),cream);h.position.set(.049,0,0);h.rotation.y=Math.PI/2;o.add(h);
     const cof=new THREE.Mesh(new THREE.CylinderGeometry(.038,.038,.006,14),MAT(0x4A3325));cof.position.y=.04;o.add(cof)}
   else if(kind==='teacup'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.04,.026,.05,14),cream);c.position.y=.018;o.add(c);
-    const s=new THREE.Mesh(new THREE.CylinderGeometry(.063,.063,.007,16),cream);o.add(s);
+    o.add(new THREE.Mesh(new THREE.CylinderGeometry(.063,.063,.007,16),cream));
     const t=new THREE.Mesh(new THREE.CylinderGeometry(.034,.034,.005,14),MAT(0x9C6B3A));t.position.y=.037;o.add(t)}
-  else if(kind==='bottle'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.034,.034,.17,14),MAT(0x436B74));o.add(b);
+  else if(kind==='bottle'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.034,.034,.17,14),MAT(0x436B74)));
     const cap=new THREE.Mesh(new THREE.CylinderGeometry(.023,.023,.034,12),copper);cap.position.y=.10;o.add(cap)}
   else if(kind==='dumbbell'){const bar=new THREE.Mesh(new THREE.CylinderGeometry(.013,.013,.17,10),MAT(0x6E7A72,{metalness:.6}));bar.rotation.z=Math.PI/2;o.add(bar);
     [-.074,.074].forEach(x=>{const w=new THREE.Mesh(new THREE.CylinderGeometry(.043,.043,.04,14),MAT(0x2F3A40));w.rotation.z=Math.PI/2;w.position.x=x;o.add(w)})}
-  else if(kind==='quill'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.005,.008,.17,8),cream);o.add(s);
+  else if(kind==='quill'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.005,.008,.17,8),cream));
     const f=new THREE.Mesh(new THREE.ConeGeometry(.028,.11,8),MAT(0xC2B083));f.position.y=.10;f.scale.z=.3;o.add(f)}
-  else if(kind==='wand'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.007,.012,.20,8),wood);o.add(s);
+  else if(kind==='wand'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.007,.012,.20,8),wood));
     const tip=new THREE.Mesh(new THREE.OctahedronGeometry(.02),MAT(0xD8C48A,{emissive:0x7A6430}));tip.position.y=.11;o.add(tip)}
   else if(kind==='staff'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.016,.02,.95,10),wood);s.position.y=.24;o.add(s);
     const ring=new THREE.Mesh(new THREE.TorusGeometry(.058,.013,8,20),brass);ring.position.y=.70;o.add(ring);
     const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.035),MAT(0xA7C4C9,{emissive:0x2E4A50}));gem.position.y=.70;o.add(gem)}
   else if(kind==='lantern'){const top=new THREE.Mesh(new THREE.ConeGeometry(.052,.04,8),brass);top.position.y=.07;o.add(top);
-    const gl=new THREE.Mesh(new THREE.CylinderGeometry(.037,.037,.085,10),MAT(0xF6EFC9,{emissive:0x8A7430,transparent:true,opacity:.92}));o.add(gl);
-    const base=new THREE.Mesh(new THREE.CylinderGeometry(.046,.049,.023,10),brass);base.position.y=-.052;o.add(base);
-    const hoop=new THREE.Mesh(new THREE.TorusGeometry(.023,.006,6,12),brass);hoop.position.y=.10;o.add(hoop);o.position.y=-.05}
-  else if(kind==='candle'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.026,.029,.115,12),cream);o.add(c);
+    o.add(new THREE.Mesh(new THREE.CylinderGeometry(.037,.037,.085,10),MAT(0xF6EFC9,{emissive:0x8A7430,transparent:true,opacity:.92})));
+    const base=new THREE.Mesh(new THREE.CylinderGeometry(.046,.049,.023,10),brass);base.position.y=-.052;o.add(base);o.position.y=-.05}
+  else if(kind==='candle'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.026,.029,.115,12),cream));
     const dish=new THREE.Mesh(new THREE.CylinderGeometry(.058,.052,.012,14),brass);dish.position.y=-.063;o.add(dish);
     const fl=new THREE.Mesh(new THREE.ConeGeometry(.013,.04,8),MAT(0xF0C070,{emissive:0xB07A32}));fl.position.y=.08;o.add(fl)}
   else if(kind==='keys'){const ring=new THREE.Mesh(new THREE.TorusGeometry(.029,.005,6,16),brass);ring.rotation.x=Math.PI/2;o.add(ring);
     [-.017,0,.017].forEach((x,i)=>{const k=new THREE.Mesh(new THREE.BoxGeometry(.007,.075,.003),brass);k.position.set(x,-.052,0);k.rotation.z=(i-1)*.2;o.add(k)})}
-  else if(kind==='basket'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.075,.052,.08,14,1,true),MAT(0xA07A4E,{side:THREE.DoubleSide}));o.add(b);
+  else if(kind==='basket'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.075,.052,.08,14,1,true),MAT(0xA07A4E,{side:THREE.DoubleSide})));
     const h=new THREE.Mesh(new THREE.TorusGeometry(.069,.007,6,16,Math.PI),MAT(0xA07A4E));h.position.y=.035;o.add(h);
     [[-.028,.012],[.023,.017],[0,-.012]].forEach(([x,z])=>{const f=new THREE.Mesh(new THREE.SphereGeometry(.026,8,8),green);f.position.set(x,.046,z);o.add(f)})}
   else if(kind==='bouquet'){for(let i=0;i<6;i++){const a=i/6*Math.PI*2;
-      const st=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.125,6),green);st.position.set(Math.sin(a)*.017,.035,Math.cos(a)*.017);st.rotation.z=Math.sin(a)*.2;o.add(st);
+      const st=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.125,6),green);st.position.set(Math.sin(a)*.017,.035,Math.cos(a)*.017);o.add(st);
       const fl=new THREE.Mesh(new THREE.SphereGeometry(.022,8,8),MAT([0xE0B7C4,0xF0E0C0,0xC9DCC2,0xD8A6B4][i%4]));
-      fl.position.set(Math.sin(a)*.035,.108,Math.cos(a)*.035);o.add(fl)}
-    const tie=new THREE.Mesh(new THREE.TorusGeometry(.02,.005,6,12),copper);tie.rotation.x=Math.PI/2;o.add(tie)}
-  else if(kind==='satchel'){const b=new THREE.Mesh(new THREE.BoxGeometry(.15,.115,.05),MAT(0x7A5A3C));o.add(b);
-    const fl=new THREE.Mesh(new THREE.BoxGeometry(.155,.058,.058),MAT(0x8C6B48));fl.position.y=.035;o.add(fl);
-    const buck=new THREE.Mesh(new THREE.BoxGeometry(.023,.023,.012),brass);buck.position.set(0,0,.032);o.add(buck);o.position.y=-.04}
-  else if(kind==='ribbon'){const band=new THREE.Mesh(new THREE.TorusGeometry(.115,.012,8,26),copper);band.rotation.x=Math.PI/2-.12;band.position.y=.055;o.add(band);
-    const kn=new THREE.Mesh(new THREE.SphereGeometry(.026,8,8),copper);kn.position.set(.02,.075,-.105);o.add(kn)}
-  else if(kind==='knit'){const c=new THREE.Mesh(new THREE.SphereGeometry(.135,16,12,0,Math.PI*2,0,Math.PI/2),MAT(0x436B74,{roughness:1}));c.position.y=.045;o.add(c);
-    const br=new THREE.Mesh(new THREE.CylinderGeometry(.138,.138,.045,18),MAT(0x345560,{roughness:1}));br.position.y=.055;o.add(br);
-    const pom=new THREE.Mesh(new THREE.SphereGeometry(.035,10,8),cream);pom.position.y=.19;o.add(pom)}
-  else if(kind==='wreath'){const w=new THREE.Mesh(new THREE.TorusGeometry(.125,.016,8,26),green);w.rotation.x=Math.PI/2-.1;w.position.y=.055;o.add(w);
-    for(let i=0;i<9;i++){const a=i/9*Math.PI*2;const f=new THREE.Mesh(new THREE.SphereGeometry(.02,8,8),MAT(i%3?0xC9DCC2:0xE0B7C4));
-      f.position.set(Math.sin(a)*.125,.065+Math.cos(a)*.015,Math.cos(a)*.115);o.add(f)}}
-  else if(kind==='hat'){const br=new THREE.Mesh(new THREE.CylinderGeometry(.23,.23,.015,22),MAT(0x4A5A52,{roughness:1}));br.position.y=.075;o.add(br);
-    const cone=new THREE.Mesh(new THREE.ConeGeometry(.13,.31,16),MAT(0x4A5A52,{roughness:1}));cone.position.y=.235;cone.rotation.z=.12;o.add(cone);
-    const band=new THREE.Mesh(new THREE.TorusGeometry(.122,.014,8,20),copper);band.rotation.x=Math.PI/2;band.position.y=.105;o.add(band)}
-  else if(kind==='circlet'){const ring=new THREE.Mesh(new THREE.TorusGeometry(.125,.009,8,30),copper);ring.rotation.x=Math.PI/2-.1;ring.position.y=.055;o.add(ring);
-    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.023),MAT(0xA7C4C9,{emissive:0x2E4A50}));gem.position.set(0,.06,.122);o.add(gem)}
-  else if(kind==='crown'){const band=new THREE.Mesh(new THREE.CylinderGeometry(.125,.12,.05,14,1,true),MAT(0xB08A4E,{metalness:.8,roughness:.3,side:THREE.DoubleSide}));band.position.y=.075;o.add(band);
-    for(let i=0;i<7;i++){const a=i/7*Math.PI*2;const p=new THREE.Mesh(new THREE.ConeGeometry(.023,.07,4),brass);
-      p.position.set(Math.sin(a)*.122,.125,Math.cos(a)*.122);o.add(p)}}
+      fl.position.set(Math.sin(a)*.035,.108,Math.cos(a)*.035);o.add(fl)}}
+  else if(kind==='satchel'){o.add(new THREE.Mesh(new THREE.BoxGeometry(.15,.115,.05),MAT(0x7A5A3C)));
+    const fl=new THREE.Mesh(new THREE.BoxGeometry(.155,.058,.058),MAT(0x8C6B48));fl.position.y=.035;o.add(fl);o.position.y=-.04}
   else if(kind==='shawl'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.26,.30,.30,18,1,true),MAT(0x7E9479,{side:THREE.DoubleSide,roughness:1}));
     s.position.y=-.06;o.add(s)}
   else if(kind==='bag'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.11,.11,.28,14),MAT(0x5E6E63,{roughness:1}));b.position.y=-.10;o.add(b);
     const cap=new THREE.Mesh(new THREE.SphereGeometry(.11,12,8,0,Math.PI*2,0,Math.PI/2),MAT(0x46554B));cap.position.y=.04;o.add(cap)}
   else if(kind==='cloak'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.24,.52,1.0,20,1,true),MAT(0x3C4C58,{side:THREE.DoubleSide,roughness:1}));
     c.position.y=-.40;o.add(c);const lin=new THREE.Mesh(new THREE.CylinderGeometry(.235,.50,.98,20,1,true),MAT(0x8E4830,{side:THREE.BackSide,roughness:1}));
-    lin.position.y=-.40;o.add(lin);const cl=new THREE.Mesh(new THREE.TorusGeometry(.17,.018,8,18),copper);cl.rotation.x=Math.PI/2;cl.position.y=.08;o.add(cl)}
+    lin.position.y=-.40;o.add(lin)}
   else if(kind==='star'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.24,.55,1.05,20,1,true),MAT(0x2E3448,{side:THREE.DoubleSide,roughness:1}));
     c.position.y=-.42;o.add(c);
     for(let i=0;i<14;i++){const s=new THREE.Mesh(new THREE.OctahedronGeometry(.018),MAT(0xE6DCA8,{emissive:0x6A6030}));
@@ -2181,55 +2326,47 @@ function h3piece(kind){
   else return null;
   return o;
 }
-
-/* ---------- asset loading ---------- */
+const H3={ready:false,failed:false,R:null,cheerQueued:false,attached:{},cls:null,
+  assets:null,loading:false,gearCache:{},loadingSlot:{}};
+const MAT=(c,extra)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.8,metalness:.05},extra||{}));
 function h3load(url){return new Promise((res,rej)=>new GLTFLoader().load(url,res,undefined,rej))}
+
+/* The ranger outfit ships without a head, and the free base body is a different
+   build that bursts through the clothes — so head.glb is just the head and neck,
+   cut below the tunic collar. Hair and hood carry their own copy of the same
+   65-bone rig; rebinding them to her skeleton lets one mixer drive everything. */
 async function h3assets(){
-  if(H3.assets.hero)return H3.assets;
-  const [hero,anims,down,up]=await Promise.all([
-    h3load('models/hero.glb'),h3load('models/anims.glb'),
-    h3load('models/hair-down.glb'),h3load('models/hair-up.glb')]);
-  let body=null,skel=null;
-  hero.scene.traverse(o=>{if(o.isSkinnedMesh&&/Superhero/i.test(o.name)){body=o;skel=o.skeleton}});
-  if(!body||!skel)throw new Error('hero.glb has no skinned body mesh');
-  if(!skel.bones.length)throw new Error('hero.glb skeleton has no bones');
+  if(H3.assets)return H3.assets;
+  const [body,head,hair,anims]=await Promise.all([
+    h3load('models/hero.glb'),h3load('models/head.glb'),
+    h3load('models/hair-up.glb'),h3load('models/anims.glb')]);
+  let skinned=0;body.scene.traverse(o=>{if(o.isSkinnedMesh)skinned++});
+  if(!skinned)throw new Error('hero.glb has no skinned meshes');
   if(!anims.animations.length)throw new Error('anims.glb has no clips');
-  H3.assets.hero=hero.scene;
-  H3.assets.raw=hero;
-  anims.animations.forEach(c=>H3.assets.clips[c.name]=c);
-  H3.assets.hair.down=down.scene;H3.assets.hair.up=up.scene;
+  const clips={};anims.animations.forEach(c=>clips[c.name]=c);
+  H3.assets={body:body.scene,head:head.scene,hair:hair.scene,clips};
   return H3.assets;
 }
-/* the hair packs ship with their own copy of the same skeleton — rebind them to hers
-   by bone name so one mixer drives everything. */
-function h3attachHair(root,hairScene,skel){
+function h3rebind(root,scene,skel){
   const byName={};skel.bones.forEach(b=>byName[b.name]=b);
-  let mesh=null;hairScene.traverse(o=>{if(o.isSkinnedMesh&&!mesh)mesh=o});
-  if(!mesh)return null;
-  const clone=mesh.clone();
-  clone.skeleton=new THREE.Skeleton(mesh.skeleton.bones.map(b=>byName[b.name]||b),mesh.skeleton.boneInverses);
-  clone.bindMode=mesh.bindMode;clone.bindMatrix=mesh.bindMatrix.clone();
-  clone.bindMatrixInverse=mesh.bindMatrixInverse.clone();
-  clone.material=mesh.material.clone();
-  clone.frustumCulled=false;
-  root.add(clone);
-  return clone;
+  const added=[];
+  scene.traverse(o=>{
+    if(!o.isSkinnedMesh)return;
+    const m=o.clone();
+    m.skeleton=new THREE.Skeleton(o.skeleton.bones.map(b=>byName[b.name]||b),o.skeleton.boneInverses);
+    m.bindMode=o.bindMode;m.bindMatrix=o.bindMatrix.clone();m.bindMatrixInverse=o.bindMatrixInverse.clone();
+    m.material=o.material.clone();m.frustumCulled=false;
+    root.add(m);added.push(m);
+  });
+  return added;
 }
-
 function hero3dSync(){
   const R=H3.R;if(!R)return;
   S.gear3d=S.gear3d||{};
-  // hair: ponytail by default, down when she unties it
-  const up=!(S.look&&S.look.beard);
-  if(R.hair.up)R.hair.up.visible=up;
-  if(R.hair.down)R.hair.down.visible=!up;
   const hairCol=new THREE.Color(HAIR[(S.look&&S.look.hair)||0][0]);
-  ['up','down'].forEach(k=>{if(R.hair[k])R.hair[k].material.color.copy(hairCol)});
-  if(R.eyebrows)R.eyebrows.material.color.copy(hairCol);
-  // skin tone rides the same material, tinted
-  if(R.body)R.body.material.color.copy(new THREE.Color(SKIN[(S.look&&S.look.skin)||0][0]).multiplyScalar(1.25));
-  // outfit colours follow the class
-  if(H3.cls!==heroClass()){hero3dReskin(heroClass())}
+  R.hair.forEach(m=>m.material.color.copy(hairCol));
+  const hoodOn=S.gear3d.head==='g-hood';
+  R.hair.forEach(m=>m.visible=!hoodOn);
   for(const slot of ['r','l','head','back']){
     const id=S.gear3d[slot],g=id?g3(id):null,cur=H3.attached[slot];
     if(cur&&(!g||cur.id!==g[0])){if(cur.obj.parent)cur.obj.parent.remove(cur.obj);delete H3.attached[slot]}
@@ -2238,53 +2375,52 @@ function hero3dSync(){
     const anchor=R.anchors[slot];if(!anchor)continue;
     const src=g[6];
     if(src.startsWith('file:')){
+      const fname=src.slice(5);
       if(H3.loadingSlot[slot]===g[0])continue;
       H3.loadingSlot[slot]=g[0];
-      const fname=src.slice(5);
-      const place=o=>{
+      const place=scene=>{
         delete H3.loadingSlot[slot];
         if((S.gear3d||{})[slot]!==g[0])return;
-        const w=o.clone(true);
-        /* GRIP: weapons are exported standing up the +Y axis with the handle at the origin.
+        const old=H3.attached[slot];if(old&&old.obj.parent)old.obj.parent.remove(old.obj);
+        if(fname==='hood'){
+          const added=h3rebind(R.model,scene,R.skel);
+          H3.attached[slot]={id:g[0],obj:{parent:{remove:()=>added.forEach(m=>R.model.remove(m))}}};
+          hero3dSync();return;
+        }
+        const w=scene.clone(true);
+        /* GRIP: weapons are exported standing up +Y with the handle at the origin.
            Nudge these three numbers if a piece sits wrong in her hand. */
         w.rotation.set(-Math.PI/2,0,slot==='l'?Math.PI:0);
         w.position.set(0,.03,0);
-        const cur2=H3.attached[slot];if(cur2&&cur2.obj.parent)cur2.obj.parent.remove(cur2.obj);
         anchor.add(w);H3.attached[slot]={id:g[0],obj:w};
       };
-      if(H3.gearCache[fname]){place(H3.gearCache[fname]);continue}
-      h3load('models/gear/'+fname+'.glb').then(gl=>{H3.gearCache[fname]=gl.scene;place(gl.scene)})
+      const path = fname==='hood' ? 'models/hood.glb' : 'models/gear/'+fname+'.glb';
+      if(H3.gearCache[fname]){place(H3.gearCache[fname])}
+      else h3load(path).then(gl=>{H3.gearCache[fname]=gl.scene;place(gl.scene)})
         .catch(()=>{delete H3.loadingSlot[slot]});
       continue;
     }
-    const o=h3piece(src.replace('code:',''));if(!o)continue;
+    const o=h3codePiece(src.replace('code:',''));if(!o)continue;
     o.rotation.x=-Math.PI/2;o.position.set(0,.02,0);
     anchor.add(o);H3.attached[slot]={id:g[0],obj:o};
   }
   hero3dPlay();
 }
-function hero3dReskin(cls){
-  const R=H3.R;if(!R)return;const C=CLASSES[cls]||CLASSES.apprentice;
-  Object.values(R.kit).forEach(part=>part.traverse(o=>{
-    if(o.material&&o.userData.tint==='robe')o.material.color.set(C.robe);
-    if(o.material&&o.userData.tint==='trim')o.material.color.set(C.trim);
-  }));
-  H3.cls=cls;
-}
+
 function hero3dPlay(name){
   const R=H3.R;if(!R||!R.mixer)return;
   const c=condition()[0];
-  const armed=['r','l'].some(sl=>{const id=(S.gear3d||{})[sl];return !!id});
+  const armed=['r','l'].some(sl=>!!(S.gear3d||{})[sl]);
   const idle=[armed?'Sword_Idle':'Idle_Loop',armed?'Sword_Idle':'Idle_Talking_Loop','Sitting_Idle_Loop'][c];
   const target=name||idle,a=R.actions[target];if(!a)return;
+  if(!name&&R.danceUntil>performance.now())return;
   if(R.current===a&&!name)return;
-  if(!name&&R.current&&R.current._name==='Dance_Loop'&&R.danceUntil>performance.now())return;
-  a._name=target;
   if(R.current&&R.current!==a)R.current.fadeOut(.35);
   a.reset().fadeIn(.35).play();
-  a.timeScale=(c===1&&!name)?.7:1;
+  a.timeScale=(c===1&&!name)?.8:1;
   R.current=a;
-  if(name==='Dance_Loop'){R.danceUntil=performance.now()+3200;setTimeout(()=>{R.current=null;hero3dPlay()},3200)}
+  if(name==='Dance_Loop'){R.danceUntil=performance.now()+3200;
+    setTimeout(()=>{R.danceUntil=0;R.current=null;hero3dPlay()},3200)}
 }
 function hero3dCheer(){ if(H3.R)hero3dPlay('Dance_Loop'); else H3.cheerQueued=true }
 function hero3dInit(){
@@ -2299,29 +2435,28 @@ function hero3dInit(){
   if(THREE.SRGBColorSpace)renderer.outputColorSpace=THREE.SRGBColorSpace;
   host.appendChild(renderer.domElement);
   const scene=new THREE.Scene();
-  const cam=new THREE.PerspectiveCamera(30,W/Hh,.1,50);cam.position.set(0,1.45,6.1);
-  const look=new THREE.Vector3(0,1.02,0);cam.lookAt(look);
-  const hemi=new THREE.HemisphereLight(0xEFF3E6,0x2E3830,1.9);scene.add(hemi);
+  const cam=new THREE.PerspectiveCamera(30,W/Hh,.1,50);cam.position.set(0,1.2,4.6);
+  const look=new THREE.Vector3(0,.95,0);cam.lookAt(look);
+  const hemi=new THREE.HemisphereLight(0xF4EEDD,0x33302A,1.9);scene.add(hemi);
   const key=new THREE.DirectionalLight(0xFFF6E8,2.1);key.position.set(2.5,4,3);scene.add(key);
   const rim=new THREE.DirectionalLight(0xB9643F,1.0);rim.position.set(-3,2,-3);scene.add(rim);
-  const ground=new THREE.Mesh(new THREE.CircleGeometry(1.5,32),new THREE.MeshBasicMaterial({color:0x1F2620,transparent:true,opacity:.22}));
-  ground.rotation.x=-Math.PI/2;ground.position.y=.005;scene.add(ground);
+  const ground=new THREE.Mesh(new THREE.CircleGeometry(1.1,40),
+    new THREE.MeshBasicMaterial({color:0x4A4232,transparent:true,opacity:.20}));
+  ground.rotation.x=-Math.PI/2;ground.position.y=.004;scene.add(ground);
   H3.stage={renderer,scene,cam,look,hemi,key,rim};
   hero3dLoadModel(heroClass(),()=>{
-    let rotY=.35,drag=null,vel=0;
+    let rotY=.25,drag=null,vel=0;
     const cv=renderer.domElement;
     cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,r:rotY};cv.setPointerCapture(e.pointerId)});
     cv.addEventListener('pointermove',e=>{if(!drag)return;const nr=drag.r+(e.clientX-drag.x)*.012;vel=nr-rotY;rotY=nr});
     cv.addEventListener('pointerup',()=>drag=null);cv.addEventListener('pointercancel',()=>drag=null);
-    const clock=new THREE.Clock();
-    const tmp=new THREE.Vector3();
+    const clock=new THREE.Clock(),tmp=new THREE.Vector3(),tc=new THREE.Color();
     const dayLight=()=>{const h=new Date().getHours()+new Date().getMinutes()/60;
-      if(h<5.5||h>=21)return{sky:0x93A6C4,ground:0x1E2430,key:0xAEBCDC,ki:1.2,hi:1.3};
-      if(h<9)return{sky:0xF7E4CE,ground:0x4E4A3C,key:0xFFDDB4,ki:2.0,hi:1.8};
-      if(h<17)return{sky:0xF2F5E9,ground:0x33392F,key:0xFFF6E8,ki:2.1,hi:1.9};
+      if(h<5.5||h>=21)return{sky:0xA9B4CC,ground:0x262A33,key:0xB8C2DC,ki:1.2,hi:1.3};
+      if(h<9)return{sky:0xF7E4CE,ground:0x4E4638,key:0xFFDDB4,ki:2.0,hi:1.8};
+      if(h<17)return{sky:0xF6F0E0,ground:0x3A362C,key:0xFFF6E8,ki:2.1,hi:1.9};
       if(h<19.5)return{sky:0xF2C79A,ground:0x46362A,key:0xE8AE79,ki:2.0,hi:1.7};
-      return{sky:0xC2AEC4,ground:0x2A2836,key:0xD2B8CE,ki:1.5,hi:1.4}};
-    const tc=new THREE.Color();
+      return{sky:0xCDB6BC,ground:0x2E2A32,key:0xD8BCC6,ki:1.5,hi:1.4}};
     renderer.setAnimationLoop(()=>{
       if(el('t-hero').classList.contains('hid'))return;
       const R=H3.R;if(!R)return;
@@ -2330,7 +2465,7 @@ function hero3dInit(){
       if(!drag){if(!reduced)rotY+=vel;vel*=.92;if(Math.abs(vel)<.0005)vel=0}
       R.model.rotation.y=rotY;
       const c=condition()[0];
-      const CV=[[[0,1.45,6.1],[0,1.02,0],1],[[0,1.35,5.8],[0,.95,0],.72],[[.5,1.05,4.6],[0,.55,0],.5]][c];
+      const CV=[[[0,1.2,4.6],[0,.95,0],1],[[0,1.15,4.4],[0,.9,0],.74],[[.42,.95,3.8],[0,.55,0],.52]][c];
       const k=reduced?1:Math.min(1,dt*3);
       cam.position.lerp(tmp.set(...CV[0]),k);look.lerp(new THREE.Vector3(...CV[1]),k);cam.lookAt(look);
       const L=dayLight();
@@ -2343,67 +2478,41 @@ function hero3dInit(){
     R.renderer.setSize(w,h);R.cam.aspect=w/h;R.cam.updateProjectionMatrix()});
 }
 
+
 function hero3dLoadModel(cls,then){
-  const st=H3.stage;if(!st||H3.loading)return;
-  // the rig is built once; a class change just repaints the kit
-  if(H3.R){hero3dReskin(cls);hero3dSync();if(then)then();return}
+  const st=H3.stage;if(!st)return;
+  if(H3.R){H3.cls=cls;hero3dSync();if(then)then();return}
+  if(H3.loading)return;
   H3.loading=true;
-  const ld=el('stage3dload');if(ld){ld.textContent='Loading character…';ld.classList.remove('hid')}
+  const ld=el('stage3dload');if(ld){ld.textContent='Loading character\\u2026';ld.classList.remove('hid')}
   h3assets().then(A=>{
-    H3.attached={};
-    const model=A.hero;
-    let body=null,eyebrows=null,eyes=null,skel=null;
-    model.traverse(o=>{
-      if(o.isSkinnedMesh){
-        o.material=o.material.clone();o.frustumCulled=false;
-        if(/Superhero/i.test(o.name)){body=o;skel=o.skeleton}
-        else if(/Eyebrow/i.test(o.name))eyebrows=o;
-        else if(/Eye/i.test(o.name))eyes=o;
-      }
-    });
-    if(!skel){H3.failed=true;H3.loading=false;el('stage3d').classList.add('hid');return}
+    const model=A.body;
+    let skel=null;
+    model.traverse(o=>{if(o.isSkinnedMesh){o.frustumCulled=false;o.material=o.material.clone();if(!skel)skel=o.skeleton}});
+    if(!skel)throw new Error('no skeleton on hero.glb');
+    h3rebind(model,A.head,skel);
+    const hair=h3rebind(model,A.hair,skel);
     const bone=n=>skel.bones.find(b=>b.name===n)||model.getObjectByName(n);
-    // the ranger kit, pinned to bones
-    const kit=rangerKit(cls),kitParts={};
-    Object.entries(kit).forEach(([bname,part])=>{
-      const b=bone(bname);if(!b)return;
-      part.traverse(o=>{if(o.material){
-        const c=o.material.color.getHex();
-        o.userData.tint = c===CLASSES[cls].robe ? 'robe' : c===CLASSES[cls].trim ? 'trim' : null;
-      }});
-      b.add(part);kitParts[bname]=part;
-    });
-    const hair={};
-    hair.up=h3attachHair(model,A.hair.up,skel);
-    hair.down=h3attachHair(model,A.hair.down,skel);
-    const anchors={
-      r:(()=>{const g=new THREE.Group();const b=bone('hand_r');if(b)b.add(g);return g})(),
-      l:(()=>{const g=new THREE.Group();const b=bone('hand_l');if(b)b.add(g);return g})(),
-      head:(()=>{const g=new THREE.Group();const b=bone('Head');if(b)b.add(g);g.position.y=.14;return g})(),
-      back:(()=>{const g=new THREE.Group();const b=bone('spine_03');if(b)b.add(g);g.position.z=-.1;return g})()
-    };
+    const mk=(bn,y,z)=>{const g=new THREE.Group();const b=bone(bn);if(b)b.add(g);
+      if(y)g.position.y=y;if(z)g.position.z=z;return g};
+    const anchors={r:mk('hand_r'),l:mk('hand_l'),head:mk('Head',.14,0),back:mk('spine_03',0,-.1)};
     st.scene.add(model);
     const mixer=new THREE.AnimationMixer(model);
-    const actions={};
-    Object.entries(A.clips).forEach(([n,c])=>{actions[n]=mixer.clipAction(c)});
-    const first=!H3.R;
+    const actions={};Object.entries(A.clips).forEach(([n,c])=>{actions[n]=mixer.clipAction(c)});
     H3.R={renderer:st.renderer,scene:st.scene,cam:st.cam,model,mixer,actions,current:null,
-          anchors,kit:kitParts,hair,body,eyebrows,eyes,skel,look:st.look,hemi:st.hemi,key:st.key,danceUntil:0};
+          anchors,hair,skel,look:st.look,hemi:st.hemi,key:st.key,danceUntil:0};
     H3.cls=cls;H3.loading=false;
     const ld2=el('stage3dload');if(ld2)ld2.classList.add('hid');
     hero3dSync();
-    if(H3.cheerQueued||!first){H3.cheerQueued=false;hero3dPlay('Dance_Loop')}
-    if(then&&first)then();
+    if(H3.cheerQueued){H3.cheerQueued=false;hero3dPlay('Dance_Loop')}
+    if(then)then();
   }).catch(err=>{
     H3.loading=false;console.error('character failed to load:',err);
-    if(!H3.R){
-      H3.failed=true;
-      const ld3=el('stage3dload');
-      if(ld3){ld3.textContent='Character art failed to load. Check that the models/ folder deployed correctly.';ld3.classList.remove('hid')}
-    }
+    H3.failed=true;
+    const ld3=el('stage3dload');
+    if(ld3){ld3.textContent='Character art failed to load \\u2014 check that the models/ folder deployed.';ld3.classList.remove('hid')}
   });
 }
-
 /* ---------- tiny synthesized sound effects ---------- */
 let ACTX=null;
 function sfx(kind){
@@ -2424,32 +2533,22 @@ function fanfareSynth(){
   try{
     const A=new (window.AudioContext||window.webkitAudioContext)();
     const out=A.createGain();out.gain.value=.0001;out.connect(A.destination);
-    const lp=A.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2200;lp.connect(out);
-    const rev=A.createDelay();rev.delayTime.value=.19;const fb=A.createGain();fb.gain.value=.24;
-    rev.connect(fb);fb.connect(rev);rev.connect(lp);
+    const lp=A.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1800;lp.connect(out);
     const t0=A.currentTime+.05;
-    const bell=(f,t,d,g)=>{[1,2.01,3.02].forEach((h,i)=>{const o=A.createOscillator();o.type=i?'sine':'triangle';o.frequency.value=f*h;
-      const e=A.createGain();const gg=g/(1+i*1.6);
-      e.gain.setValueAtTime(.0001,t);e.gain.exponentialRampToValueAtTime(gg,t+.012);
-      e.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(e);e.connect(lp);e.connect(rev);o.start(t);o.stop(t+d+.05)})};
-    const pad=(f,t,d,g)=>{[0,-7].forEach(det=>{const o=A.createOscillator();o.type='triangle';o.frequency.value=f;o.detune.value=det;
-      const e=A.createGain();e.gain.setValueAtTime(.0001,t);e.gain.exponentialRampToValueAtTime(g,t+.5);
-      e.gain.setValueAtTime(g,t+d-.6);e.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(e);e.connect(lp);o.start(t);o.stop(t+d+.05)})};
-    /* an original figure in E minor — rising, hovering, then settling. Celesta over a low string bed. */
-    const E4=329.63,G4=392.00,B4=493.88,D5=587.33,E5=659.25,Fs5=739.99,G5=783.99,B5=987.77,A4=440.00,C5=523.25;
-    [[E4,0,.30],[B4,.26,.30],[E5,.52,.34],[G5,.80,.50],[Fs5,1.24,.26],[E5,1.46,.26],[B4,1.68,.30],
-     [D5,1.96,.28],[E5,2.20,.60],[B5,2.60,.90]].forEach(([f,t,d])=>bell(f,t0+t,d,.34));
-    [[E4/2,0,2.4,.10],[G4/2,.9,2.2,.085],[B4/2,1.8,2.0,.075],[E4,2.55,1.6,.07],[A4,2.55,1.6,.045],[C5,3.0,1.3,.04]]
-      .forEach(([f,t,d,g])=>pad(f,t0+t,d,g));
-    out.gain.exponentialRampToValueAtTime(.85,t0+.05);out.gain.setValueAtTime(.85,t0+3.4);
-    out.gain.exponentialRampToValueAtTime(.0001,t0+4.4);
+    const note=(f,t,d,g)=>{[0,-6].forEach(det=>{const o=A.createOscillator();o.type='sawtooth';o.frequency.value=f;o.detune.value=det;
+      const e=A.createGain();e.gain.setValueAtTime(.0001,t);e.gain.exponentialRampToValueAtTime(g,t+.04);
+      e.gain.setValueAtTime(g,t+d-.12);e.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(e);e.connect(lp);o.start(t);o.stop(t+d+.05)})};
+    const D=293.66,A4=440,F=369.99,D5=587.33,A5=880,F5=739.99;
+    [[D,0,.18],[A4,.18,.18],[D5,.36,.18],[F5,.54,.42],[D5,1.0,.16],[A5,1.16,.16],[F5,1.32,.16],[A5,1.48,.5]].forEach(([f,t,d])=>note(f,t0+t,d,.5));
+    [D,F,A4,D5].forEach(f=>note(f,t0+2.02,1.3,.28));
+    out.gain.exponentialRampToValueAtTime(.9,t0+.03);out.gain.setValueAtTime(.9,t0+3.0);out.gain.exponentialRampToValueAtTime(.0001,t0+3.5);
   }catch(e){}
 }
 let fanfareEl=null;
 function fanfare(){
   try{
     if(S&&S.settings&&S.settings.sound===false)return;
-    fanfareEl=fanfareEl||new Audio('theme.mp3');
+    fanfareEl=fanfareEl||new Audio('fanfare.mp3');
     fanfareEl.currentTime=0;
     const p=fanfareEl.play();
     if(p&&p.catch)p.catch(()=>fanfareSynth());
@@ -2516,7 +2615,7 @@ function miniBoss(){
   const q=(pool.length?pool:MINI)[Math.floor(Math.random()*(pool.length?pool:MINI).length)];
   P.n++;S.recent.unshift(q.t);S.recent=S.recent.slice(0,14);save();
   el('pop').classList.add('on');
-  gate({t:q.t,a:q.a,wg:q.wg,x:q.x,tagline:ic('dragon-asleep','ic-tag')+'Mini boss · '+['out of nowhere','blocks your path','has appeared','wants a word','smells fear'][Math.floor(Math.random()*5)],mini:true},
+  gate({t:q.t,a:q.a,wg:q.wg,x:q.x,tagline:'⚔ Mini boss · '+['out of nowhere','blocks your path','has appeared','wants a word','smells fear'][Math.floor(Math.random()*5)],mini:true},
     'popbox',()=>{el('pop').classList.remove('on');schedulePop()});
   sfx('boss');
 }
@@ -2529,7 +2628,7 @@ function firePop(){
   const q=src[Math.floor(Math.random()*src.length)];
   P.n++;save();
   el('pop').classList.add('on');
-  gate({t:q.t,a:q.a,wg:q.wg,x:q.x,tagline:roll<.4?ic('signpost')+'Micro-quest · out of nowhere':roll<.75?ic('campfire')+'Bonus quest · out of nowhere':ic('owl')+'Wild'},
+  gate({t:q.t,a:q.a,wg:q.wg,x:q.x,tagline:roll<.4?'Micro-quest · out of nowhere':roll<.75?'Bonus quest · out of nowhere':'Wild'},
     'popbox',()=>{el('pop').classList.remove('on');schedulePop()});
 }
 
@@ -2600,6 +2699,8 @@ el('imp').onclick=()=>{const t=prompt('Paste your save code:');if(!t)return;
 buildTabs();eveningOrder();
 showTab('hero');
 schedulePop(true);
+setTimeout(checkChurchPrompt,1500);
+setInterval(checkChurchPrompt,5*60000);
 load();
 </script>
 <script>
