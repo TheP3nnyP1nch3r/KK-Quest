@@ -1,0 +1,10 @@
+const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
+const handlers={},stored=new Map(),deleted=[];
+const cache={addAll:async assets=>{for(const a of assets){assert.ok(a==='./'||fs.existsSync(a),'Missing precache asset '+a);stored.set(a,new Response(a))}},put:async(k,v)=>stored.set(k,v)};
+const caches={open:async()=>cache,keys:async()=>['kkquest-v2.0.0','other-app-cache'],delete:async k=>deleted.push(k),match:async req=>stored.get(typeof req==='string'?req:req.url.replace('https://quest.test/',''))?.clone()};
+let networkFails=false;const context={self:{location:{origin:'https://quest.test'},addEventListener:(k,f)=>handlers[k]=f,skipWaiting:async()=>{},clients:{claim:async()=>{}}},caches,fetch:async()=>{if(networkFails)throw Error('offline');return new Response('online')},Response,URL};
+vm.runInNewContext(fs.readFileSync('sw.js','utf8'),context);
+(async()=>{let task;handlers.install({waitUntil:p=>task=p});await task;assert.ok(stored.size>=60);handlers.activate({waitUntil:p=>task=p});await task;assert.deepEqual(deleted,['kkquest-v2.0.0']);
+networkFails=true;const request=async(url,mode)=>{handlers.fetch({request:{method:'GET',url:'https://quest.test/'+url,mode},respondWith:p=>task=p});return await task};
+assert.equal(await (await request('index.html','navigate')).text(),'index.html');assert.equal(await (await request('assets/pixel/dragon.png','no-cors')).text(),'assets/pixel/dragon.png');assert.equal(await (await request('missing-route','navigate')).text(),'index.html');assert.equal((await request('missing.png','no-cors')).status,503);
+console.log('Service worker: precache files, scoped cleanup, offline page/art fallback and missing-asset response passed ('+stored.size+' assets).')})();

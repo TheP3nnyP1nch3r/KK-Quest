@@ -1,0 +1,126 @@
+{
+  "male-ranger": {
+    "width": 384,
+    "height": 512
+  },
+  "male-knight": {
+    "width": 384,
+    "height": 512
+  },
+  "male-battlemage": {
+    "width": 384,
+    "height": 512
+  },
+  "male-trailkeeper": {
+    "width": 384,
+    "height": 512
+  },
+  "female-ranger": {
+    "width": 384,
+    "height": 512
+  },
+  "female-knight": {
+    "width": 384,
+    "height": 512
+  },
+  "female-battlemage": {
+    "width": 384,
+    "height": 512
+  },
+  "female-trailkeeper": {
+    "width": 384,
+    "height": 512
+  },
+  "sword": {
+    "width": 131,
+    "height": 337
+  },
+  "saber": {
+    "width": 104,
+    "height": 342
+  },
+  "axe": {
+    "width": 183,
+    "height": 326
+  },
+  "hammer": {
+    "width": 191,
+    "height": 323
+  },
+  "bow": {
+    "width": 124,
+    "height": 346
+  },
+  "staff": {
+    "width": 81,
+    "height": 359
+  },
+  "spear": {
+    "width": 51,
+    "height": 367
+  },
+  "shield": {
+    "width": 249,
+    "height": 305
+  },
+  "lantern": {
+    "width": 146,
+    "height": 278
+  },
+  "paddle": {
+    "width": 153,
+    "height": 303
+  },
+  "rake": {
+    "width": 173,
+    "height": 323
+  },
+  "dustpan": {
+    "width": 220,
+    "height": 335
+  },
+  "dragon": {
+    "width": 546,
+    "height": 560
+  },
+  "wolf": {
+    "width": 560,
+    "height": 529
+  },
+  "fox": {
+    "width": 566,
+    "height": 520
+  },
+  "griffin": {
+    "width": 577,
+    "height": 558
+  },
+  "cap": {
+    "width": 443,
+    "height": 326
+  },
+  "hood": {
+    "width": 366,
+    "height": 476
+  },
+  "circlet": {
+    "width": 421,
+    "height": 198
+  },
+  "helmet": {
+    "width": 406,
+    "height": 480
+  },
+  "hat": {
+    "width": 523,
+    "height": 409
+  },
+  "goggles": {
+    "width": 367,
+    "height": 447
+  },
+  "lawson": {
+    "width": 597,
+    "height": 1128
+  }
+}

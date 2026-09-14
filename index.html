@@ -1,4 +1,7 @@
+<!doctype html>
 <meta charset="utf-8">
+<title>KK’s Quest · Ashcombe Hall</title>
+<link rel="stylesheet" href="pixel.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#E4D5B4">
@@ -384,22 +387,7 @@
  <div id="t-night" class="tabpane hid"></div>
  <div class="col-a">
   <div class="panel" id="p-hero"><i class="stain a"></i><i class="stain b"></i>
-    <div class="stage" id="stage3d"><svg class="stagebg" viewBox="0 0 500 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <defs>
-    <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#EFE1BE"/><stop offset="100%" stop-color="#DCCBA6"/>
-    </linearGradient>
-  </defs>
-  <rect width="500" height="300" fill="url(#hsky)"/>
-  <path d="M0,190 L40,140 80,175 130,110 190,168 250,120 300,172 360,128 420,176 470,138 500,168 500,300 0,300 Z"
-    fill="#B49866" opacity=".55"/>
-  <path d="M0,220 L55,168 110,206 170,150 230,212 290,158 350,214 410,164 460,208 500,182 500,300 0,300 Z"
-    fill="#9C8153" opacity=".6"/>
-  <path d="M0,250 L60,206 125,244 190,196 260,248 330,202 400,250 460,214 500,236 500,300 0,300 Z"
-    fill="#7C6640" opacity=".65"/>
-  <circle cx="250" cy="126" r="16" fill="#9C8153" opacity=".3"/>
-  <path d="M242,120 L250,100 258,120 Z" fill="#EFE1BE" opacity=".7"/>
-</svg><div class="load" id="stage3dload">Loading character…</div><div class="hint">drag to turn</div></div>
+    <div class="pixel-stage" id="pixelstage"></div>
     <div class="doll">
       <div class="figure" id="fig"></div>
       <div style="flex:1;min-width:0">
@@ -619,7 +607,8 @@
 <canvas id="fx"></canvas><div id="critterLayer"></div>
 <div class="toast" id="toast"></div>
 
-<script src="three.min.js"></script>
+<script src="pixel-core.js"></script>
+<script src="pixel-ui.js"></script>
 <script>
 if(!window.storage){window.storage={
   get:async k=>{const v=localStorage.getItem(k);if(v===null)throw new Error('missing');return{key:k,value:v}},
@@ -699,7 +688,7 @@ const blank=()=>({xp:0,attr:{vig:0,stl:0,dev:0,kin:0,nrv:0},day:today(),week:wee
   checkin:{date:today(),done:{},sleep:null},look:{skin:0,hair:0,beard:false}});
 
 async function load(){
-  try{const r=await window.storage.get(KEY);S=JSON.parse(r.value)}catch(e){S=blank()}
+  try{const r=await window.storage.get(KEY);S=JSON.parse(r.value);await pixelBackup(r.value)}catch(e){if(S){toast('Backup failed. Free browser storage and reload.');return}S=blank()}
   if(!S||!S.attr)S=blank();
   S.look=S.look||{skin:0,hair:0,beard:false};S.gear=S.gear||{};S.custom=S.custom||[];
   S.checkin=S.checkin||{date:today(),done:{},sleep:null};
@@ -732,13 +721,13 @@ async function load(){
   }
   if(S.week!==weekKey()){S.week=weekKey();S.custom=S.custom.filter(c=>c.scope!=='week'||!c.done)}
   if(await syncPull()){toast('Newer save pulled from the cloud.')}
-  render();save();renderSync();
+  pixelState();render();await save();renderSync();
   if(H3.deferred){H3.deferred=false;hero3dInit()}
   if(settled)setTimeout(()=>toast(settled),700);
   if(S.rolledNote){const n=S.rolledNote;S.rolledNote=null;setTimeout(()=>toast(n),settled?3400:700);save()}
   if(S.pending)showLoot();else if(S.pending3d)showLoot3d();else if(S.pendingClass)showClassPick();
   else if(new Date().getDay()===0&&S.sabbathSeen!==today())showSabbath();
-  scheduleCritter();
+  scheduleCritter();setTimeout(pixelNext,800);
 }
 function showSabbath(){
   el('sabbath').classList.add('on');
@@ -815,8 +804,9 @@ function checkChurchPrompt(){
 }
 
 const SYNC={get(){try{return JSON.parse(localStorage.getItem('liferpg:kk:sync')||'null')}catch(e){return null}},set(v){localStorage.setItem('liferpg:kk:sync',JSON.stringify(v))}};
-let syncT=null,syncState='off';
-function syncPush(){const c=SYNC.get();if(!c||!c.url||!c.token)return;
+let syncT=null,syncState='off',syncBlocked=false;
+function isKKSave(o){return !!o&&!!o.attr&&['vig','stl','dev','kin','nrv'].every(k=>typeof o.attr[k]==='number')&&typeof o.xp==='number'}
+function syncPush(){if(syncBlocked)return;const c=SYNC.get();if(!c||!c.url||!c.token)return;
   clearTimeout(syncT);syncT=setTimeout(async()=>{try{
     const r=await fetch(c.url.replace(/\/$/,'')+'/state',{method:'PUT',headers:{'Authorization':'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify({t:S.updated,s:S})});
     syncState=r.ok?'ok '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}):'error '+r.status;
@@ -824,7 +814,7 @@ function syncPush(){const c=SYNC.get();if(!c||!c.url||!c.token)return;
 async function syncPull(){const c=SYNC.get();if(!c||!c.url||!c.token)return false;
   try{const r=await fetch(c.url.replace(/\/$/,'')+'/state',{headers:{'Authorization':'Bearer '+c.token}});
     if(r.status===404)return false;if(!r.ok){syncState='error '+r.status;return false}
-    const d=await r.json();if(d&&d.s&&(d.t||0)>(S.updated||0)){S=d.s;await window.storage.set(KEY,JSON.stringify(S));syncState='pulled';return true}
+    const d=await r.json();if(!isKKSave(d?.s)){syncBlocked=true;clearTimeout(syncT);syncState='blocked: this is not a KK save; use a dedicated KK Worker';return false}syncBlocked=false;if(d&&d.s&&(d.t||0)>(S.updated||0)){await pixelBackup(JSON.stringify(d.s));S=d.s;pixelState();await window.storage.set(KEY,JSON.stringify(S));syncState='pulled';return true}
     syncState='ok';return false}catch(e){syncState='offline';return false}}
 function renderSync(){const box=el('syncbox');if(!box)return;const c=SYNC.get()||{};
   box.innerHTML=`<div class="sub">${c.url?`Connected · ${syncState}`:'Not connected. Paste the Worker URL and token from the setup steps.'}</div>
@@ -835,9 +825,9 @@ function renderSync(){const box=el('syncbox');if(!box)return;const c=SYNC.get()|
     const pulled=await syncPull();if(pulled){render();toast('Pulled the newer save from the cloud.')}else{syncPush();toast('Syncing.')}renderSync()};
   const off=el('syncoff');if(off)off.onclick=()=>{localStorage.removeItem('liferpg:kk:sync');syncState='off';renderSync()};
 }
-async function save(){try{S.updated=Date.now();syncPush();await window.storage.set(KEY,JSON.stringify(S));
+async function save(){try{await pixelBackup(JSON.stringify(S));pixelState();S.updated=Date.now();await window.storage.set(KEY,JSON.stringify(S));syncPush();
   if(S&&S.day&&save._snap!==S.day){save._snap=S.day;let hist=[];try{const r=await window.storage.get(KEY+':hist');hist=JSON.parse(r.value)||[]}catch(e){}
-    hist=hist.filter(h=>h.d!==S.day).concat([{d:S.day,l:level().l,xp:S.xp,s:JSON.stringify(S)}]).slice(-7);await window.storage.set(KEY+':hist',JSON.stringify(hist))}}catch(e){}}
+    hist=hist.filter(h=>h.d!==S.day).concat([{d:S.day,l:level().l,xp:S.xp,s:JSON.stringify(S)}]).slice(-7);await window.storage.set(KEY+':hist',JSON.stringify(hist))}return true}catch(e){toast('Save failed. Download your save before closing.');return false}}
 function level(){let l=1,need=400,xp=S.xp;while(xp>=need){xp-=need;l++;need=Math.round(need*1.35)}return{l,xp,need}}
 function toast(t){const e=el('toast');e.textContent=t;e.classList.add('on');
   clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2400)}
@@ -920,26 +910,7 @@ function sprite(look,gear,cond){
 
 function condition(){const v=S.vitality==null?100:S.vitality;
   return v>=70?[0,'Steady','var(--green)']:v>=40?[1,'Worn down','var(--amber)']:[2,'Running on empty','var(--red)']}
-function renderFigure(){
-  const [c,label,col]=condition();
-  el('fig').innerHTML=sprite(S.look,S.gear,c);const f2=el('fig2');if(f2)f2.innerHTML=sprite(S.look,S.gear,c);
-  el('cond').innerHTML=`<span style="color:${col};font-weight:600">${label}</span> · vitality ${Math.round(S.vitality==null?100:S.vitality)}`;
-  const worn=Object.values(S.gear);
-  el('gear').innerHTML = worn.length
-    ? ITEMS.filter(i=>worn.includes(i.id)).map(i=>
-        `<div class="gi"><span>${i.n}</span><em>${i.slot}</em></div>`).join('')
-    : '<div class="empty">Nothing yet. Gear drops when you level.</div>';
-  const k3=Object.entries(S.gear3d||{}).map(([s,id])=>g3(id)).filter(Boolean).filter(g3ok);
-  el('clsline').textContent=CLASSES[heroClass()].n+' — House Kestrel';
-  el('gear').innerHTML+=`<h3>On the ${CLASSES[heroClass()].n.toLowerCase()}</h3>`+(k3.length?k3.map(g=>`<div class="gi"><span>${g[1]}</span><em style="color:${G3_RAR[g[4]]}">${G3_SLOT[g[2]]}</em></div>`).join('')
-    :'<div class="empty">Bare, for now. Every second level he gets a pick.</div>');
-  if(has('h2')){const own=(S.gear3dOwned||[]).map(g3).filter(Boolean).filter(g3ok);
-    el('gear').innerHTML+=`<h3>Wardrobe</h3><div class="chips">${own.map(g=>`<div class="chip2${S.gear3d[g[2]]===g[0]?' used':''}" data-wear="${g[0]}" style="text-decoration:none">${g[1]}</div>`).join('')||'<span class="empty">Nothing earned yet.</span>'}</div><div class="sub" style="margin-top:6px">Tap to wear; tap again to take off.</div>`;
-    [...el('gear').querySelectorAll('[data-wear]')].forEach(n=>{n.onclick=()=>{const g=g3(n.dataset.wear);
-      if(S.gear3d[g[2]]===g[0])delete S.gear3d[g[2]];else{S.gear3d[g[2]]=g[0];if(TWOH.includes(g[0]))delete S.gear3d.l;if(g[2]==='l'&&TWOH.includes(S.gear3d.r))delete S.gear3d.r}
-      save();render()}})}
-  hero3dSync();
-}
+function renderFigure(){pixelRender()}
 
 /* ---------- loot choice on level up ---------- */
 function offer(lv){
@@ -1022,18 +993,14 @@ function award(amount,attr,wg,label,special){
   S.log.unshift(`+${gain} xp — ${label}`);S.log=S.log.slice(0,25);
   const after=level().l;
   const tB=TITLES.filter(t=>t[0]<=before).pop()[1],tA=TITLES.filter(t=>t[0]<=after).pop()[1];
-  if(after>before){S.pending=offer(after);S.points=(S.points||0)+(after-before);
-    for(let L=before+1;L<=after;L++)if(L%2===0&&!S.pending3d)S.pending3d=offer3d(L);
+  if(after>before){S.points=(S.points||0)+(after-before);pixelOnLevels(before,after);
     S.log.unshift(`level ${after} — ${tA}, +1 skill point`)}
   render();save();
   if(after>before){hero3dCheer();sfx('level');
-    for(let L=before+1;L<=after;L++)if(L%10===0)S.pendingClass=L;
+
     if(tA!==tB)celebrate('title',`Level ${after}. You are now ${tA}.`);
     else confetti(110,'center');
-    if(S.pending)setTimeout(showLoot,600);
-    else if(S.pending3d)setTimeout(showLoot3d,600);
-    else if(S.pendingClass)setTimeout(showClassPick,600);
-    else toast(`Level ${after}.`);
+    setTimeout(pixelNext,600);
   } else toast(`+${gain} xp`+(mult>1?` — ${wg} bonus`:''));
 }
 
@@ -1512,14 +1479,14 @@ function renderReview(){
     kept=rows.reduce((a,b)=>a+b.kept,0),poss=rows.length*5,
     posts=rows.reduce((a,b)=>a+b.posts,0),yards=rows.reduce((a,b)=>a+b.yards,0),
     sess=rows.reduce((a,b)=>a+b.session,0);
-  const kkB=compState('kk').bond,lwB=compState('lawson').bond,low=[];
-  if(kkB<50)low.push('KK ('+Math.round(kkB)+')');
+  const kkB=compState('ty').bond,lwB=compState('lawson').bond,low=[];
+  if(kkB<50)low.push('Ty ('+Math.round(kkB)+')');
   if(lwB<50)low.push('Lawson ('+Math.round(lwB)+')');
   el('review').innerHTML=`
     ${low.length?`<div class="banner" style="border-color:var(--ember)"><b>Worth noticing:</b> ${low.join(' and ')} could use more of you this week. Bond drains quietly — it doesn't announce itself.</div>`:''}
     <p class="sub">${rows.length} days logged · ${xp} xp · commitments ${kept}/${poss} · streak ${S.streak||0}
       · ${sess} pickleball session${sess===1?'':'s'} · DD ${posts} posts, ${yards} yards
-      · KK ${Math.round(kkB)} · Lawson ${Math.round(lwB)}</p>
+      · Ty ${Math.round(kkB)} · Lawson ${Math.round(lwB)}</p>
     <input type="text" id="r1" placeholder="What actually worked this week?">
     <input type="text" id="r2" placeholder="What slipped, and be honest about why">
     <input type="text" id="r3" placeholder="One thing you are changing next week">
@@ -1595,7 +1562,7 @@ function seasonProgress(){
   if(d.obj.k==='steady')return since.filter(h=>h.kept>=3).length;
   if(d.obj.k==='posts')return (((S.ddTotal||{}).posts)||0)-s0.base.posts;
   if(d.obj.k==='sessions')return pbState().sessions-s0.base.sessions;
-  if(d.obj.k==='bond')return Math.round(Math.min(compState('kk').bond,compState('lawson').bond));
+  if(d.obj.k==='bond')return Math.round(Math.min(compState('ty').bond,compState('lawson').bond));
   return 0;
 }
 function renderSeason(){
@@ -1630,7 +1597,7 @@ function renderSeason(){
       <div class="stat"><span>Days the streak held</span><b>${held} of ${since.length}</b></div>
       <div class="stat"><span>Perfect days</span><b>${perfect}</b></div>
       <div class="stat"><span>${d.obj.label}</span><b style="color:${met?'var(--green)':'var(--mu)'}">${prog} / ${d.obj.target}${met?' ✓':''}</b></div>
-      <div class="stat"><span>KK · Lawson</span><b>${Math.round(compState('kk').bond)} · ${Math.round(compState('lawson').bond)}</b></div>
+      <div class="stat"><span>Ty · Lawson</span><b>${Math.round(compState('ty').bond)} · ${Math.round(compState('lawson').bond)}</b></div>
       <div class="sub" style="margin:12px 0 0"><b>Next:</b> ${nx.n} — ${nx.sub}</div>
       <div class="row" style="margin-top:12px"><button id="sstart">Begin ${nx.n}</button></div></div>`;
     el('sstart').onclick=()=>{el('loot').classList.remove('on');render();save()};
@@ -1669,6 +1636,8 @@ function compState(k){
 }
 function compLevel(k){return 1+Math.floor(compState(k).xp/250)}
 function miniSprite(who,bond,lv){
+ if(who==='ty')return pixelFigure({sex:'male',equipped:{outfit:'ranger'}},false);
+ if(who==='lawson')return '<img class="lawson-art" src="assets/pixel/lawson.png" alt="Lawson in a teal tunic and cream scarf with a wooden toy sword">';
   const P=[],low=bond<40,mid=bond<70;
   const p=(d,f,s,w)=>P.push(`<path d="${d}" fill="${f||'none'}"${s?` stroke="${s}" stroke-width="${w||1.6}" stroke-linecap="round" stroke-linejoin="round"`:''}/>`);
   const c=(cx,cy,r,f)=>P.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${f}"/>`);
@@ -1919,7 +1888,7 @@ const SKILLS=[
  {id:'d2',b:'dev',t:2,n:'Stillness Before Asking',f:'Every Release is worth double.',e:{special:'release'}},
  {id:'d3',b:'dev',t:3,n:'Intercessor',f:'Faith and Kinship both pay 20% more.',e:{attr:'dev',m:1.2,attr2:'kin',m2:1.2}},
  {id:'k1',b:'kin',t:1,n:'Present',f:'Kinship quests pay 20% more.',e:{attr:'kin',m:1.2}},
- {id:'k2',b:'kin',t:2,n:'Keeper of the Home',f:'Vitality drains a third slower. Unlocks the wardrobe: swap between anything she has earned.',e:{special:'anchor'}},
+ {id:'k2',b:'kin',t:2,n:'Keeper of the Home',f:'Vitality drains a third slower. Cosmetic swapping is available to everyone.',e:{special:'anchor'}},
  {id:'k3',b:'kin',t:3,n:'The Long Table',f:'Kinship quests pay 40% more.',e:{attr:'kin',m:1.35}},
  {id:'n1',b:'nrv',t:1,n:'First Through the Door',f:'Nerve quests pay 20% more.',e:{attr:'nrv',m:1.2}},
  {id:'n2',b:'nrv',t:2,n:'Say It Once',f:'Galvanizing work pays 30% more. One redraw a day on the quest draw.',e:{wg:'Galvanizing',m:1.3}},
@@ -1970,7 +1939,7 @@ function renderSkills(){
       const hidden=s.t===3&&!has(SKILLS.find(x=>x.b===s.b&&x.t===2).id);
       return `<div class="sk${owned?' own':open?' open':''}" data-id="${s.id}">
         <b>${hidden?'???':s.n}</b><em>${hidden?'Take the second skill to reveal this.':s.f}</em></div>`}).join('');
-    return `<div class="branch"><div class="bname" style="color:${a.c}">${names[a.k]}</div>${row}</div>`}).join('');
+    return `<div class="branch"><div class="bname" style="color:${a.c}">${a.n}</div>${row}</div>`}).join('');
   [...el('skills').querySelectorAll('.sk')].forEach(n=>{
     n.onclick=()=>{const s=SKILLS.find(x=>x.id===n.dataset.id);
       if(!canBuy(s)){toast(has(s.id)?'Already learned.':S.points?'Locked. Earn the one above it first.':'No points to spend.');return}
@@ -2082,12 +2051,12 @@ el('logmatch').onclick=()=>{
   S.checkin.done.pickle=true;
   S.log.unshift(`+${grand} xp — pickleball session`);
   const after=level().l;
-  if(after>before){S.pending=offer(after);S.points=(S.points||0)+(after-before)}
+  if(after>before){S.points=(S.points||0)+(after-before);pixelOnLevels(before,after)}
   el('matchout').innerHTML=lines.join('<br>')+`<br><span style="color:var(--gold)">total +${grand} xp</span>`;
   render();save();
-  if(after>before){hero3dCheer();confetti(120,'center');if(S.pending)setTimeout(showLoot,600)}
+  if(after>before){hero3dCheer();confetti(120,'center');setTimeout(pixelNext,600)}
   else toast(`+${grand} xp on the court.`)};
-const APP_VERSION='2.0.0';
+const APP_VERSION='3.0.0';
 const TABS={
  today:['p-commit','p-lift','p-today','p-board','p-special','p-boss','p-draw'],
  plan:['p-log','p-season','p-week'],
@@ -2107,7 +2076,7 @@ function showTab(t){
 }
 function renderStatus(){
   const L=level(),[c,label,col]=condition();
-  const kk=compState('kk').bond,lw=compState('lawson').bond;
+  const kk=compState('ty').bond,lw=compState('lawson').bond;
   const v=Math.round(S.vitality==null?100:S.vitality);
   const open=COMMITS.filter(x=>!S.commit.done[x.id]).length+S.custom.filter(x=>!x.done&&bucket(x)==='today').length;
   el('status').innerHTML=`<div class="slv">Lv ${L.l}<small>${TITLES.filter(t=>t[0]<=L.l).pop()[1]}</small></div>
@@ -2422,8 +2391,8 @@ function hero3dPlay(name){
   if(name==='Dance_Loop'){R.danceUntil=performance.now()+3200;
     setTimeout(()=>{R.danceUntil=0;R.current=null;hero3dPlay()},3200)}
 }
-function hero3dCheer(){ if(H3.R)hero3dPlay('Dance_Loop'); else H3.cheerQueued=true }
-function hero3dInit(){
+function hero3dCheer(){pixelCheer()}
+function hero3dInit(){return;
   if(H3.ready||H3.failed)return;
   if(!S){H3.deferred=true;return}
   const host=el('stage3d');
@@ -2479,7 +2448,7 @@ function hero3dInit(){
 }
 
 
-function hero3dLoadModel(cls,then){
+function hero3dLoadModel(cls,then){return;
   const st=H3.stage;if(!st)return;
   if(H3.R){H3.cls=cls;hero3dSync();if(then)then();return}
   if(H3.loading)return;
@@ -2694,9 +2663,9 @@ el('exp').onclick=async()=>{const t=JSON.stringify(S);
   try{await navigator.clipboard.writeText(t);toast('Save code copied.')}
   catch(e){prompt('Copy this:',t)}};
 el('imp').onclick=()=>{const t=prompt('Paste your save code:');if(!t)return;
-  try{const o=JSON.parse(t);if(!o.attr)throw 0;S=o;save();location.reload()}
-  catch(e){toast('That code did not parse.')}};
-buildTabs();eveningOrder();
+  try{const o=JSON.parse(t);if(!isKKSave(o))throw 0;S=o;save().then(ok=>{if(ok)location.reload()})}
+  catch(e){toast('Use a valid save from KK’s original app or this update.')}};
+pixelInstall();buildTabs();eveningOrder();
 showTab('hero');
 schedulePop(true);
 setTimeout(checkChurchPrompt,1500);

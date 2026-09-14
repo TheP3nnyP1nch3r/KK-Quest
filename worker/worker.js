@@ -1,4 +1,4 @@
-// Ty's Quest sync — one user, one KV key. Deploy as its own Worker.
+// KK’s Quest sync — one user, one KV key. Deploy as its own Worker.
 // Bindings: KV namespace STATE. Secret: TOKEN.
 export default {
   async fetch(req, env) {
@@ -11,7 +11,7 @@ export default {
     };
     if (req.method === 'OPTIONS') return new Response(null, { headers: cors });
     const url = new URL(req.url);
-    if (url.pathname !== '/state') return new Response('Ty\'s Quest sync', { headers: cors });
+    if (url.pathname !== '/state') return new Response('KK Quest sync', { headers: cors });
     const auth = req.headers.get('Authorization') || '';
     if (auth !== 'Bearer ' + env.TOKEN) return new Response('nope', { status: 401, headers: cors });
     if (req.method === 'GET') {
