@@ -1,4 +1,4 @@
-Kaitlyn's Quest — v1.0.0
+Kaitlyn's Quest — v1.2.0
 Ashcombe Hall · House Kestrel
 
 DEPLOY (drag and drop)
@@ -11,11 +11,46 @@ storage keys, so even on the same device the two saves never touch.
   sw.js                 offline cache (bump CACHE when you bump APP_VERSION)
   manifest.webmanifest  installable-to-homescreen config
   three.min.js          3D library
+  map.jpg               the splash map
+  theme.mp3             the login theme (synth fanfare is the fallback)
+  icons/                the 20 hand-drawn pencil icons
+  models/               the 3D character (see below)
+  models/gear/          24 weapons, loaded only when equipped
   icon-180/192/512.png  the House Kestrel crest
   critters/             the wandering-character cameo sprites
 
-No model files and no audio files. The 3D character, every piece of her gear,
-and the login fanfare are all generated in code.
+No audio files — the login fanfare is synthesized in code.
+
+3D CHARACTER (models/)
+----------------------
+  hero.glb        Quaternius Universal Base Characters — Superhero Female,
+                  light skin texture, resized to 512px and re-encoded
+  hair-down.glb   Hair_Long      (shown when her hair is down)
+  hair-up.glb     Hair_Buns      (shown with the ponytail setting)
+  anims.glb       Quaternius Universal Animation Library, pruned to six clips
+                  and stripped to rotation-only channels
+
+All Quaternius assets are CC0 — free for personal and commercial use, no
+attribution required. Credited here anyway because it is the decent thing.
+
+Weapons: the full Quaternius Medieval Weapons pack (CC0) is converted to glTF
+and in the loot table from level 3 up. Nothing is forced — if a piece does not
+fit the world, just take the other card on the loot screen. Each one is exported
+standing up the +Y axis with the handle at the origin; if something sits wrong
+in her hand, the three numbers to nudge are marked GRIP in index.html.
+
+Icons: icons/ holds the pencil drawings, mapped to ideas in one place — the
+CATICON table and the ic() helper near the top of the script. Change a filename
+there and it changes everywhere it appears.
+
+Clip mapping: Idle_Loop (steady) · Sword_Idle (holding something) ·
+Idle_Talking_Loop (worn down) · Sitting_Idle_Loop (running on empty) ·
+Dance_Loop (level up).
+
+Her clothes are built in code and pinned to the rig — tunic on spine_02,
+cloak on spine_01, hood on spine_03, bracers on the forearms, boots on the
+feet. To swap in real outfit meshes later, replace rangerKit() in index.html;
+nothing else has to change.
 
 WHAT IS DIFFERENT FROM TY'S APP
 -------------------------------

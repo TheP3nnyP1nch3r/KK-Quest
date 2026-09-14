@@ -27,6 +27,11 @@
   html,body{margin:0;background:var(--bg);background-image:var(--paper);color:var(--tx);font:17px/1.4 var(--f);
     font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
   .hid{display:none!important}
+  .ic-art{width:74px;height:74px;object-fit:contain;flex:0 0 74px;opacity:.92;
+    filter:drop-shadow(0 1px 0 rgba(255,255,255,.5));margin-right:2px}
+  .ic-tag{width:17px;height:17px;object-fit:contain;vertical-align:-3px;opacity:.6;margin-right:4px}
+  .ic-head{width:26px;height:26px;object-fit:contain;vertical-align:-6px;opacity:.65;margin-right:7px}
+  .ic-card{width:62px;height:62px;object-fit:contain;opacity:.9;margin:0 auto 2px}
 
   /* ---------- sticky top bar ---------- */
   .topbar{position:sticky;top:0;z-index:12;background:var(--bg);background-image:var(--paper);
@@ -286,11 +291,10 @@
 
   #splash{position:fixed;inset:0;z-index:60;background:#1A1510;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;cursor:pointer;transition:opacity .6s;overflow:hidden}
   #splash.out{opacity:0;pointer-events:none}
-  #splash .splash-map{position:absolute;inset:0;width:100%;height:100%;z-index:-2;pointer-events:none}
-  #splash .splash-grain{position:absolute;inset:0;background:var(--paper);mix-blend-mode:overlay;opacity:.45;z-index:-1;pointer-events:none}
-  #splash .splash-name{font-family:var(--fd);font-weight:700;font-size:clamp(26px,7.4vw,38px);letter-spacing:.04em;color:#E8EEE0;text-align:center;text-shadow:0 3px 22px rgba(0,0,0,.7);animation:rise .9s ease both;display:flex;flex-direction:column;gap:9px;align-items:center}
-  #splash .splash-name span{font-family:var(--f);font-style:italic;font-weight:400;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#A9B79E;text-shadow:none}
-  #splash .tap{font-family:var(--fd);color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:12px;animation:pulse 2.2s ease-in-out infinite;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+  #splash .splash-map{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none;animation:rise 1.1s ease both}
+  #splash .splash-grain{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,16,10,.72),rgba(20,16,10,0) 42%);z-index:-1;pointer-events:none}
+  #splash{justify-content:flex-end;padding-bottom:calc(env(safe-area-inset-bottom) + 34px)}
+  #splash .tap{font-family:var(--fd);color:#E8D9AE;letter-spacing:.14em;text-transform:uppercase;font-size:12px;animation:pulse 2.2s ease-in-out infinite;text-shadow:0 2px 10px rgba(0,0,0,.6)}
   @keyframes rise{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
   @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
   .q.done .box,.ci.yes .box{transition:transform .15s}
@@ -353,144 +357,10 @@
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
-<div id="splash" role="button" aria-label="Enter"><svg class="splash-map" viewBox="0 0 600 1040" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <defs>
-    <radialGradient id="mg0" cx="50%" cy="50%" r="80%">
-      <stop offset="0%" stop-color="#1d2420"/><stop offset="58%" stop-color="#161c19"/><stop offset="100%" stop-color="#111614"/>
-    </radialGradient>
-    <radialGradient id="mg1" cx="50%" cy="40%" r="28%">
-      <stop offset="0%" stop-color="#6d7f6a" stop-opacity=".28"/><stop offset="100%" stop-color="#6d7f6a" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="mgV" cx="50%" cy="50%" r="72%">
-      <stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".62"/>
-    </radialGradient>
-    <pattern id="mwave" width="26" height="14" patternUnits="userSpaceOnUse">
-      <path d="M0,9 q6.5,-6 13,0 t13,0" fill="none" stroke="#5d7a86" stroke-width="1" opacity=".5"/>
-    </pattern>
-  </defs>
-
-  <rect width="600" height="1040" fill="url(#mg0)"/>
-  <rect width="600" height="1040" fill="url(#mg1)"/>
-
-  <!-- border rule -->
-  <rect x="26" y="26" width="548" height="988" fill="none" stroke="#7e8a76" stroke-width="1.4" opacity=".5"/>
-  <rect x="34" y="34" width="532" height="972" fill="none" stroke="#7e8a76" stroke-width=".7" opacity=".3"/>
-
-  <!-- title cartouche -->
-  <g transform="translate(300,104)" fill="none" stroke="#9aa892" opacity=".75">
-    <path d="M-176,0 h352" stroke-width="1"/>
-    <path d="M-150,-13 q150,-22 300,0" stroke-width=".8" opacity=".6"/>
-    <path d="M-150,13 q150,22 300,0" stroke-width=".8" opacity=".6"/>
-  </g>
-  <text x="300" y="86" text-anchor="middle" fill="#c3cdb8" font-family="Cinzel,Georgia,serif" font-size="30" letter-spacing="7" opacity=".92">ASHCOMBE HALL</text>
-  <text x="300" y="134" text-anchor="middle" fill="#9aa892" font-family="Crimson Pro,Georgia,serif" font-style="italic" font-size="16" letter-spacing="2" opacity=".8">the grounds, drawn from the west tower</text>
-
-  <!-- the lake -->
-  <g opacity=".85">
-    <path d="M96,742 q54,-58 148,-48 q104,11 150,58 q40,41 -6,78 q-70,55 -180,44 q-96,-9 -124,-52 q-24,-38 12,-80z" fill="#2b3a41" opacity=".75"/>
-    <path d="M96,742 q54,-58 148,-48 q104,11 150,58 q40,41 -6,78 q-70,55 -180,44 q-96,-9 -124,-52 q-24,-38 12,-80z" fill="url(#mwave)"/>
-    <path d="M96,742 q54,-58 148,-48 q104,11 150,58 q40,41 -6,78 q-70,55 -180,44 q-96,-9 -124,-52 q-24,-38 12,-80z" fill="none" stroke="#7f9aa4" stroke-width="1.2" opacity=".7"/>
-  </g>
-  <text x="238" y="828" text-anchor="middle" fill="#93a8b0" font-family="Crimson Pro,Georgia,serif" font-style="italic" font-size="15" opacity=".85" letter-spacing="3">Stillwater</text>
-
-  <!-- the hall itself, centre -->
-  <g transform="translate(300,330)" stroke="#b3bda8" fill="none" stroke-width="1.3" opacity=".9">
-    <!-- main block -->
-    <rect x="-92" y="-36" width="184" height="104" fill="#222a26"/>
-    <path d="M-92,-36 L0,-86 L92,-36" fill="#1b221f"/>
-    <path d="M-92,-36 L0,-86 L92,-36"/>
-    <path d="M-60,68 L-60,-22 M-28,68 L-28,-22 M4,68 L4,-22 M36,68 L36,-22 M68,68 L68,-22" opacity=".45"/>
-    <!-- windows -->
-    <g fill="#c8cbb0" stroke="none" opacity=".55">
-      <rect x="-80" y="-16" width="9" height="15" rx="4"/><rect x="-48" y="-16" width="9" height="15" rx="4"/>
-      <rect x="-16" y="-16" width="9" height="15" rx="4"/><rect x="16" y="-16" width="9" height="15" rx="4"/>
-      <rect x="48" y="-16" width="9" height="15" rx="4"/><rect x="70" y="-16" width="9" height="15" rx="4"/>
-      <rect x="-80" y="22" width="9" height="15" rx="4"/><rect x="-48" y="22" width="9" height="15" rx="4"/>
-      <rect x="48" y="22" width="9" height="15" rx="4"/><rect x="70" y="22" width="9" height="15" rx="4"/>
-    </g>
-    <!-- great door -->
-    <path d="M-13,68 L-13,34 q13,-16 26,0 L13,68z" fill="#141a17"/>
-    <path d="M-13,68 L-13,34 q13,-16 26,0 L13,68z"/>
-    <!-- west tower (reading tower) -->
-    <g transform="translate(-128,-4)">
-      <rect x="-22" y="-58" width="44" height="126" fill="#222a26"/><rect x="-22" y="-58" width="44" height="126"/>
-      <path d="M-30,-58 L0,-104 L30,-58" fill="#1b221f"/><path d="M-30,-58 L0,-104 L30,-58"/>
-      <rect x="-8" y="-40" width="16" height="22" rx="8" fill="#c8cbb0" stroke="none" opacity=".6"/>
-      <rect x="-8" y="4" width="16" height="22" rx="8" fill="#c8cbb0" stroke="none" opacity=".4"/>
-    </g>
-    <!-- east tower (bell) -->
-    <g transform="translate(128,6)">
-      <rect x="-20" y="-46" width="40" height="112" fill="#222a26"/><rect x="-20" y="-46" width="40" height="112"/>
-      <path d="M-28,-46 L0,-88 L28,-46" fill="#1b221f"/><path d="M-28,-46 L0,-88 L28,-46"/>
-      <path d="M-11,-28 q11,-14 22,0 L11,-8 L-11,-8z" fill="#8d7a4e" stroke="none" opacity=".55"/>
-    </g>
-  </g>
-  <text x="300" y="440" text-anchor="middle" fill="#b9c3ab" font-family="Cinzel,Georgia,serif" font-size="15" letter-spacing="5" opacity=".8">THE HALL</text>
-  <text x="172" y="264" text-anchor="middle" fill="#9aa892" font-family="Crimson Pro,Georgia,serif" font-style="italic" font-size="13" opacity=".7">reading tower</text>
-  <text x="432" y="266" text-anchor="middle" fill="#9aa892" font-family="Crimson Pro,Georgia,serif" font-style="italic" font-size="13" opacity=".7">bell tower</text>
-
-  <!-- walled garden, left -->
-  <g transform="translate(132,516)" opacity=".85">
-    <rect x="-58" y="-40" width="116" height="80" fill="none" stroke="#8d9a82" stroke-width="1.2"/>
-    <path d="M-58,-14 h116 M-58,12 h116 M-20,-40 v80 M18,-40 v80" stroke="#8d9a82" stroke-width=".6" opacity=".6"/>
-    <g fill="#6f8a66" opacity=".6">
-      <circle cx="-39" cy="-27" r="5"/><circle cx="-1" cy="-27" r="5"/><circle cx="37" cy="-1" r="5"/>
-      <circle cx="-39" cy="25" r="5"/><circle cx="-1" cy="25" r="5"/>
-    </g>
-  </g>
-  <text x="132" y="576" text-anchor="middle" fill="#9aa892" font-family="Crimson Pro,Georgia,serif" font-style="italic" font-size="13" opacity=".75">the walled garden</text>
-
-  <!-- orchard, right -->
-  <g transform="translate(456,536)" opacity=".8">
-    <g fill="none" stroke="#758a6c" stroke-width="1.1">
-      <path d="M-44,18 v-14 M-14,18 v-14 M16,18 v-14 M46,18 v-14 M-29,44 v-14 M1,44 v-14 M31,44 v-14"/>
-    </g>
-    <g fill="#5f7a58" opacity=".55">
-      <circle cx="-44" cy="-2" r="9"/><circle cx="-14" cy="-2" r="9"/><circle cx="16" cy="-2" r="9"/><circle cx="46" cy="-2" r="9"/>
-      <circle cx="-29" cy="24" r="9"/><circle cx="1" cy="24" r="9"/><circle cx="31" cy="24" r="9"/>
-    </g>
-  </g>
-  <text x="456" y="604" text-anchor="middle" fill="#9aa892" font-family="Crimson Pro,Georgia,serif" font-style="italic" font-size="13" opacity=".75">the orchard</text>
-
-  <!-- paths -->
-  <g fill="none" stroke="#a7b09c" stroke-width="1.5" stroke-dasharray="5 7" opacity=".55">
-    <path d="M300,400 q-6,64 -38,96 q-38,38 -100,44"/>
-    <path d="M300,400 q10,70 58,104 q40,28 92,34"/>
-    <path d="M300,400 q4,150 -46,270"/>
-    <path d="M300,262 q0,-58 -74,-78 q-70,-18 -110,10"/>
-  </g>
-
-  <!-- the long hallway, a named road -->
-  <text x="360" y="672" fill="#8f9a87" font-family="Crimson Pro,Georgia,serif" font-style="italic" font-size="12.5" opacity=".65" transform="rotate(14 360 672)">the long hallway</text>
-
-  <!-- kestrel compass rose -->
-  <g transform="translate(478,196)" opacity=".78">
-    <circle r="46" fill="none" stroke="#9aa892" stroke-width="1"/>
-    <circle r="34" fill="none" stroke="#9aa892" stroke-width=".6" opacity=".7"/>
-    <path d="M0,-46 L7,-10 L0,0 L-7,-10z" fill="#b9643f" opacity=".85"/>
-    <path d="M0,46 L7,10 L0,0 L-7,10z" fill="#7e8a76" opacity=".7"/>
-    <path d="M-46,0 L-10,7 L0,0 L-10,-7z" fill="#7e8a76" opacity=".5"/>
-    <path d="M46,0 L10,7 L0,0 L10,-7z" fill="#7e8a76" opacity=".5"/>
-    <text x="0" y="-54" text-anchor="middle" fill="#b9c3ab" font-family="Cinzel,Georgia,serif" font-size="12" letter-spacing="2">N</text>
-  </g>
-
-  <!-- the kestrel, hovering -->
-  <g transform="translate(300,910)" opacity=".9">
-    <g fill="none" stroke="#c2b083" stroke-width="1.5">
-      <path d="M0,-6 q-30,-22 -54,-8 q26,2 34,14"/>
-      <path d="M0,-6 q30,-22 54,-8 q-26,2 -34,14"/>
-    </g>
-    <ellipse cx="0" cy="2" rx="9" ry="15" fill="#9c8455" opacity=".85"/>
-    <circle cx="0" cy="-14" r="7.5" fill="#b09a66" opacity=".9"/>
-    <circle cx="3" cy="-15" r="1.4" fill="#111614"/>
-    <path d="M7,-14 l5,2 l-5,2z" fill="#c2b083"/>
-    <path d="M-4,16 q4,10 0,16 M4,16 q-4,10 0,16" fill="none" stroke="#9c8455" stroke-width="1.4"/>
-  </g>
-  <text x="300" y="972" text-anchor="middle" fill="#c2b083" font-family="Cinzel,Georgia,serif" font-size="13" letter-spacing="4" opacity=".8">HOUSE KESTREL</text>
-  <text x="300" y="994" text-anchor="middle" fill="#9aa892" font-family="Crimson Pro,Georgia,serif" font-style="italic" font-size="14" opacity=".75">bold eyes, kind hands</text>
-
-  <rect width="600" height="1040" fill="url(#mgV)"/>
-</svg><div class="splash-grain"></div><div class="splash-name">Kaitlyn&rsquo;s Quest<span>Ashcombe Hall &middot; House Kestrel</span></div><div class="tap">Tap to begin</div></div>
+<div id="splash" role="button" aria-label="Enter">
+  <img class="splash-map" src="map.jpg" alt="Kaitlyn&rsquo;s Map">
+  <div class="splash-grain"></div>
+  <div class="tap">Tap to begin</div></div>
 <div class="topbar">
   <div id="status"></div>
   <div class="tabs">
@@ -524,7 +394,7 @@
     <div class="doll">
       <div class="figure" id="fig"></div>
       <div style="flex:1;min-width:0">
-        <div class="nm">Ty Wiles</div>
+        <div class="nm">Kaitlyn Wiles</div>
         <div class="cls" id="clsline">Apprentice — House Kestrel</div>
         <div class="ttl" id="title">the Unproven</div>
         <div class="lv" id="lv">Level 1</div>
@@ -542,7 +412,7 @@
   </div>
 
   <div class="panel" id="p-comps"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Her people <span class="sub" style="margin:0;font-weight:400">slow to drain, but they drain</span></h2>
+    <h2><img class="ic-head" src="icons/cottage.png" alt="">Her people <span class="sub" style="margin:0;font-weight:400">slow to drain, but they drain</span></h2>
     <div id="comps"></div>
   </div>
 
@@ -576,7 +446,7 @@
   </div>
 
   <div class="panel" id="p-season"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Season</h2>
+    <h2><img class="ic-head" src="icons/signpost.png" alt="">Season</h2>
     <div id="season"></div>
   </div>
 
@@ -603,7 +473,7 @@
   </div>
 
   <div class="panel" id="p-board"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Quest board</h2>
+    <h2><img class="ic-head" src="icons/chest.png" alt="">Quest board</h2>
     <p class="sub" id="boardsub"></p>
     <div id="board"></div>
   </div>
@@ -628,12 +498,12 @@
   </div>
 
   <div class="panel" id="p-review"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Weekly review</h2>
+    <h2><img class="ic-head" src="icons/book.png" alt="">Weekly review</h2>
     <div id="review"></div>
   </div>
 
   <div class="panel" id="p-pb"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Burn Boot Camp</h2>
+    <h2><img class="ic-head" src="icons/campfire.png" alt="">Burn Boot Camp</h2>
     <div id="pbtree"></div>
   </div>
 
@@ -694,7 +564,7 @@
     <div class="doll" style="margin-top:6px"><div class="figure" id="fig2" style="flex:0 0 58px"></div><div class="looks" style="flex:1;margin:0">
       <button class="ghost" id="skinb">Skin</button>
       <button class="ghost" id="hairb">Hair</button>
-      <button class="ghost" id="beardb">Hair up</button>
+      <button class="ghost" id="beardb">Hair down</button>
     </div></div>
     <h3>Sync</h3>
     <div id="syncbox"></div>
@@ -788,6 +658,10 @@ const ITEMS=[
 
 let S=null;
 const el=id=>document.getElementById(id);
+/* hand-drawn icons, one per idea. Swap a filename here and it changes everywhere. */
+const CATICON={Body:'campfire',Faith:'chamber',Stillness:'book',Kinship:'cottage',
+  Nerve:'bridge',Order:'signpost',Rest:'potion',Sabbath:'owl',Courage:'minotaur'};
+const ic=(name,cls)=>`<img class="${cls||'ic-tag'}" src="icons/${name}.png" alt="" loading="lazy">`;
 const today=()=>dstr(new Date());
 function weekKey(){const d=new Date();const day=d.getDay();d.setDate(d.getDate()-day);return dstr(d)}
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -867,7 +741,7 @@ function level(){let l=1,need=400,xp=S.xp;while(xp>=need){xp-=need;l++;need=Math
 function toast(t){const e=el('toast');e.textContent=t;e.classList.add('on');
   clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2400)}
 
-/* ---------- the character (flat vector) ---------- */
+/* ---------- the character (flat vector) — ranger of Ashcombe, ponytail ---------- */
 function sprite(look,gear,cond){
   cond=cond||0;
   const P=[];
@@ -877,32 +751,52 @@ function sprite(look,gear,cond){
     c:(cx,cy,rad,f)=>P.push(`<circle cx="${cx}" cy="${cy}" r="${rad}" fill="${f}"/>`)
   };
   const [sk,skS,skD]=SKIN[look.skin],[hc,hcD]=HAIR[look.hair];
-  const robe='#7E9479',robeD='#5F7460',skirt='#3C4C58',shoe='#2B3630',mouth='#A35B3C';
+  const tunic='#5C7150',tunicD='#42553A',trim='#B9643F',leather='#7A5A3C',leatherD='#5C4429',
+        legs='#4A5A52',boot='#43331F',mouth='#A35B3C';
   const worn=ITEMS.filter(i=>Object.values(gear).includes(i.id));
   const layer=z=>{const s=P.length;worn.filter(i=>i.z===z).forEach(i=>i.d(r,C));return P.splice(s).join('')};
   const back=layer('back');
-  // torso + arms (breathing group)
-  C.p('M29 52 Q40 47 51 52 L54 94 Q40 99 26 94Z',robe);
-  C.p('M51 52 L54 94','none',robeD,1.1);
-  C.p('M31 62 Q40 66 49 62','none',robeD,1.1);
-  C.p('M29 52 L21 58 L15 92 Q19 95 23 93 L27 64Z',robe);
-  C.p('M51 52 L59 58 L65 92 Q61 95 57 93 L53 64Z',robe);
-  C.c(18,96,4,sk);C.c(62,96,4,sk);
+  // hood hanging behind the shoulders — part of the ranger kit, not gear
+  C.p('M30 50 Q40 44 50 50 Q48 64 40 66 Q32 64 30 50Z',tunicD);
+  // torso: tunic over a long sleeve, belted
+  C.p('M29 51 Q40 46 51 51 L54 92 Q40 97 26 92Z',tunic);
+  C.p('M51 51 L54 92','none',tunicD,1.1);
+  C.p('M29 51 L21 57 L15 91 Q19 94 23 92 L27 63Z',tunic);
+  C.p('M51 51 L59 57 L65 91 Q61 94 57 92 L53 63Z',tunic);
+  // rolled cuffs
+  r(15,84,9,5,leather,2);r(56,84,9,5,leather,2);
+  C.c(18,95,4,sk);C.c(62,95,4,sk);
+  // belt + buckle + a small pouch
+  r(26,79,28,6,leather,2);r(37,79,6,6,'#C0954E',1);
+  r(48,84,8,8,leatherD,2);
+  // cross-strap
+  C.p('M31 50 L52 76','none',leatherD,3);
   r(35,41,10,13,sk);
   const body=P.splice(0).join('');
-  // skirt + shoes (still)
-  C.p('M26 92 Q40 88 54 92 L60 132 Q40 138 20 132Z',skirt);
-  C.p('M33 94 L31 133 M40 95 L40 135 M47 94 L49 133','none','#2C3945',.9);
-  C.p('M24 132 h13 v7 h-15 q-2 -4 2 -7z',shoe);C.p('M43 132 h13 q4 3 2 7 h-15z',shoe);
-  const legs=P.splice(0).join('');
-  // head
+  // leggings + boots
+  C.p('M27 90 L38 92 L36 126 L27 126Z',legs);C.p('M53 90 L42 92 L44 126 L53 126Z',legs);
+  C.p('M25 122 h13 v16 h-15 q-2 -4 2 -6z',boot);C.p('M42 122 h13 q4 3 2 6 v10 h-15z',boot);
+  r(25,126,13,3,'#5E4A2E');r(42,126,13,3,'#5E4A2E');
+  const legsSvg=P.splice(0).join('');
+  // ---- head ----
+  const tied=!look.beard;   // default look is the ponytail; toggle lets it down
+  // the tail goes behind the head, drawn first
+  if(tied){
+    C.p('M52 22 Q64 26 66 40 Q67 52 60 58 Q64 46 60 38 Q56 28 50 26Z',hc);
+    C.p('M56 30 Q62 38 60 48','none',hcD,1.6);
+    C.c(53,23,4.2,hcD);
+  }else{
+    C.p('M24 26 Q19 44 23 58 Q27 46 26 34Z',hc);
+    C.p('M56 26 Q61 44 57 58 Q53 46 54 34Z',hc);
+  }
   P.push(`<ellipse cx="40" cy="29" rx="14.5" ry="16.5" fill="${sk}"/>`);
-  // curls: a cloud of circles round the crown and down the sides
-  const curls=[[26,20,6],[33,13,6.5],[40,10.5,6.8],[47,13,6.5],[54,20,6],[23,28,5.4],[57,28,5.4],
-               [21,36,5],[59,36,5],[23,44,4.4],[57,44,4.4],[26,50,3.8],[54,50,3.8]];
-  curls.forEach(([x,y,rad])=>C.c(x,y,rad,hc));
-  curls.filter((_,i)=>i%2===0).forEach(([x,y,rad])=>C.c(x-1.2,y-1.2,rad*0.5,hcD));
-  C.p('M26 22 Q40 13 54 22 Q47 18 40 19 Q33 18 26 22Z',hc);
+  // swept hair over the crown
+  C.p('M25 27 Q25 9 40 9 Q55 9 55 27 Q54 20 47 17 Q40 21 33 19 Q27 20 25 27Z',hc);
+  C.p('M32 13 Q40 11 48 14','none',hcD,1.4);
+  if(tied){ // the gather at the back of the crown
+    C.c(52,21,3.4,hc);C.p('M46 17 Q51 18 53 22','none',hcD,1.4);
+    C.p('M50 20 q4 1 4 4','none',trim,1.8);
+  }
   P.push(`<ellipse class="shadow-eye" cx="34" cy="32.5" rx="3" ry="1.1" fill="${skD}"/><ellipse class="shadow-eye" cx="46" cy="32.5" rx="3" ry="1.1" fill="${skD}"/>`);
   C.c(34,28.5,2,'#2B2019');C.c(46,28.5,2,'#2B2019');
   P.push(`<circle cx="34.7" cy="27.9" r=".7" fill="#EEF0E8" opacity=".9"/><circle cx="46.7" cy="27.9" r=".7" fill="#EEF0E8" opacity=".9"/>`);
@@ -918,9 +812,10 @@ function sprite(look,gear,cond){
   const front=layer('front');
   const cls='sp'+(cond===1?' worn':cond===2?' empty':'');
   return `<svg class="${cls}" viewBox="0 0 80 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="your character">
-    ${back}<g class="slump"><g class="breath">${body}</g></g>${legs}
+    ${back}<g class="slump"><g class="breath">${body}</g></g>${legsSvg}
     <g class="slump"><g class="head">${head}${headGear}</g></g>${front}</svg>`;
 }
+
 function condition(){const v=S.vitality==null?100:S.vitality;
   return v>=70?[0,'Steady','var(--green)']:v>=40?[1,'Worn down','var(--amber)']:[2,'Running on empty','var(--red)']}
 function renderFigure(){
@@ -934,7 +829,7 @@ function renderFigure(){
     : '<div class="empty">Nothing yet. Gear drops when you level.</div>';
   const k3=Object.entries(S.gear3d||{}).map(([s,id])=>g3(id)).filter(Boolean).filter(g3ok);
   el('clsline').textContent=CLASSES[heroClass()].n+' — House Kestrel';
-  el('gear').innerHTML+=`<h3>On the ${CLASSES[heroClass()].n.toLowerCase()}</h3>`+(k3.length?k3.map(g=>`<div class="gi"><span>${g[1]}</span><em style="color:${G3_RAR[g[4]]}">${G3_SLOT[g[2]]}</em></div>`).join('')
+  el('gear').innerHTML+=`<h3><img class="ic-head" src="icons/ranger.png" alt="">On the ${CLASSES[heroClass()].n.toLowerCase()}</h3>`+(k3.length?k3.map(g=>`<div class="gi"><span>${g[1]}</span><em style="color:${G3_RAR[g[4]]}">${G3_SLOT[g[2]]}</em></div>`).join('')
     :'<div class="empty">Bare, for now. Every second level she gets a pick.</div>');
   if(has('k2')){const own=(S.gear3dOwned||[]).map(g3).filter(Boolean).filter(g3ok);
     el('gear').innerHTML+=`<h3>Wardrobe</h3><div class="chips">${own.map(g=>`<div class="chip2${S.gear3d[g[2]]===g[0]?' used':''}" data-wear="${g[0]}" style="text-decoration:none">${g[1]}</div>`).join('')||'<span class="empty">Nothing earned yet.</span>'}</div><div class="sub" style="margin-top:6px">Tap to wear; tap again to take off.</div>`;
@@ -1263,7 +1158,7 @@ function renderBoard(){
     const id='b'+i,done=S.done.includes(id),d=document.createElement('div');
     d.className='q'+(done?' done':'');d.dataset.undo='bq:'+id;
     d.innerHTML=`<div class="box"></div><div style="flex:1"><div class="qt">${q.t}</div>
-      <div class="meta"><span class="tag">${q.c}</span> · ${q.wg}${i===4?' · growth quest':''}</div></div>
+      <div class="meta">${CATICON[q.c]?ic(CATICON[q.c]):''}<span class="tag">${q.c}</span> · ${q.wg}${i===4?' · growth quest':''}</div></div>
       <div class="xp">${Math.round(q.x*(WG[q.wg]||1))}</div>${has('s2')&&!(S.rr&&S.rr.day===S.day)&&!done&&i<4?`<div class="del" data-rr="${i}" title="Reroll (Clear Head)">↻</div>`:''}`;
     const rrb=d.querySelector('[data-rr]');if(rrb)rrb.onclick=e=>{e.stopPropagation();S.rr={day:S.day,i};save();render();toast('Rerolled.')};
     d.onclick=()=>{if(S.done.includes(id)){tryUndo('bq:'+id);return}undoable('bq:'+id,()=>{S.done.push(id);award(q.x,q.a,q.wg,q.t.slice(0,34)+'…')})};
@@ -1335,16 +1230,16 @@ function draw(){
         tagline:`<span style="color:${rc}">${rn}</span> · ${q.c}`},'reveal');
 }
 const BOSSES=[
- {n:'The Unsaid',d:'The thing you have decided not to say, again. It gets a little larger every time you walk past it. Say one honest sentence out loud, to the person it belongs to.',x:250,a:'nrv',wg:'Galvanizing'},
- {n:'The Weathervane',d:'It takes on the mood of whoever is closest and spins you with it. Name today\u2019s bad mood as theirs, not yours, and finish your own day anyway.',x:225,a:'nrv',wg:'Discernment'},
- {n:'The Long Hallway',d:'No monster at all. Just distance, and a first step that is slightly awkward. Make the call, send the email, ask the question.',x:200,a:'nrv',wg:'Tenacity'},
- {n:'The Open Loop',d:'Every thread you left half-finished because closing it means one more conversation. Close the oldest one today.',x:200,a:'nrv',wg:'Tenacity'},
- {n:'The Quiet Hour',d:'One hour, phone in another room, spent on something that is yours. Not errands, not anyone else\u2019s list.',x:175,a:'stl',wg:'Wonder'}
+ {n:'The Unsaid',ic:'dragon',d:'The thing you have decided not to say, again. It gets a little larger every time you walk past it. Say one honest sentence out loud, to the person it belongs to.',x:250,a:'nrv',wg:'Galvanizing'},
+ {n:'The Weathervane',ic:'minotaur',d:'It takes on the mood of whoever is closest and spins you with it. Name today\u2019s bad mood as theirs, not yours, and finish your own day anyway.',x:225,a:'nrv',wg:'Discernment'},
+ {n:'The Long Hallway',ic:'chamber',d:'No monster at all. Just distance, and a first step that is slightly awkward. Make the call, send the email, ask the question.',x:200,a:'nrv',wg:'Tenacity'},
+ {n:'The Open Loop',ic:'tower',d:'Every thread you left half-finished because closing it means one more conversation. Close the oldest one today.',x:200,a:'nrv',wg:'Tenacity'},
+ {n:'The Quiet Hour',ic:'cave',d:'One hour, phone in another room, spent on something that is yours. Not errands, not anyone else\u2019s list.',x:175,a:'stl',wg:'Wonder'}
 ];
 function renderBoss(){
   const r=seed('boss'+S.day),pick=(S.bossPick&&S.bossPick.day===S.day)?BOSSES[S.bossPick.i]:null,b=pick||BOSSES[Math.floor(r()*BOSSES.length)],done=S.done.includes('boss');
   el('bossbox').innerHTML=`<div class="q${done?' done':''}" style="border:none;padding-top:0">
-    <div class="box"></div><div style="flex:1">
+    <div class="box"></div>${b.ic?ic(b.ic,'ic-art'):''}<div style="flex:1">
     <div class="qt bname2">${b.n}</div>
     <div class="meta" style="font-size:12.5px;margin-top:4px">${b.d}</div></div>
     <div class="xp" style="color:var(--red)">${Math.round(b.x*WG[b.wg])}</div></div>`;
@@ -1920,7 +1815,7 @@ el('redraw').onclick=()=>{if(S.redraw===S.day){toast('One redraw a day.');return
 el('bonus').onclick=bonusQuest;
 el('skinb').onclick=()=>{S.look.skin=(S.look.skin+1)%SKIN.length;render();save();toast('Skin tone '+(S.look.skin+1)+' of '+SKIN.length)};
 el('hairb').onclick=()=>{S.look.hair=(S.look.hair+1)%HAIR.length;render();save();toast('Hair '+(S.look.hair+1)+' of '+HAIR.length)};
-el('beardb').onclick=()=>{S.look.beard=!S.look.beard;render();save();toast(S.look.beard?'Hair tied back.':'Curls down.')};
+el('beardb').onclick=()=>{S.look.beard=!S.look.beard;render();save();toast(S.look.beard?'Hair down.':'Ponytail.')};
 el('relbtn').onclick=()=>{const v=el('release').value.trim();
   if(!v){toast('Name it first. Vague things do not release.');return}
   S.released=Date.now();el('release').value='';
@@ -1972,7 +1867,7 @@ el('logmatch').onclick=()=>{
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');if(S.pending)setTimeout(showLoot,600)}
   else toast(`+${grand} xp. That is the session.`)};
-const APP_VERSION='1.0.0';
+const APP_VERSION='1.2.0';
 const TABS={
  today:['p-commit','p-today','p-board','p-boss','p-draw'],
  plan:['p-log','p-season','p-week'],
@@ -2057,7 +1952,33 @@ const G3=[
  ['g-shawl','Sage Shawl','back',4,'Common','Lives on the back of the reading chair.','code:shawl'],
  ['g-bag','Camp Bag','back',6,'Uncommon','Packed the night before, most nights.','code:bag'],
  ['g-cloak','Kestrel Cloak','back',10,'Rare','Slate, with a terracotta lining nobody else sees.','code:cloak'],
- ['g-star','Nightwatch Cloak','back',16,'Epic','For the evenings she plans tomorrow.','code:star']
+ ['g-star','Nightwatch Cloak','back',16,'Epic','For the evenings she plans tomorrow.','code:star'],
+ /* Quaternius Medieval Weapons (CC0), converted to glTF. Optional flavour — if a piece
+    does not fit the world, just do not pick it on the loot screen. */
+ ['w-dagger','Belt Knife','r',3,'Common','For string, apples, and packing tape.','file:Dagger'],
+ ['w-dagger2','Whittling Knife','l',3,'Common','Idle hands, better use.','file:Dagger_2'],
+ ['w-axe-s','Hand Axe','r',5,'Common','Kindling for the fire pit.','file:Axe_Small'],
+ ['w-bow','Ranger’s Bow','r',5,'Uncommon','Aim taken slowly, on purpose.','file:Bow_Wooden'],
+ ['w-bow2','Yew Longbow','r',7,'Uncommon','Draw, breathe, release.','file:Bow_Wooden2'],
+ ['w-arrow','A Single Arrow','l',5,'Common','One is usually enough.','file:Arrow'],
+ ['w-sword','Plain Sword','r',7,'Uncommon','Nothing fancy. It counts.','file:Sword'],
+ ['w-sword2','Sidesword','r',9,'Uncommon','Quick, light, honest.','file:Sword_2'],
+ ['w-hammer-s','Camp Mallet','r',7,'Common','Tent stakes and stubborn things.','file:Hammer_Small'],
+ ['w-shield-r','Round Shield','l',7,'Uncommon','Between her people and the weather.','file:Shield_Round'],
+ ['w-shield-r2','Painted Shield','l',9,'Uncommon','Marked as someone’s.','file:Shield_Round_2'],
+ ['w-shield-h','Heater Shield','l',11,'Rare','Covers more than herself.','file:Shield_Heater'],
+ ['w-shield-h2','Kestrel Shield','l',13,'Rare','Bold eyes, kind hands.','file:Shield_Heater_2'],
+ ['w-axe','Woodcutter’s Axe','r',11,'Rare','For the thing she keeps walking past.','file:Axe'],
+ ['w-sword-g','Gilded Sword','r',13,'Rare','Earned, not bought.','file:Sword_Golden'],
+ ['w-bow-g','Golden Bow','r',15,'Rare','Patience, made ornamental.','file:Bow_Golden'],
+ ['w-spear','Long Spear','r',15,'Epic','Both hands. Reach beyond the doubt.','file:Spear'],
+ ['w-axe-d','Double Axe','r',17,'Epic','Both hands. The open loop dies today.','file:Axe_Double'],
+ ['w-hammer-d','Great Hammer','r',17,'Epic','Both hands. Tenacity, made heavy.','file:Hammer_Double'],
+ ['w-sword-big','Greatsword','r',19,'Epic','Both hands. No hedging.','file:Sword_Big'],
+ ['w-claymore','Claymore','r',21,'Epic','Both hands. The long hallway, walked.','file:Claymore'],
+ ['w-scythe','The Reaper’s Scythe','r',23,'Legendary','Both hands. Harvest of small things.','file:Scythe'],
+ ['w-bow-e','Blackthorn Bow','r',25,'Legendary','Drawn only when it matters.','file:Bow_Evil'],
+ ['w-shield-c','Celtic Shield','l',25,'Legendary','Gold, and old.','file:Shield_Celtic_Golden']
 ];
 const CLASSES={
  apprentice:{n:'Apprentice',robe:0x7E9479,trim:0xB9643F,
@@ -2069,7 +1990,8 @@ const CLASSES={
  herbalist:{n:'Herbalist',robe:0x6E5A86,trim:0xC9DCC2,
    f:'Tends what is already planted. Walled-garden work.'}
 };
-const TWOH=['g-staff'];
+const TWOH=['g-staff','w-spear','w-axe-d','w-hammer-d','w-sword-big','w-claymore','w-scythe',
+  'w-bow','w-bow2','w-bow-g','w-bow-e'];
 function heroClass(){return (S&&CLASSES[S.cls])?S.cls:'apprentice'}
 function g3ok(g){return true}
 function showClassPick(){
@@ -2077,7 +1999,7 @@ function showClassPick(){
   const cur=heroClass();
   el('lootlv').textContent='Level '+S.pendingClass;el('lootsub').textContent='A new chapter. Choose who you walk as next.';
   el('lootcards').innerHTML=Object.entries(CLASSES).filter(([k])=>k!==cur).map(([k,c])=>`<div class="card clscard" tabindex="0" data-cls="${k}">
-    <div class="ico">${{apprentice:'✨',scholar:'📖',warden:'🛡',herbalist:'🌿'}[k]}</div><b>${c.n}</b><em>${c.f}</em></div>`).join('');
+    <div class="ico">${ic({apprentice:'traveler',scholar:'wizard',warden:'knight',herbalist:'witch'}[k]||'traveler','ic-card')}</div><b>${c.n}</b><em>${c.f}</em></div>`).join('');
   el('lootcards').style.gridTemplateColumns='repeat(3,1fr)';
   [...el('lootcards').children].forEach(cd=>{const take=()=>{S.cls=cd.dataset.cls;S.clsSince=S.pendingClass;S.pendingClass=null;
     S.log.unshift(`walks on as a ${CLASSES[S.cls].n}`);el('loot').classList.remove('on');el('lootcards').style.gridTemplateColumns='';
@@ -2108,7 +2030,7 @@ function showLoot3d(){
   confetti(90,'center');
   el('lootcards').innerHTML=S.pending3d.map(id=>{const g=g3(id);
     return `<div class="card" tabindex="0" data-id="${g[0]}" style="border-color:${G3_RAR[g[4]]}66">
-      <div class="ico">${{r:'⚔',l:'⛨',head:'♛',back:'⚑'}[g[2]]}</div>
+      <div class="ico">${ic({r:'sword-shield',l:'chest',head:'tower',back:'traveler'}[g[2]]||'chest','ic-card')}</div>
       <div class="r3" style="color:${G3_RAR[g[4]]}">${g[4]} · ${G3_SLOT[g[2]]}</div>
       <b>${g[1]}</b><em>${g[5]}</em></div>`}).join('');
   [...el('lootcards').children].forEach(c=>{
@@ -2125,206 +2047,246 @@ function showLoot3d(){
   el('loot').classList.add('on');
 }
 
-const H3={ready:false,failed:false,R:null,cheerQueued:false,attached:{},cls:null};
-const MAT=(c,extra)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.72,metalness:.08},extra||{}));
+const H3={ready:false,failed:false,R:null,cheerQueued:false,attached:{},cls:null,
+  assets:{hero:null,clips:{},hair:{}},loading:false,gearCache:{},loadingSlot:{}};
+const MAT=(c,extra)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.8,metalness:.05},extra||{}));
 
-/* ---------- the 3D figure, built from primitives ----------
-   No model files. Skin, hair and robe are all parameters, so they can actually change. */
-function buildHero(cls){
+/* ---------- the ranger kit, built in code and pinned to the rig ----------
+   Rigid pieces parented to bones: the tunic rides spine_02, the boots ride the feet,
+   and so on. Swap any of these for real outfit meshes later without touching the rest. */
+function rangerKit(cls){
   const C=CLASSES[cls]||CLASSES.apprentice;
-  const skinHex=parseInt((SKIN[(S.look&&S.look.skin)||0][0]).slice(1),16);
-  const hairHex=parseInt((HAIR[(S.look&&S.look.hair)||0][0]).slice(1),16);
-  const hairDk=parseInt((HAIR[(S.look&&S.look.hair)||0][1]).slice(1),16);
-  const skinM=MAT(skinHex,{roughness:.85}),hairM=MAT(hairHex,{roughness:.95}),hairM2=MAT(hairDk,{roughness:.95});
-  const robeM=MAT(C.robe,{roughness:.9}),trimM=MAT(C.trim,{roughness:.7}),darkM=MAT(0x2F3A40,{roughness:.9});
-  const g=new THREE.Group();
-
-  // skirt of the robe
-  const skirt=new THREE.Mesh(new THREE.CylinderGeometry(.30,.62,1.02,20,1,true),robeM);
-  skirt.position.y=.52;skirt.material.side=THREE.DoubleSide;g.add(skirt);
-  const hem=new THREE.Mesh(new THREE.TorusGeometry(.61,.035,8,24),trimM);
-  hem.rotation.x=Math.PI/2;hem.position.y=.03;g.add(hem);
-
-  // torso
-  const torso=new THREE.Mesh(new THREE.CylinderGeometry(.235,.31,.62,18),robeM);
-  torso.position.y=1.32;g.add(torso);
-  const collar=new THREE.Mesh(new THREE.TorusGeometry(.20,.035,8,20),trimM);
-  collar.rotation.x=Math.PI/2;collar.position.y=1.60;g.add(collar);
-  const sash=new THREE.Mesh(new THREE.TorusGeometry(.285,.035,8,20),trimM);
-  sash.rotation.x=Math.PI/2;sash.position.y=1.06;g.add(sash);
-
-  // shoulders / arms
-  const armGroup=new THREE.Group();g.add(armGroup);
-  const mkArm=side=>{
-    const a=new THREE.Group();
-    const upper=new THREE.Mesh(new THREE.CylinderGeometry(.075,.065,.42,10),robeM);
-    upper.position.y=-.21;a.add(upper);
-    const lower=new THREE.Group();lower.position.y=-.42;
-    const fore=new THREE.Mesh(new THREE.CylinderGeometry(.062,.055,.38,10),robeM);
-    fore.position.y=-.19;lower.add(fore);
-    const hand=new THREE.Mesh(new THREE.SphereGeometry(.068,10,8),skinM);
-    hand.position.y=-.40;lower.add(hand);
-    const anchor=new THREE.Group();anchor.position.y=-.44;lower.add(anchor);
-    a.add(lower);a.position.set(side*.28,1.56,0);a.rotation.z=side*.14;
-    armGroup.add(a);
-    return {arm:a,lower,anchor};
-  };
-  const right=mkArm(-1),left=mkArm(1);
-
-  // neck + head
-  const headG=new THREE.Group();headG.position.y=1.66;g.add(headG);
-  const neck=new THREE.Mesh(new THREE.CylinderGeometry(.072,.082,.12,10),skinM);
-  neck.position.y=.02;headG.add(neck);
-  const head=new THREE.Mesh(new THREE.SphereGeometry(.235,20,16),skinM);
-  head.scale.set(1,1.12,.96);head.position.y=.26;headG.add(head);
-  // eyes
-  [[-.088,-1],[.088,1]].forEach(([x])=>{
-    const e=new THREE.Mesh(new THREE.SphereGeometry(.028,8,8),MAT(0x2B2019,{roughness:.4}));
-    e.position.set(x,.27,.205);headG.add(e);
-  });
-  // curls — a cloud of spheres, tight and brown
-  const hairG=new THREE.Group();hairG.position.y=.26;headG.add(hairG);
-  const curls=[];
-  const place=(x,y,z,r,dark)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r,10,8),dark?hairM2:hairM);
-    m.position.set(x,y,z);hairG.add(m);curls.push(m);return m};
-  for(let i=0;i<16;i++){const a=i/16*Math.PI*2;
-    place(Math.sin(a)*.205,.11+Math.cos(a*3)*.03,Math.cos(a)*.19,.105,i%3===0)}
-  for(let i=0;i<12;i++){const a=i/12*Math.PI*2;
-    place(Math.sin(a)*.145,.23,Math.cos(a)*.135,.10,i%4===0)}
-  place(0,.30,0,.115);
-  // side curls falling past the jaw
-  for(let i=0;i<5;i++){
-    place(-.215-Math.sin(i)*.01,.02-i*.085,.02+Math.cos(i)*.02,.095-i*.006,i%2===1);
-    place(.215+Math.sin(i)*.01,.02-i*.085,.02+Math.cos(i)*.02,.095-i*.006,i%2===0);
-  }
-  // tied back: a bun at the crown instead of the long side curls
-  const bun=new THREE.Group();bun.position.set(0,.16,-.22);hairG.add(bun);
-  for(let i=0;i<7;i++){const a=i/7*Math.PI*2;
-    const m=new THREE.Mesh(new THREE.SphereGeometry(.075,10,8),i%2?hairM2:hairM);
-    m.position.set(Math.sin(a)*.08,Math.cos(a)*.08,0);bun.add(m)}
-
-  const anchors={head:headG,back:new THREE.Group(),r:right.anchor,l:left.anchor};
-  anchors.back.position.set(0,1.55,-.16);g.add(anchors.back);
-
-  g.position.y=-.02;
-  return {group:g,anchors,parts:{torso,headG,hairG,bun,skirt,armGroup,right,left,curls},cls};
+  const cloth=MAT(C.robe,{roughness:.95}),trim=MAT(C.trim,{roughness:.6}),
+        leather=MAT(0x6B4F33,{roughness:.9}),dark=MAT(0x3A2E22,{roughness:.95});
+  const kit={};
+  // tunic — a tapered shell over the torso
+  const tunic=new THREE.Group();
+  const shell=new THREE.Mesh(new THREE.CylinderGeometry(.215,.30,.60,18,1,true),cloth);
+  shell.material.side=THREE.DoubleSide;shell.position.y=.12;tunic.add(shell);
+  const skirt=new THREE.Mesh(new THREE.CylinderGeometry(.295,.34,.26,18,1,true),cloth);
+  skirt.material.side=THREE.DoubleSide;skirt.position.y=-.28;tunic.add(skirt);
+  const belt=new THREE.Mesh(new THREE.TorusGeometry(.275,.035,8,20),leather);
+  belt.rotation.x=Math.PI/2;belt.position.y=-.16;tunic.add(belt);
+  const buckle=new THREE.Mesh(new THREE.BoxGeometry(.09,.07,.03),trim);
+  buckle.position.set(0,-.16,.28);tunic.add(buckle);
+  const strap=new THREE.Mesh(new THREE.BoxGeometry(.30,.055,.02),leather);
+  strap.position.set(0,.10,.235);strap.rotation.z=-.72;tunic.add(strap);
+  const collar=new THREE.Mesh(new THREE.TorusGeometry(.175,.032,8,18),trim);
+  collar.rotation.x=Math.PI/2;collar.position.y=.41;tunic.add(collar);
+  kit.spine_02=tunic;
+  // hood, folded back between the shoulders
+  const hood=new THREE.Group();
+  const h=new THREE.Mesh(new THREE.SphereGeometry(.17,14,10,0,Math.PI*2,0,Math.PI*.62),cloth);
+  h.rotation.x=2.5;h.position.set(0,.06,-.16);hood.add(h);
+  kit.spine_03=hood;
+  // cloak from the shoulders
+  const cloak=new THREE.Group();
+  const cl=new THREE.Mesh(new THREE.CylinderGeometry(.24,.46,.86,18,1,true),
+    new THREE.MeshStandardMaterial({color:C.trim,roughness:1,side:THREE.DoubleSide}));
+  cl.position.set(0,-.30,-.05);cl.rotation.x=-.06;cloak.add(cl);
+  kit.spine_01=cloak;
+  // bracers
+  const brace=()=>{const b=new THREE.Mesh(new THREE.CylinderGeometry(.075,.085,.16,12,1,true),leather);
+    b.material.side=THREE.DoubleSide;b.position.y=-.10;return b};
+  kit.lowerarm_l=brace();kit.lowerarm_r=brace();
+  // boots
+  const boot=()=>{const g=new THREE.Group();
+    const shaft=new THREE.Mesh(new THREE.CylinderGeometry(.085,.10,.26,12),dark);shaft.position.y=.12;g.add(shaft);
+    const cuff=new THREE.Mesh(new THREE.TorusGeometry(.093,.024,8,14),leather);cuff.rotation.x=Math.PI/2;cuff.position.y=.24;g.add(cuff);
+    const toe=new THREE.Mesh(new THREE.BoxGeometry(.11,.075,.22),dark);toe.position.set(0,.0,.06);g.add(toe);
+    return g};
+  kit.foot_l=boot();kit.foot_r=boot();
+  return kit;
 }
 
-/* ---------- props, also built in code ---------- */
+/* ---------- props, built in code ---------- */
 function h3piece(kind){
   const o=new THREE.Group();
   const wood=MAT(0x7A5A3C,{roughness:.85}),paper=MAT(0xEEE8DA,{roughness:.95}),
         copper=MAT(0xB9643F,{metalness:.5,roughness:.45}),brass=MAT(0xB08A4E,{metalness:.6,roughness:.4}),
-        sage=MAT(0x7E9479),slate=MAT(0x3C4C58),cream=MAT(0xEEF0E8),green=MAT(0x4F7A5C),purple=MAT(0x6E5A86);
+        slate=MAT(0x3C4C58),cream=MAT(0xEEF0E8),green=MAT(0x4F7A5C),purple=MAT(0x6E5A86);
   const book=(w,h,d,cover)=>{const b=new THREE.Group();
     const c=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),cover);b.add(c);
     const p=new THREE.Mesh(new THREE.BoxGeometry(w*.92,h*.92,d*.8),paper);p.position.x=w*.06;b.add(p);return b};
-  if(kind==='book'){o.add(book(.09,.30,.22,purple));o.rotation.z=.35;o.position.set(0,-.04,.04)}
-  else if(kind==='journal'){o.add(book(.07,.26,.19,green));const band=new THREE.Mesh(new THREE.BoxGeometry(.02,.28,.02),copper);band.position.z=.10;o.add(band);o.rotation.z=-.3}
-  else if(kind==='tome'){o.add(book(.14,.40,.30,MAT(0x4A3A5C)));const cl=new THREE.Mesh(new THREE.BoxGeometry(.03,.06,.06),brass);cl.position.set(.02,0,.16);o.add(cl);o.rotation.z=-.25}
-  else if(kind==='stack'){[[0,purple,.28],[.1,green,.26],[.19,slate,.24]].forEach(([y,c,h])=>{const b=book(.07,h,.20,c);b.position.y=y;b.rotation.y=(y*3);o.add(b)});o.position.y=-.06}
-  else if(kind==='ledger'){o.add(book(.06,.34,.26,MAT(0x8C5A3C)));const rib=new THREE.Mesh(new THREE.BoxGeometry(.01,.16,.02),copper);rib.position.set(0,-.22,.06);o.add(rib);o.rotation.z=.3}
-  else if(kind==='mug'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.075,.065,.15,14),cream);o.add(c);
-    const h=new THREE.Mesh(new THREE.TorusGeometry(.05,.013,6,14,Math.PI*1.3),cream);h.position.set(.085,0,0);h.rotation.y=Math.PI/2;o.add(h);
-    const cof=new THREE.Mesh(new THREE.CylinderGeometry(.066,.066,.01,14),MAT(0x4A3325));cof.position.y=.07;o.add(cof)}
-  else if(kind==='teacup'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.07,.045,.09,14),cream);c.position.y=.03;o.add(c);
-    const s=new THREE.Mesh(new THREE.CylinderGeometry(.11,.11,.012,16),cream);o.add(s);
-    const t=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,.008,14),MAT(0x9C6B3A));t.position.y=.065;o.add(t)}
-  else if(kind==='bottle'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,.30,14),MAT(0x436B74));o.add(b);
-    const cap=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,.06,12),copper);cap.position.y=.17;o.add(cap)}
-  else if(kind==='dumbbell'){const bar=new THREE.Mesh(new THREE.CylinderGeometry(.022,.022,.30,10),MAT(0x6E7A72,{metalness:.6}));bar.rotation.z=Math.PI/2;o.add(bar);
-    [-.13,.13].forEach(x=>{const w=new THREE.Mesh(new THREE.CylinderGeometry(.075,.075,.07,14),MAT(0x2F3A40));w.rotation.z=Math.PI/2;w.position.x=x;o.add(w)})}
-  else if(kind==='quill'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.008,.014,.30,8),cream);o.add(s);
-    const f=new THREE.Mesh(new THREE.ConeGeometry(.05,.20,8),MAT(0xC2B083));f.position.y=.17;f.scale.z=.3;o.add(f);o.rotation.z=-.25}
-  else if(kind==='wand'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.011,.02,.34,8),wood);o.add(s);
-    const tip=new THREE.Mesh(new THREE.OctahedronGeometry(.035),MAT(0xD8C48A,{emissive:0x7A6430}));tip.position.y=.19;o.add(tip);o.rotation.z=-.2}
-  else if(kind==='staff'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.028,.034,1.35,10),wood);s.position.y=.35;o.add(s);
-    const ring=new THREE.Mesh(new THREE.TorusGeometry(.10,.022,8,20),brass);ring.position.y=1.0;o.add(ring);
-    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.06),MAT(0xA7C4C9,{emissive:0x2E4A50}));gem.position.y=1.0;o.add(gem);o.rotation.z=.06}
-  else if(kind==='lantern'){const top=new THREE.Mesh(new THREE.ConeGeometry(.09,.07,8),brass);top.position.y=.12;o.add(top);
-    const gl=new THREE.Mesh(new THREE.CylinderGeometry(.065,.065,.15,10),MAT(0xF6EFC9,{emissive:0x8A7430,transparent:true,opacity:.9}));o.add(gl);
-    const base=new THREE.Mesh(new THREE.CylinderGeometry(.08,.085,.04,10),brass);base.position.y=-.09;o.add(base);
-    const hoop=new THREE.Mesh(new THREE.TorusGeometry(.04,.01,6,12),brass);hoop.position.y=.18;o.add(hoop);o.position.y=-.06}
-  else if(kind==='candle'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.045,.05,.20,12),cream);o.add(c);
-    const dish=new THREE.Mesh(new THREE.CylinderGeometry(.10,.09,.02,14),brass);dish.position.y=-.11;o.add(dish);
-    const fl=new THREE.Mesh(new THREE.ConeGeometry(.022,.07,8),MAT(0xF0C070,{emissive:0xB07A32}));fl.position.y=.14;o.add(fl)}
-  else if(kind==='keys'){const ring=new THREE.Mesh(new THREE.TorusGeometry(.05,.009,6,16),brass);ring.rotation.x=Math.PI/2;o.add(ring);
-    [-.03,0,.03].forEach((x,i)=>{const k=new THREE.Mesh(new THREE.BoxGeometry(.012,.13,.004),brass);k.position.set(x,-.09,0);k.rotation.z=(i-1)*.2;o.add(k)})}
-  else if(kind==='basket'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.13,.09,.14,14,1,true),MAT(0xA07A4E,{side:THREE.DoubleSide}));o.add(b);
-    const h=new THREE.Mesh(new THREE.TorusGeometry(.12,.012,6,16,Math.PI),MAT(0xA07A4E));h.position.y=.06;o.add(h);
-    [[-.05,.02],[.04,.03],[0,-.02]].forEach(([x,z])=>{const f=new THREE.Mesh(new THREE.SphereGeometry(.045,8,8),green);f.position.set(x,.08,z);o.add(f)})}
+  if(kind==='book'){o.add(book(.05,.17,.13,purple))}
+  else if(kind==='journal'){o.add(book(.04,.15,.11,green));const band=new THREE.Mesh(new THREE.BoxGeometry(.012,.16,.012),copper);band.position.z=.06;o.add(band)}
+  else if(kind==='tome'){o.add(book(.08,.23,.17,MAT(0x4A3A5C)));const cl=new THREE.Mesh(new THREE.BoxGeometry(.02,.035,.035),brass);cl.position.set(.012,0,.09);o.add(cl)}
+  else if(kind==='stack'){[[0,purple,.16],[.055,green,.15],[.105,slate,.14]].forEach(([y,c,h])=>{const b=book(.04,h,.12,c);b.position.y=y;b.rotation.y=y*3;o.add(b)})}
+  else if(kind==='ledger'){o.add(book(.035,.20,.15,MAT(0x8C5A3C)));const rib=new THREE.Mesh(new THREE.BoxGeometry(.008,.09,.012),copper);rib.position.set(0,-.13,.035);o.add(rib)}
+  else if(kind==='mug'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.043,.037,.085,14),cream);o.add(c);
+    const h=new THREE.Mesh(new THREE.TorusGeometry(.028,.008,6,14,Math.PI*1.3),cream);h.position.set(.049,0,0);h.rotation.y=Math.PI/2;o.add(h);
+    const cof=new THREE.Mesh(new THREE.CylinderGeometry(.038,.038,.006,14),MAT(0x4A3325));cof.position.y=.04;o.add(cof)}
+  else if(kind==='teacup'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.04,.026,.05,14),cream);c.position.y=.018;o.add(c);
+    const s=new THREE.Mesh(new THREE.CylinderGeometry(.063,.063,.007,16),cream);o.add(s);
+    const t=new THREE.Mesh(new THREE.CylinderGeometry(.034,.034,.005,14),MAT(0x9C6B3A));t.position.y=.037;o.add(t)}
+  else if(kind==='bottle'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.034,.034,.17,14),MAT(0x436B74));o.add(b);
+    const cap=new THREE.Mesh(new THREE.CylinderGeometry(.023,.023,.034,12),copper);cap.position.y=.10;o.add(cap)}
+  else if(kind==='dumbbell'){const bar=new THREE.Mesh(new THREE.CylinderGeometry(.013,.013,.17,10),MAT(0x6E7A72,{metalness:.6}));bar.rotation.z=Math.PI/2;o.add(bar);
+    [-.074,.074].forEach(x=>{const w=new THREE.Mesh(new THREE.CylinderGeometry(.043,.043,.04,14),MAT(0x2F3A40));w.rotation.z=Math.PI/2;w.position.x=x;o.add(w)})}
+  else if(kind==='quill'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.005,.008,.17,8),cream);o.add(s);
+    const f=new THREE.Mesh(new THREE.ConeGeometry(.028,.11,8),MAT(0xC2B083));f.position.y=.10;f.scale.z=.3;o.add(f)}
+  else if(kind==='wand'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.007,.012,.20,8),wood);o.add(s);
+    const tip=new THREE.Mesh(new THREE.OctahedronGeometry(.02),MAT(0xD8C48A,{emissive:0x7A6430}));tip.position.y=.11;o.add(tip)}
+  else if(kind==='staff'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.016,.02,.95,10),wood);s.position.y=.24;o.add(s);
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(.058,.013,8,20),brass);ring.position.y=.70;o.add(ring);
+    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.035),MAT(0xA7C4C9,{emissive:0x2E4A50}));gem.position.y=.70;o.add(gem)}
+  else if(kind==='lantern'){const top=new THREE.Mesh(new THREE.ConeGeometry(.052,.04,8),brass);top.position.y=.07;o.add(top);
+    const gl=new THREE.Mesh(new THREE.CylinderGeometry(.037,.037,.085,10),MAT(0xF6EFC9,{emissive:0x8A7430,transparent:true,opacity:.92}));o.add(gl);
+    const base=new THREE.Mesh(new THREE.CylinderGeometry(.046,.049,.023,10),brass);base.position.y=-.052;o.add(base);
+    const hoop=new THREE.Mesh(new THREE.TorusGeometry(.023,.006,6,12),brass);hoop.position.y=.10;o.add(hoop);o.position.y=-.05}
+  else if(kind==='candle'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.026,.029,.115,12),cream);o.add(c);
+    const dish=new THREE.Mesh(new THREE.CylinderGeometry(.058,.052,.012,14),brass);dish.position.y=-.063;o.add(dish);
+    const fl=new THREE.Mesh(new THREE.ConeGeometry(.013,.04,8),MAT(0xF0C070,{emissive:0xB07A32}));fl.position.y=.08;o.add(fl)}
+  else if(kind==='keys'){const ring=new THREE.Mesh(new THREE.TorusGeometry(.029,.005,6,16),brass);ring.rotation.x=Math.PI/2;o.add(ring);
+    [-.017,0,.017].forEach((x,i)=>{const k=new THREE.Mesh(new THREE.BoxGeometry(.007,.075,.003),brass);k.position.set(x,-.052,0);k.rotation.z=(i-1)*.2;o.add(k)})}
+  else if(kind==='basket'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.075,.052,.08,14,1,true),MAT(0xA07A4E,{side:THREE.DoubleSide}));o.add(b);
+    const h=new THREE.Mesh(new THREE.TorusGeometry(.069,.007,6,16,Math.PI),MAT(0xA07A4E));h.position.y=.035;o.add(h);
+    [[-.028,.012],[.023,.017],[0,-.012]].forEach(([x,z])=>{const f=new THREE.Mesh(new THREE.SphereGeometry(.026,8,8),green);f.position.set(x,.046,z);o.add(f)})}
   else if(kind==='bouquet'){for(let i=0;i<6;i++){const a=i/6*Math.PI*2;
-      const st=new THREE.Mesh(new THREE.CylinderGeometry(.006,.006,.22,6),green);st.position.set(Math.sin(a)*.03,.06,Math.cos(a)*.03);st.rotation.z=Math.sin(a)*.2;o.add(st);
-      const fl=new THREE.Mesh(new THREE.SphereGeometry(.038,8,8),MAT([0xE0B7C4,0xF0E0C0,0xC9DCC2,0xD8A6B4][i%4]));
-      fl.position.set(Math.sin(a)*.06,.19,Math.cos(a)*.06);o.add(fl)}
-    const tie=new THREE.Mesh(new THREE.TorusGeometry(.035,.008,6,12),copper);tie.rotation.x=Math.PI/2;tie.position.y=.0;o.add(tie)}
-  else if(kind==='satchel'){const b=new THREE.Mesh(new THREE.BoxGeometry(.26,.20,.09),MAT(0x7A5A3C));o.add(b);
-    const fl=new THREE.Mesh(new THREE.BoxGeometry(.27,.10,.10),MAT(0x8C6B48));fl.position.y=.06;o.add(fl);
-    const buck=new THREE.Mesh(new THREE.BoxGeometry(.04,.04,.02),brass);buck.position.set(0,0,.055);o.add(buck);o.position.y=-.06}
-  else if(kind==='ribbon'){const band=new THREE.Mesh(new THREE.TorusGeometry(.245,.022,8,26),copper);band.rotation.x=Math.PI/2-.14;band.position.y=.30;o.add(band);
-    const kn=new THREE.Mesh(new THREE.SphereGeometry(.05,8,8),copper);kn.position.set(.19,.32,-.14);o.add(kn);
-    [[.24,.36,-.20],[.26,.27,-.19]].forEach(([x,y,z])=>{const t=new THREE.Mesh(new THREE.BoxGeometry(.10,.04,.02),copper);t.position.set(x,y,z);t.rotation.z=.4;o.add(t)})}
-  else if(kind==='knit'){const c=new THREE.Mesh(new THREE.SphereGeometry(.27,16,12,0,Math.PI*2,0,Math.PI/2),MAT(0x436B74,{roughness:1}));c.position.y=.32;o.add(c);
-    const br=new THREE.Mesh(new THREE.CylinderGeometry(.275,.275,.09,18),MAT(0x345560,{roughness:1}));br.position.y=.34;o.add(br);
-    const pom=new THREE.Mesh(new THREE.SphereGeometry(.07,10,8),cream);pom.position.y=.60;o.add(pom)}
-  else if(kind==='wreath'){const w=new THREE.Mesh(new THREE.TorusGeometry(.25,.03,8,26),green);w.rotation.x=Math.PI/2-.12;w.position.y=.30;o.add(w);
-    for(let i=0;i<9;i++){const a=i/9*Math.PI*2;const f=new THREE.Mesh(new THREE.SphereGeometry(.038,8,8),MAT(i%3?0xC9DCC2:0xE0B7C4));
-      f.position.set(Math.sin(a)*.25,.32+Math.cos(a)*.03,Math.cos(a)*.23);o.add(f)}}
-  else if(kind==='hat'){const br=new THREE.Mesh(new THREE.CylinderGeometry(.46,.46,.03,22),MAT(0x4A5A52,{roughness:1}));br.position.y=.36;o.add(br);
-    const cone=new THREE.Mesh(new THREE.ConeGeometry(.26,.62,16),MAT(0x4A5A52,{roughness:1}));cone.position.y=.68;cone.rotation.z=.12;o.add(cone);
-    const band=new THREE.Mesh(new THREE.TorusGeometry(.245,.028,8,20),copper);band.rotation.x=Math.PI/2;band.position.y=.42;o.add(band)}
-  else if(kind==='circlet'){const ring=new THREE.Mesh(new THREE.TorusGeometry(.25,.018,8,30),copper);ring.rotation.x=Math.PI/2-.12;ring.position.y=.30;o.add(ring);
-    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.045),MAT(0xA7C4C9,{emissive:0x2E4A50}));gem.position.set(0,.31,.245);o.add(gem)}
-  else if(kind==='crown'){const band=new THREE.Mesh(new THREE.CylinderGeometry(.25,.24,.10,14,1,true),MAT(0xB08A4E,{metalness:.8,roughness:.3,side:THREE.DoubleSide}));band.position.y=.34;o.add(band);
-    for(let i=0;i<7;i++){const a=i/7*Math.PI*2;const p=new THREE.Mesh(new THREE.ConeGeometry(.045,.14,4),brass);
-      p.position.set(Math.sin(a)*.245,.44,Math.cos(a)*.245);o.add(p)}}
-  else if(kind==='shawl'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.34,.40,.42,18,1,true),MAT(0x7E9479,{side:THREE.DoubleSide,roughness:1}));
-    s.position.y=-.10;o.add(s);const fr=new THREE.Mesh(new THREE.TorusGeometry(.40,.018,6,22),MAT(0x5F7460));fr.rotation.x=Math.PI/2;fr.position.y=-.31;o.add(fr)}
-  else if(kind==='bag'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,.38,14),MAT(0x5E6E63,{roughness:1}));b.position.y=-.12;o.add(b);
-    const cap=new THREE.Mesh(new THREE.SphereGeometry(.15,12,8,0,Math.PI*2,0,Math.PI/2),MAT(0x46554B));cap.position.y=.07;o.add(cap);
-    const st=new THREE.Mesh(new THREE.TorusGeometry(.22,.02,6,18,Math.PI),MAT(0x46554B));st.position.y=.04;st.rotation.y=Math.PI/2;o.add(st)}
-  else if(kind==='cloak'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.30,.66,1.35,20,1,true),MAT(0x3C4C58,{side:THREE.DoubleSide,roughness:1}));
-    c.position.y=-.52;o.add(c);const lin=new THREE.Mesh(new THREE.CylinderGeometry(.29,.64,1.32,20,1,true),MAT(0x8E4830,{side:THREE.BackSide,roughness:1}));
-    lin.position.y=-.52;o.add(lin);const cl=new THREE.Mesh(new THREE.TorusGeometry(.22,.025,8,18),copper);cl.rotation.x=Math.PI/2;cl.position.y=.10;o.add(cl)}
-  else if(kind==='star'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.30,.70,1.40,20,1,true),MAT(0x2E3448,{side:THREE.DoubleSide,roughness:1}));
-    c.position.y=-.54;o.add(c);
-    for(let i=0;i<14;i++){const s=new THREE.Mesh(new THREE.OctahedronGeometry(.028),MAT(0xE6DCA8,{emissive:0x6A6030}));
-      const a=(i/14)*Math.PI*1.6+Math.PI*.7,rr=.34+Math.random()*.3;
-      s.position.set(Math.sin(a)*rr,-.25-Math.random()*.85,Math.cos(a)*rr-.06);o.add(s)}}
+      const st=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.125,6),green);st.position.set(Math.sin(a)*.017,.035,Math.cos(a)*.017);st.rotation.z=Math.sin(a)*.2;o.add(st);
+      const fl=new THREE.Mesh(new THREE.SphereGeometry(.022,8,8),MAT([0xE0B7C4,0xF0E0C0,0xC9DCC2,0xD8A6B4][i%4]));
+      fl.position.set(Math.sin(a)*.035,.108,Math.cos(a)*.035);o.add(fl)}
+    const tie=new THREE.Mesh(new THREE.TorusGeometry(.02,.005,6,12),copper);tie.rotation.x=Math.PI/2;o.add(tie)}
+  else if(kind==='satchel'){const b=new THREE.Mesh(new THREE.BoxGeometry(.15,.115,.05),MAT(0x7A5A3C));o.add(b);
+    const fl=new THREE.Mesh(new THREE.BoxGeometry(.155,.058,.058),MAT(0x8C6B48));fl.position.y=.035;o.add(fl);
+    const buck=new THREE.Mesh(new THREE.BoxGeometry(.023,.023,.012),brass);buck.position.set(0,0,.032);o.add(buck);o.position.y=-.04}
+  else if(kind==='ribbon'){const band=new THREE.Mesh(new THREE.TorusGeometry(.115,.012,8,26),copper);band.rotation.x=Math.PI/2-.12;band.position.y=.055;o.add(band);
+    const kn=new THREE.Mesh(new THREE.SphereGeometry(.026,8,8),copper);kn.position.set(.02,.075,-.105);o.add(kn)}
+  else if(kind==='knit'){const c=new THREE.Mesh(new THREE.SphereGeometry(.135,16,12,0,Math.PI*2,0,Math.PI/2),MAT(0x436B74,{roughness:1}));c.position.y=.045;o.add(c);
+    const br=new THREE.Mesh(new THREE.CylinderGeometry(.138,.138,.045,18),MAT(0x345560,{roughness:1}));br.position.y=.055;o.add(br);
+    const pom=new THREE.Mesh(new THREE.SphereGeometry(.035,10,8),cream);pom.position.y=.19;o.add(pom)}
+  else if(kind==='wreath'){const w=new THREE.Mesh(new THREE.TorusGeometry(.125,.016,8,26),green);w.rotation.x=Math.PI/2-.1;w.position.y=.055;o.add(w);
+    for(let i=0;i<9;i++){const a=i/9*Math.PI*2;const f=new THREE.Mesh(new THREE.SphereGeometry(.02,8,8),MAT(i%3?0xC9DCC2:0xE0B7C4));
+      f.position.set(Math.sin(a)*.125,.065+Math.cos(a)*.015,Math.cos(a)*.115);o.add(f)}}
+  else if(kind==='hat'){const br=new THREE.Mesh(new THREE.CylinderGeometry(.23,.23,.015,22),MAT(0x4A5A52,{roughness:1}));br.position.y=.075;o.add(br);
+    const cone=new THREE.Mesh(new THREE.ConeGeometry(.13,.31,16),MAT(0x4A5A52,{roughness:1}));cone.position.y=.235;cone.rotation.z=.12;o.add(cone);
+    const band=new THREE.Mesh(new THREE.TorusGeometry(.122,.014,8,20),copper);band.rotation.x=Math.PI/2;band.position.y=.105;o.add(band)}
+  else if(kind==='circlet'){const ring=new THREE.Mesh(new THREE.TorusGeometry(.125,.009,8,30),copper);ring.rotation.x=Math.PI/2-.1;ring.position.y=.055;o.add(ring);
+    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.023),MAT(0xA7C4C9,{emissive:0x2E4A50}));gem.position.set(0,.06,.122);o.add(gem)}
+  else if(kind==='crown'){const band=new THREE.Mesh(new THREE.CylinderGeometry(.125,.12,.05,14,1,true),MAT(0xB08A4E,{metalness:.8,roughness:.3,side:THREE.DoubleSide}));band.position.y=.075;o.add(band);
+    for(let i=0;i<7;i++){const a=i/7*Math.PI*2;const p=new THREE.Mesh(new THREE.ConeGeometry(.023,.07,4),brass);
+      p.position.set(Math.sin(a)*.122,.125,Math.cos(a)*.122);o.add(p)}}
+  else if(kind==='shawl'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.26,.30,.30,18,1,true),MAT(0x7E9479,{side:THREE.DoubleSide,roughness:1}));
+    s.position.y=-.06;o.add(s)}
+  else if(kind==='bag'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.11,.11,.28,14),MAT(0x5E6E63,{roughness:1}));b.position.y=-.10;o.add(b);
+    const cap=new THREE.Mesh(new THREE.SphereGeometry(.11,12,8,0,Math.PI*2,0,Math.PI/2),MAT(0x46554B));cap.position.y=.04;o.add(cap)}
+  else if(kind==='cloak'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.24,.52,1.0,20,1,true),MAT(0x3C4C58,{side:THREE.DoubleSide,roughness:1}));
+    c.position.y=-.40;o.add(c);const lin=new THREE.Mesh(new THREE.CylinderGeometry(.235,.50,.98,20,1,true),MAT(0x8E4830,{side:THREE.BackSide,roughness:1}));
+    lin.position.y=-.40;o.add(lin);const cl=new THREE.Mesh(new THREE.TorusGeometry(.17,.018,8,18),copper);cl.rotation.x=Math.PI/2;cl.position.y=.08;o.add(cl)}
+  else if(kind==='star'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.24,.55,1.05,20,1,true),MAT(0x2E3448,{side:THREE.DoubleSide,roughness:1}));
+    c.position.y=-.42;o.add(c);
+    for(let i=0;i<14;i++){const s=new THREE.Mesh(new THREE.OctahedronGeometry(.018),MAT(0xE6DCA8,{emissive:0x6A6030}));
+      const a=(i/14)*Math.PI*1.6+Math.PI*.7,rr=.26+Math.random()*.22;
+      s.position.set(Math.sin(a)*rr,-.20-Math.random()*.65,Math.cos(a)*rr-.05);o.add(s)}}
   else return null;
   return o;
+}
+
+/* ---------- asset loading ---------- */
+function h3load(url){return new Promise((res,rej)=>new GLTFLoader().load(url,res,undefined,rej))}
+async function h3assets(){
+  if(H3.assets.hero)return H3.assets;
+  const [hero,anims,down,up]=await Promise.all([
+    h3load('models/hero.glb'),h3load('models/anims.glb'),
+    h3load('models/hair-down.glb'),h3load('models/hair-up.glb')]);
+  H3.assets.hero=hero.scene;
+  H3.assets.raw=hero;
+  anims.animations.forEach(c=>H3.assets.clips[c.name]=c);
+  H3.assets.hair.down=down.scene;H3.assets.hair.up=up.scene;
+  return H3.assets;
+}
+/* the hair packs ship with their own copy of the same skeleton — rebind them to hers
+   by bone name so one mixer drives everything. */
+function h3attachHair(root,hairScene,skel){
+  const byName={};skel.bones.forEach(b=>byName[b.name]=b);
+  let mesh=null;hairScene.traverse(o=>{if(o.isSkinnedMesh&&!mesh)mesh=o});
+  if(!mesh)return null;
+  const clone=mesh.clone();
+  clone.skeleton=new THREE.Skeleton(mesh.skeleton.bones.map(b=>byName[b.name]||b),mesh.skeleton.boneInverses);
+  clone.bindMode=mesh.bindMode;clone.bindMatrix=mesh.bindMatrix.clone();
+  clone.bindMatrixInverse=mesh.bindMatrixInverse.clone();
+  clone.material=mesh.material.clone();
+  clone.frustumCulled=false;
+  root.add(clone);
+  return clone;
 }
 
 function hero3dSync(){
   const R=H3.R;if(!R)return;
   S.gear3d=S.gear3d||{};
-  if(H3.cls!==heroClass()){hero3dLoadModel(heroClass());return}
+  // hair: ponytail by default, down when she unties it
+  const up=!(S.look&&S.look.beard);
+  if(R.hair.up)R.hair.up.visible=up;
+  if(R.hair.down)R.hair.down.visible=!up;
+  const hairCol=new THREE.Color(HAIR[(S.look&&S.look.hair)||0][0]);
+  ['up','down'].forEach(k=>{if(R.hair[k])R.hair[k].material.color.copy(hairCol)});
+  if(R.eyebrows)R.eyebrows.material.color.copy(hairCol);
+  // skin tone rides the same material, tinted
+  if(R.body)R.body.material.color.copy(new THREE.Color(SKIN[(S.look&&S.look.skin)||0][0]).multiplyScalar(1.25));
+  // outfit colours follow the class
+  if(H3.cls!==heroClass()){hero3dReskin(heroClass())}
   for(const slot of ['r','l','head','back']){
     const id=S.gear3d[slot],g=id?g3(id):null,cur=H3.attached[slot];
     if(cur&&(!g||cur.id!==g[0])){if(cur.obj.parent)cur.obj.parent.remove(cur.obj);delete H3.attached[slot]}
     if(!g)continue;
     if(H3.attached[slot]&&H3.attached[slot].id===g[0])continue;
-    const o=h3piece(g[6].replace('code:',''));if(!o)continue;
-    R.anchors[slot].add(o);H3.attached[slot]={id:g[0],obj:o};
+    const anchor=R.anchors[slot];if(!anchor)continue;
+    const src=g[6];
+    if(src.startsWith('file:')){
+      if(H3.loadingSlot[slot]===g[0])continue;
+      H3.loadingSlot[slot]=g[0];
+      const fname=src.slice(5);
+      const place=o=>{
+        delete H3.loadingSlot[slot];
+        if((S.gear3d||{})[slot]!==g[0])return;
+        const w=o.clone(true);
+        /* GRIP: weapons are exported standing up the +Y axis with the handle at the origin.
+           Nudge these three numbers if a piece sits wrong in her hand. */
+        w.rotation.set(-Math.PI/2,0,slot==='l'?Math.PI:0);
+        w.position.set(0,.03,0);
+        const cur2=H3.attached[slot];if(cur2&&cur2.obj.parent)cur2.obj.parent.remove(cur2.obj);
+        anchor.add(w);H3.attached[slot]={id:g[0],obj:w};
+      };
+      if(H3.gearCache[fname]){place(H3.gearCache[fname]);continue}
+      h3load('models/gear/'+fname+'.glb').then(gl=>{H3.gearCache[fname]=gl.scene;place(gl.scene)})
+        .catch(()=>{delete H3.loadingSlot[slot]});
+      continue;
+    }
+    const o=h3piece(src.replace('code:',''));if(!o)continue;
+    o.rotation.x=-Math.PI/2;o.position.set(0,.02,0);
+    anchor.add(o);H3.attached[slot]={id:g[0],obj:o};
   }
-  // hair up or down follows the journal figure
-  const up=!!(S.look&&S.look.beard);
-  R.parts.bun.visible=up;
-  R.parts.curls.forEach((m,i)=>{if(i>=28)m.visible=!up});
   hero3dPlay();
 }
-function hero3dPlay(name){
-  const R=H3.R;if(!R)return;
-  if(name==='Cheer'){R.anim={mode:'cheer',t:0};return}
-  if(R.anim&&R.anim.mode==='cheer')return;
-  R.anim={mode:'idle',t:(R.anim&&R.anim.t)||0};
+function hero3dReskin(cls){
+  const R=H3.R;if(!R)return;const C=CLASSES[cls]||CLASSES.apprentice;
+  Object.values(R.kit).forEach(part=>part.traverse(o=>{
+    if(o.material&&o.userData.tint==='robe')o.material.color.set(C.robe);
+    if(o.material&&o.userData.tint==='trim')o.material.color.set(C.trim);
+  }));
+  H3.cls=cls;
 }
-function hero3dCheer(){ if(H3.R)hero3dPlay('Cheer'); else H3.cheerQueued=true }
+function hero3dPlay(name){
+  const R=H3.R;if(!R||!R.mixer)return;
+  const c=condition()[0];
+  const armed=['r','l'].some(sl=>{const id=(S.gear3d||{})[sl];return !!id});
+  const idle=[armed?'Sword_Idle':'Idle_Loop',armed?'Sword_Idle':'Idle_Talking_Loop','Sitting_Idle_Loop'][c];
+  const target=name||idle,a=R.actions[target];if(!a)return;
+  if(R.current===a&&!name)return;
+  if(!name&&R.current&&R.current._name==='Dance_Loop'&&R.danceUntil>performance.now())return;
+  a._name=target;
+  if(R.current&&R.current!==a)R.current.fadeOut(.35);
+  a.reset().fadeIn(.35).play();
+  a.timeScale=(c===1&&!name)?.7:1;
+  R.current=a;
+  if(name==='Dance_Loop'){R.danceUntil=performance.now()+3200;setTimeout(()=>{R.current=null;hero3dPlay()},3200)}
+}
+function hero3dCheer(){ if(H3.R)hero3dPlay('Dance_Loop'); else H3.cheerQueued=true }
 function hero3dInit(){
   if(H3.ready||H3.failed)return;
   if(!S){H3.deferred=true;return}
   const host=el('stage3d');
-  if(!window.THREE){H3.failed=true;host.classList.add('hid');return}
+  if(!window.THREE||!window.GLTFLoader){H3.failed=true;host.classList.add('hid');return}
   H3.ready=true;
   const W=host.clientWidth,Hh=host.clientHeight;
   const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
@@ -2337,8 +2299,8 @@ function hero3dInit(){
   const hemi=new THREE.HemisphereLight(0xEFF3E6,0x2E3830,1.9);scene.add(hemi);
   const key=new THREE.DirectionalLight(0xFFF6E8,2.1);key.position.set(2.5,4,3);scene.add(key);
   const rim=new THREE.DirectionalLight(0xB9643F,1.0);rim.position.set(-3,2,-3);scene.add(rim);
-  const ground=new THREE.Mesh(new THREE.CircleGeometry(1.6,32),new THREE.MeshBasicMaterial({color:0x1F2620,transparent:true,opacity:.22}));
-  ground.rotation.x=-Math.PI/2;ground.position.y=-.02;scene.add(ground);
+  const ground=new THREE.Mesh(new THREE.CircleGeometry(1.5,32),new THREE.MeshBasicMaterial({color:0x1F2620,transparent:true,opacity:.22}));
+  ground.rotation.x=-Math.PI/2;ground.position.y=.005;scene.add(ground);
   H3.stage={renderer,scene,cam,look,hemi,key,rim};
   hero3dLoadModel(heroClass(),()=>{
     let rotY=.35,drag=null,vel=0;
@@ -2359,37 +2321,11 @@ function hero3dInit(){
       if(el('t-hero').classList.contains('hid'))return;
       const R=H3.R;if(!R)return;
       const dt=Math.min(.05,clock.getDelta());
+      if(R.mixer)R.mixer.update(reduced?0:dt);
       if(!drag){if(!reduced)rotY+=vel;vel*=.92;if(Math.abs(vel)<.0005)vel=0}
       R.model.rotation.y=rotY;
       const c=condition()[0];
-      const A=R.anim||(R.anim={mode:'idle',t:0});A.t+=dt;
-      const P=R.parts;
-      if(!reduced){
-        const br=Math.sin(A.t*(c===1?1.1:1.8))*.012;
-        P.torso.scale.set(1+br,1-br*.5,1+br);
-        P.headG.rotation.z=Math.sin(A.t*.6)*.03;
-        P.headG.rotation.y=Math.sin(A.t*.37)*.10;
-        P.hairG.rotation.z=Math.sin(A.t*.6-.4)*.05;
-        P.right.arm.rotation.x=Math.sin(A.t*.9)*.05;
-        P.left.arm.rotation.x=Math.sin(A.t*.9+1.2)*.05;
-        if(A.mode==='cheer'){
-          const k=Math.min(1,A.t/1.4);
-          const hop=Math.abs(Math.sin(A.t*7))*(1-k)*.22;
-          R.model.position.y=-.02+hop;
-          P.right.arm.rotation.z=-2.1*(1-k*.6);P.left.arm.rotation.z=2.1*(1-k*.6);
-          P.headG.rotation.x=-.16*(1-k);
-          if(A.t>1.5){A.mode='idle';A.t=0;R.model.position.y=-.02;
-            P.right.arm.rotation.z=-.0;P.left.arm.rotation.z=.0}
-        }else{
-          R.model.position.y=-.02;
-          P.right.arm.rotation.z=0;P.left.arm.rotation.z=0;
-        }
-      }
-      // condition posture
-      const slump=[0,.10,.22][c];
-      P.torso.rotation.x+=(slump-P.torso.rotation.x)*Math.min(1,dt*3);
-      P.headG.rotation.x+=((A.mode==='cheer'?P.headG.rotation.x:slump*1.3)-P.headG.rotation.x)*Math.min(1,dt*3);
-      const CV=[[[0,1.45,6.1],[0,1.02,0],1],[[0,1.35,5.8],[0,.95,0],.72],[[.6,1.2,4.9],[0,.7,0],.5]][c];
+      const CV=[[[0,1.45,6.1],[0,1.02,0],1],[[0,1.35,5.8],[0,.95,0],.72],[[.5,1.05,4.6],[0,.55,0],.5]][c];
       const k=reduced?1:Math.min(1,dt*3);
       cam.position.lerp(tmp.set(...CV[0]),k);look.lerp(new THREE.Vector3(...CV[1]),k);cam.lookAt(look);
       const L=dayLight();
@@ -2403,20 +2339,62 @@ function hero3dInit(){
 }
 
 function hero3dLoadModel(cls,then){
-  const st=H3.stage;if(!st)return;
-  const ld=el('stage3dload');if(ld)ld.classList.add('hid');
-  if(H3.R)st.scene.remove(H3.R.model);
-  H3.attached={};
-  const built=buildHero(cls);
-  st.scene.add(built.group);
-  const first=!H3.R;
-  H3.R={renderer:st.renderer,scene:st.scene,cam:st.cam,model:built.group,anchors:built.anchors,
-        parts:built.parts,anim:{mode:'idle',t:0},look:st.look,hemi:st.hemi,key:st.key};
-  H3.cls=cls;
-  hero3dSync();
-  if(H3.cheerQueued||!first){H3.cheerQueued=false;hero3dPlay('Cheer')}
-  if(then&&first)then();
+  const st=H3.stage;if(!st||H3.loading)return;
+  // the rig is built once; a class change just repaints the kit
+  if(H3.R){hero3dReskin(cls);hero3dSync();if(then)then();return}
+  H3.loading=true;
+  const ld=el('stage3dload');if(ld){ld.textContent='Loading character…';ld.classList.remove('hid')}
+  h3assets().then(A=>{
+    H3.attached={};
+    const model=A.hero;
+    let body=null,eyebrows=null,eyes=null,skel=null;
+    model.traverse(o=>{
+      if(o.isSkinnedMesh){
+        o.material=o.material.clone();o.frustumCulled=false;
+        if(/Superhero/i.test(o.name)){body=o;skel=o.skeleton}
+        else if(/Eyebrow/i.test(o.name))eyebrows=o;
+        else if(/Eye/i.test(o.name))eyes=o;
+      }
+    });
+    if(!skel){H3.failed=true;H3.loading=false;el('stage3d').classList.add('hid');return}
+    const bone=n=>skel.bones.find(b=>b.name===n)||model.getObjectByName(n);
+    // the ranger kit, pinned to bones
+    const kit=rangerKit(cls),kitParts={};
+    Object.entries(kit).forEach(([bname,part])=>{
+      const b=bone(bname);if(!b)return;
+      part.traverse(o=>{if(o.material){
+        const c=o.material.color.getHex();
+        o.userData.tint = c===CLASSES[cls].robe ? 'robe' : c===CLASSES[cls].trim ? 'trim' : null;
+      }});
+      b.add(part);kitParts[bname]=part;
+    });
+    const hair={};
+    hair.up=h3attachHair(model,A.hair.up,skel);
+    hair.down=h3attachHair(model,A.hair.down,skel);
+    const anchors={
+      r:(()=>{const g=new THREE.Group();const b=bone('hand_r');if(b)b.add(g);return g})(),
+      l:(()=>{const g=new THREE.Group();const b=bone('hand_l');if(b)b.add(g);return g})(),
+      head:(()=>{const g=new THREE.Group();const b=bone('Head');if(b)b.add(g);g.position.y=.14;return g})(),
+      back:(()=>{const g=new THREE.Group();const b=bone('spine_03');if(b)b.add(g);g.position.z=-.1;return g})()
+    };
+    st.scene.add(model);
+    const mixer=new THREE.AnimationMixer(model);
+    const actions={};
+    Object.entries(A.clips).forEach(([n,c])=>{actions[n]=mixer.clipAction(c)});
+    const first=!H3.R;
+    H3.R={renderer:st.renderer,scene:st.scene,cam:st.cam,model,mixer,actions,current:null,
+          anchors,kit:kitParts,hair,body,eyebrows,eyes,skel,look:st.look,hemi:st.hemi,key:st.key,danceUntil:0};
+    H3.cls=cls;H3.loading=false;
+    const ld2=el('stage3dload');if(ld2)ld2.classList.add('hid');
+    hero3dSync();
+    if(H3.cheerQueued||!first){H3.cheerQueued=false;hero3dPlay('Dance_Loop')}
+    if(then&&first)then();
+  }).catch(err=>{
+    H3.loading=false;console.warn('character failed',err);
+    if(!H3.R){H3.failed=true;el('stage3d').classList.add('hid')}
+  });
 }
+
 /* ---------- tiny synthesized sound effects ---------- */
 let ACTX=null;
 function sfx(kind){
@@ -2458,8 +2436,15 @@ function fanfareSynth(){
     out.gain.exponentialRampToValueAtTime(.0001,t0+4.4);
   }catch(e){}
 }
+let fanfareEl=null;
 function fanfare(){
-  try{ if(S&&S.settings&&S.settings.sound===false)return; fanfareSynth() }catch(e){}
+  try{
+    if(S&&S.settings&&S.settings.sound===false)return;
+    fanfareEl=fanfareEl||new Audio('theme.mp3');
+    fanfareEl.currentTime=0;
+    const p=fanfareEl.play();
+    if(p&&p.catch)p.catch(()=>fanfareSynth());
+  }catch(e){fanfareSynth()}
 }
 (function splash(){
   const s=el('splash');if(!s)return;
@@ -2522,7 +2507,7 @@ function miniBoss(){
   const q=(pool.length?pool:MINI)[Math.floor(Math.random()*(pool.length?pool:MINI).length)];
   P.n++;S.recent.unshift(q.t);S.recent=S.recent.slice(0,14);save();
   el('pop').classList.add('on');
-  gate({t:q.t,a:q.a,wg:q.wg,x:q.x,tagline:'⚔ Mini boss · '+['out of nowhere','blocks your path','has appeared','wants a word','smells fear'][Math.floor(Math.random()*5)],mini:true},
+  gate({t:q.t,a:q.a,wg:q.wg,x:q.x,tagline:ic('dragon-asleep','ic-tag')+'Mini boss · '+['out of nowhere','blocks your path','has appeared','wants a word','smells fear'][Math.floor(Math.random()*5)],mini:true},
     'popbox',()=>{el('pop').classList.remove('on');schedulePop()});
   sfx('boss');
 }
@@ -2535,7 +2520,7 @@ function firePop(){
   const q=src[Math.floor(Math.random()*src.length)];
   P.n++;save();
   el('pop').classList.add('on');
-  gate({t:q.t,a:q.a,wg:q.wg,x:q.x,tagline:roll<.4?'Micro-quest · out of nowhere':roll<.75?'Bonus quest · out of nowhere':'Wild'},
+  gate({t:q.t,a:q.a,wg:q.wg,x:q.x,tagline:roll<.4?ic('signpost')+'Micro-quest · out of nowhere':roll<.75?ic('campfire')+'Bonus quest · out of nowhere':ic('owl')+'Wild'},
     'popbox',()=>{el('pop').classList.remove('on');schedulePop()});
 }
 
