@@ -79,3 +79,5 @@ The remaining deployment task is selecting/provisioning KK’s dedicated Worker/
 Use `kk_quest_v3_0_0_github.zip` instead of the earlier 114-file package. Extract the outer ZIP only, then upload its contents at KK’s existing app root. Keep `legacy-3d-gear.zip` zipped: it contains the 24 retired 3D gear models for archival completeness and is not needed by the active pixel renderer. Do not expand that inner archive into the upload. All active pixel images and original artwork references remain individual files. Existing `models/gear/` files already in the repository may remain; no deletion is needed.
 
 The outer archive contains exactly 91 files, below 100. App behavior and save format are unchanged from the tested v3.0.0 release.
+
+Version 3.0.1 additionally verifies that the entry-screen handler creates its audio player from `theme.mp3`. The packaged MP3 is byte-identical to the user-supplied file (SHA-256 `17188cd6cfe896258e438858d931675e6ac985ebac8255c9e8d32b5dee52f135`).

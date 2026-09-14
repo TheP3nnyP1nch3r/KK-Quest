@@ -1,4 +1,4 @@
-KK’s Quest — v3.0.0
+KK’s Quest — v3.0.1
 Kaitlyn / Ashcombe Hall
 
 This is an update of KK’s original v2.0.0 app, not Ty’s Kaitlyn profile.
@@ -45,6 +45,10 @@ Family-summary correction: the original header/review/season code referenced an 
 
 ## GitHub upload package — 91 files
 
-Use `kk_quest_v3_0_0_github.zip` instead of the earlier 114-file package. Extract the outer ZIP only, then upload its contents at KK’s existing app root. Keep `legacy-3d-gear.zip` zipped: it contains the 24 retired 3D gear models for archival completeness and is not needed by the active pixel renderer. Do not expand that inner archive into the upload. All active pixel images and original artwork references remain individual files. Existing `models/gear/` files already in the repository may remain; no deletion is needed.
+Use `kk_quest_v3_0_1_github.zip` instead of the earlier 114-file package. Extract the outer ZIP only, then upload its contents at KK’s existing app root. Keep `legacy-3d-gear.zip` zipped: it contains the 24 retired 3D gear models for archival completeness and is not needed by the active pixel renderer. Do not expand that inner archive into the upload. All active pixel images and original artwork references remain individual files. Existing `models/gear/` files already in the repository may remain; no deletion is needed.
 
-The outer archive contains exactly 91 files, below 100. App behavior and save format are unchanged from the tested v3.0.0 release.
+The outer archive contains exactly 91 files, below 100. App behavior and save format are unchanged from the tested v3.0.1 release.
+
+Version 3.0.1: Equipped starts collapsed and opens/closes by clicking its heading or using the keyboard. New characters begin with female Battlemage artwork and the Wayfinder staff. Battlemage is a cosmetic outfit; the existing Apprentice gameplay class and all existing saves/equipment remain unchanged.
+
+The supplied theme.mp3 plays when the player taps or keyboard-activates the entry screen. The synthesized fanfare remains only as a playback-error fallback.

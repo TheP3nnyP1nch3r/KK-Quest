@@ -404,8 +404,8 @@
   </div>
 
   <div class="panel" id="p-gear"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Equipped</h2>
-    <div id="gear"></div>
+    <details id="equipment-details"><summary>Equipped</summary>
+    <div id="gear"></div></details>
   </div>
 
   <div class="panel" id="p-comps"><i class="stain a"></i><i class="stain b"></i>
@@ -2056,7 +2056,7 @@ el('logmatch').onclick=()=>{
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');setTimeout(pixelNext,600)}
   else toast(`+${grand} xp on the court.`)};
-const APP_VERSION='3.0.0';
+const APP_VERSION='3.0.1';
 const TABS={
  today:['p-commit','p-lift','p-today','p-board','p-special','p-boss','p-draw'],
  plan:['p-log','p-season','p-week'],
@@ -2517,7 +2517,7 @@ let fanfareEl=null;
 function fanfare(){
   try{
     if(S&&S.settings&&S.settings.sound===false)return;
-    fanfareEl=fanfareEl||new Audio('fanfare.mp3');
+    fanfareEl=fanfareEl||new Audio('theme.mp3');
     fanfareEl.currentTime=0;
     const p=fanfareEl.play();
     if(p&&p.catch)p.catch(()=>fanfareSynth());

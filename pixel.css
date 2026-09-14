@@ -26,3 +26,7 @@ button:focus-visible,select:focus-visible{outline:3px solid #35677a;outline-offs
 @keyframes pixel-idle{50%{transform:translateY(-2px) rotate(.3deg)}}@keyframes pet-idle{50%{transform:translateY(-3px) rotate(-1deg)}}@keyframes pixel-cheer{50%{transform:translateY(-9px) rotate(-2deg)}}
 @media(max-width:440px){.pixel-stage{min-height:310px}.pixel-stage>.pixel-figure{width:220px}.collection{grid-template-columns:repeat(3,minmax(0,1fr))}.collection button{min-width:0}.collection img{max-width:100%}}
 @media(prefers-reduced-motion:reduce){.pixel-rig,.pixel-pet,.lawson-art{animation:none!important;transform:none!important}}
+
+#equipment-details>summary{cursor:pointer;font-family:var(--fd);font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 0;list-style:disclosure-closed}
+#equipment-details[open]>summary{list-style:disclosure-open;margin-bottom:14px}
+#equipment-details>summary:focus-visible{outline:3px solid #35677a;outline-offset:4px}
