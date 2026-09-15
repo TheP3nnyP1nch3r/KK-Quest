@@ -1,54 +1,40 @@
-KK’s Quest — v3.0.1
+KK’s Quest — v4.0.0
 Kaitlyn / Ashcombe Hall
 
-This is an update of KK’s original v2.0.0 app, not Ty’s Kaitlyn profile.
-Open REPLACEMENT-INSTRUCTIONS.md before replacing the deployed app.
-See TEST-REPORT.md for verified behavior and limits.
+This updates KK’s existing app with the shared presentation and character work
+from Ty’s Quest v5.6.0. It remains KK’s app and save format. Open
+REPLACEMENT-INSTRUCTIONS.md before replacing the deployed files, and see
+TEST-REPORT.md for the completed checks and practical limits.
 
-New: female-default layered pixel character; Ranger, Knight, Battlemage and
-Trailkeeper outfits; modular headwear, tools/weapons, offhand and collectible
-pets; permanent ownership; collection silhouettes; refresh-safe reward offers;
-Lawson’s permanent artwork; download current save and pre-update backup.
+New in v4.0.0:
+- parchment map page background and illustrated hero-stage background
+- adult Dragon, Wolf, Fox and Griffin artwork from level 10 onward
+- improved weapon placement and gentle whole-layer hero/pet motion
+- collapsible equipment, skills, Chronicle, Burn Boot Camp and session sections
+- Today/Plan/Hero/Extras layout aligned with Ty v5.6.0
+- repeating custom quests, quick tomorrow entry and year-ago history banner
+- refresh-safe wandering-character schedule and optional miss-reason notes
 
-KK’s Apprentice, Scholar, Warden and Herbalist classes remain gameplay classes.
-Initial cosmetics match their theme, but changing outfits never changes class.
-Existing players receive cosmetic reward choices for levels already reached.
-Pets are offered at levels 3, 13, 23, 33; level 10 offers gold-styled sword/paddle.
-Choose later postpones the modal; use Hero → Check/Open rewards to resume.
-Pending old rewards are honored first. Unmatched legacy items remain archived.
+KK still starts as the Apprentice gameplay class with female Battlemage artwork
+and the Wayfinder staff. Battlemage is cosmetic: outfits and equipment never
+change Apprentice, Scholar, Warden or Herbalist. Existing saves keep their saved
+class and current equipment. The supplied theme.mp3 plays when the entry screen
+is tapped or keyboard-activated.
 
-KK’s original gameplay, quests, family text, XP formulas, attributes, skill
-benefits, inventory, and sync envelope are retained. Original DD-related code
-already in KK v2.0.0 remains; no Ty commitments or DD code were imported.
-The existing skill-label display bug is fixed. Wardrobe skill text now explains
-that cosmetics are freely swappable; the skill’s vitality benefit is unchanged.
+KK’s attributes, quests, commitments, relationships, routines, birthdays,
+seasons, focus definitions, badges, XP, skills, inventory, history and sync
+identity are retained. No Ty profile, save key, personal quest table, season,
+relationship wording or profile selector was imported. The source has no
+separate Enneagram field; no personality value was invented or copied.
 
 Save key: liferpg:kk:v1 (unchanged)
 Sync settings: liferpg:kk:sync (unchanged)
-Pre-update backup: liferpg:kk:v1:pre-pixel-v3 (first legacy save, immutable)
-Pixel additions live in save.pixel and travel through the same KK sync flow.
-Never use Ty’s Worker or KV for KK. One Worker stores one current save.
+Pre-update backup: liferpg:kk:v1:pre-pixel-v3 (unchanged and immutable)
 
-Artwork is supplied reference artwork, not newly generated. Motion translates
-or rotates whole layers. There are no new walking, attacking or wing-flap frames.
-Reduced-motion CSS disables pixel movement. Old 3D files are retained for archive
-completeness, but the new character view does not initialize the 3D renderer.
+KK needs her own Worker, KV namespace and URL. One Worker stores one current
+save; a different token on Ty’s Worker is not an independent save.
 
-Node tests, from this folder:
-  node tests/pixel-core.test.cjs
-  node tests/service-worker.test.cjs
-  node tests/worker.test.cjs
+This package contains exactly 97 files. Keep legacy-3d-gear.zip compressed so
+the GitHub upload remains below 100 files. No GitHub, deployment or live cloud
+action was performed.
 
-No GitHub, deployment or live cloud action was performed for this release.
-
-Family-summary correction: the original header/review/season code referenced an extra `kk` bond. These now read the existing `ty` bond, matching KK’s Ty/Lawson family cards. Stored bonds are unchanged; any old extra `comp.kk` field is retained but no longer used. Family-bond season progress consequently reflects Ty and Lawson.
-
-## GitHub upload package — 91 files
-
-Use `kk_quest_v3_0_1_github.zip` instead of the earlier 114-file package. Extract the outer ZIP only, then upload its contents at KK’s existing app root. Keep `legacy-3d-gear.zip` zipped: it contains the 24 retired 3D gear models for archival completeness and is not needed by the active pixel renderer. Do not expand that inner archive into the upload. All active pixel images and original artwork references remain individual files. Existing `models/gear/` files already in the repository may remain; no deletion is needed.
-
-The outer archive contains exactly 91 files, below 100. App behavior and save format are unchanged from the tested v3.0.1 release.
-
-Version 3.0.1: Equipped starts collapsed and opens/closes by clicking its heading or using the keyboard. New characters begin with female Battlemage artwork and the Wayfinder staff. Battlemage is a cosmetic outfit; the existing Apprentice gameplay class and all existing saves/equipment remain unchanged.
-
-The supplied theme.mp3 plays when the player taps or keyboard-activates the entry screen. The synthesized fanfare remains only as a playback-error fallback.

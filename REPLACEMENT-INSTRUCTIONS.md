@@ -1,81 +1,64 @@
-# Replace KK’s Quest with v3.0.1
+# Replace KK’s Quest with v4.0.0
 
-This ZIP updates **KK’s existing repository**. Do not upload it to Ty’s repository or replace Ty’s app. No repository URL or deployment branch was supplied, so those two existing project settings must be selected by you.
+Use this ZIP only in **KK’s existing repository and deployment branch**. Nothing in this package was published or connected to GitHub.
 
-## 1. Protect the current progress
+## 1. Back up KK’s current progress
 
-1. In the existing KK app, use **Night → Copy save code** (the existing export control) and paste the complete JSON into a text file named `kk-before-v3.json`. Keep it outside the repository. Record her level and XP.
-2. If sync is enabled, confirm that its URL belongs to KK’s own Worker and that its KV namespace is separate from Ty’s. If unsure, disconnect sync before updating. A different token on Ty’s Worker does not create a separate save.
-3. Keep the same deployed hostname, protocol and browser profile. Browser saves are tied to the origin. Do not clear site data, uninstall the app, reset the hero or change its save key. GitHub file replacement itself does not remove browser storage.
-4. Download the existing repository ZIP or note the current commit for rollback. Close other KK tabs/devices during the update so old code does not write over a newer save.
+1. Open the currently deployed KK app. In **Extras** or the existing save section, use **Copy save code** and save the complete JSON as `kk-before-v4.json` outside the repository. Record her visible level and XP.
+2. If cloud sync is enabled, confirm its URL uses KK’s own Worker and KV namespace. Disconnect it before the update if ownership is uncertain. A second token on Ty’s Worker still shares that Worker’s one saved state.
+3. Close other KK tabs and devices until the replacement is verified. Keep the same site URL and browser profile because local progress belongs to that browser origin.
+4. Download the current repository ZIP or record the current commit so the release can be rolled back.
 
-## 2. Replace repository files
+## 2. Replace the GitHub files
 
-Unzip `kk_quest_v3_0_1_github.zip` (outer ZIP only). Its contents are the app root: `index.html` must stay at the same path where KK’s current `index.html` lives, not one folder deeper.
+Extract the outer `kk_quest_v4_0_0_github.zip`. Its contents are the app root; `index.html` must remain at the same path as KK’s current `index.html`.
 
-For an existing local clone (recommended for folder uploads):
+### Recommended: local clone
 
-1. Open **KK’s** clone in Finder and verify its Git remote and deployment branch. Switch to that branch and pull its current contents using your normal Git client. Resolve any existing local work before replacing files.
-2. Copy **all contents of the extracted ZIP** into the directory containing KK’s existing `index.html`, replacing same-named files and merging folders. Keep `.git`, `.github`, any custom `CNAME`, and your existing hosting configuration. Do not copy a ZIP as a substitute for its extracted files. No old asset deletion is required.
-3. Inspect the diff. The changed runtime files are `index.html`, `sw.js`, and the new `pixel-core.js`, `pixel-ui.js`, `pixel.css`, `assets/pixel/`. Worker labels/configuration are corrected under `worker/`. Reference artwork, documentation and tests are included. KK’s manifest, icons, map, theme music and original assets remain.
-4. Commit with a message such as `Update KK Quest to v3.0.1 pixel character system`, then push to KK’s configured deployment branch when you are ready to publish. These are instructions for you; no push was performed by this task.
+1. Open KK’s local clone and verify its remote and deployment branch. Pull the latest version and resolve any existing local changes.
+2. Copy every extracted file and folder into the directory containing KK’s `index.html`, replacing same-named files and merging folders. Preserve `.git`, `.github`, `CNAME`, and any repository-specific hosting files.
+3. Keep `legacy-3d-gear.zip` compressed. Do not expand it into the repository; the outer package is 97 files and the retired models inside that archive are not used by the active character renderer.
+4. Review the diff. The shared visual update is mainly in `index.html`, `pixel-ui.js`, `pixel.css`, `sw.js`, `bg-map2.jpg`, and `assets/pixel/`. KK’s storage identity and personal game tables remain hers.
+5. Commit and push to **KK’s** configured deployment branch when you choose to publish. A suitable message is `Update KK Quest to v4.0.0`.
 
-For GitHub’s website: open KK’s repository on its deployment branch, navigate to the directory containing `index.html`, choose **Add file → Upload files**, and drag the extracted files/folders there. Commit the replacements. If the browser rejects the upload size or file count, use the local-clone method above rather than omitting assets. Uploading a nested wrapper folder will break the existing site paths.
+### GitHub website upload
 
-After replacement, the app root must contain:
+Open KK’s repository at its deployment branch. Navigate to the folder containing `index.html`, choose **Add file → Upload files**, and drag in the **contents** of the extracted folder. Commit the replacements. Do not upload a wrapper folder or the outer ZIP itself. The package contains 97 files, below GitHub’s 100-file web-upload limit.
+
+The app root should include:
 
 ```text
-index.html
-pixel-core.js
-pixel-ui.js
-pixel.css
-sw.js
-manifest.webmanifest
-assets/pixel/                 all supplied PNGs and supporting asset files
-artwork-references/           original supplied reference material
-icons/  critters/  models/    retained KK assets
-icon-180.png  icon-192.png  icon-512.png
-map.jpg  theme.mp3  three.min.js
-worker/                      separate optional cloud service; see below
+index.html                  pixel-core.js             pixel-ui.js
+pixel.css                   sw.js                     manifest.webmanifest
+bg-map2.jpg                 map.jpg                   theme.mp3
+assets/pixel/               icons/                    critters/
+models/                     artwork-references/       worker/
+legacy-3d-gear.zip          tests/                    README.txt
+REPLACEMENT-INSTRUCTIONS.md TEST-REPORT.md
 ```
 
-The static app has no build step. Preserve the repository’s existing hosting/deploy integration. Replacing `worker/` files in the site repository does **not** deploy a Worker by itself.
+This static app has no build step. Replacing the `worker/` source in the repository does not deploy a Cloudflare Worker.
 
-## 3. Verify the deployed replacement
+## 3. Verify the deployed app
 
-1. Wait for your existing hosting deployment to finish, then reopen KK’s app at its original URL. Reload once more if the version still shows v2.0.0; the new cache is `kkquest-v3.0.1`. Do not clear storage as a cache fix.
-2. Confirm **Kaitlyn’s Quest · Ashcombe Hall · v3.0.1**, her previous XP, skills, class and family bonds. Normal existing day-rollover behavior still runs; testing migration does not suspend daily gameplay.
-3. On Hero, confirm female artwork, the Collection book, and the class shown separately from the outfit. Existing pending legacy offers appear first; additional cosmetic offers catch up to the current level.
-4. In Night, download the current save and the pre-update backup. The automatic backup is made before the first legacy-save migration. A fresh install with no old save has no pre-update backup.
-5. Equip an owned item, reload, and verify that it stays equipped. Reopen rewards and confirm the same offer remains if you postponed it.
-6. Reopen other KK devices only after the primary device is verified. Update each before resuming play.
+1. Wait for the existing hosting deployment, then reopen KK’s original URL. If the old UI remains, reload once; v4 uses cache `kkquest-v4.0.0`. Do not clear site data.
+2. Confirm the footer says **Kaitlyn’s Quest · Ashcombe Hall · v4.0.0** and that her previous XP, gameplay class, skills, inventory, custom quests, relationships and season are present.
+3. Confirm the entry tap plays `theme.mp3`. On Hero, confirm the female character, current gameplay class, separate outfit label, illustrated stage and collapsed **Equipped gear & collection** drawer.
+4. Open the drawer. Confirm owned equipment remains owned and can be swapped without changing gameplay class. Postponed loot should show the same saved offer after a reload.
+5. At level 10 or above, an equipped pet uses its adult artwork. Pet unlock choices remain at levels 3, 13, 23 and 33.
+6. Check Today and Plan for the reordered quest layout, repeat selector, quick tomorrow field and collapsible sections. Check a phone-sized view for horizontal overflow.
+7. In Extras, download the current save and the pre-update backup. A new install with no earlier save will not have a migration backup.
+8. Reopen other KK devices only after the primary device is verified and updated.
 
-If the URL changed, import the saved **KK JSON** using Night’s paste-save control. Downloaded JSON files are restored by opening the file, copying its full contents and using that control; there is no file-picker import. Ty-format saves are rejected.
+If the deployed URL changed, paste the full `kk-before-v4.json` contents into KK’s import control. The validator rejects Ty-format saves.
 
-## 4. Independent KK cloud progress
+## 4. Independent KK sync
 
-If KK already has a dedicated working Worker/KV, preserve her current URL/token. Otherwise follow `worker/README.md` to create `kk-quest-sync` and a new `kk-quest-state` KV namespace, bind it as `STATE`, and set a unique `TOKEN` secret. Keep the token out of GitHub.
+If KK already has a dedicated working Worker/KV, keep its current URL and token. Otherwise follow `worker/README.md` and `worker/SETUP.md` to create a Worker and KV namespace used only by KK, bind it as `STATE`, and set a unique `TOKEN` secret. Keep that token out of GitHub.
 
-Connect the primary device with the verified KK save first, then other updated devices. An empty Worker receives the primary device’s next save. Existing sync semantics remain: a newer cloud timestamp wins on pull; changes are pushed after about 1.5 seconds. This is not a merging or simultaneous-editing system. Failed pushes retry on a later change, not through a new background retry service.
+Connect the primary device containing the verified KK save first. Then connect other updated devices. Sync uses newer-timestamp-wins behavior and does not merge simultaneous edits.
 
-The app blocks a pull and subsequent pushes if the endpoint returns a save with a non-KK attribute schema. It cannot prove that an empty endpoint is dedicated to KK; verify the Worker and KV yourself. **Do not point KK at Ty’s URL even temporarily.**
+## 5. Roll back
 
-## 5. Rollback
+Disconnect sync and close other devices. Revert the v4 commit, change the rollback service-worker cache name if necessary, and wait for hosting to redeploy. Restore `kk-before-v4.json` through KK’s paste-save control. Keep any newer v4 export separately in case you return to this release.
 
-Disconnect sync and close other devices. Revert the update commit using your Git client and let your existing hosting deployment finish. Use a new cache version in the rollback `sw.js` if needed so devices receive the reverted files. Restore `kk-before-v3.json` through the original app’s paste-save control. Keep the newer exported save separately if you may return to v3. Migration never converts KK’s gameplay fields into Ty’s schema.
-
-## KK-specific decisions
-
-Routine decisions are already implemented: female default; themed starter outfit by existing class; freely swappable cosmetics; retroactive cosmetic offers; Ty’s family portrait uses the supplied male art; Lawson uses permanent art; unmatched items stay archived. No gameplay or relationship wording choice is waiting. The remaining setup choice is the actual dedicated KK Worker/KV/URL, which cannot be provisioned without your cloud account and was not requested as a deployment.
-
-Family-summary correction: the original header/review/season code referenced an extra `kk` bond. These now read the existing `ty` bond, matching KK’s Ty/Lawson family cards. Stored bonds are unchanged; any old extra `comp.kk` field is retained but no longer used. Family-bond season progress consequently reflects Ty and Lawson.
-
-## GitHub upload package — 91 files
-
-Use `kk_quest_v3_0_1_github.zip` instead of the earlier 114-file package. Extract the outer ZIP only, then upload its contents at KK’s existing app root. Keep `legacy-3d-gear.zip` zipped: it contains the 24 retired 3D gear models for archival completeness and is not needed by the active pixel renderer. Do not expand that inner archive into the upload. All active pixel images and original artwork references remain individual files. Existing `models/gear/` files already in the repository may remain; no deletion is needed.
-
-The outer archive contains exactly 91 files, below 100. App behavior and save format are unchanged from the tested v3.0.1 release.
-
-Version 3.0.1: Equipped starts collapsed and opens/closes by clicking its heading or using the keyboard. New characters begin with female Battlemage artwork and the Wayfinder staff. Battlemage is a cosmetic outfit; the existing Apprentice gameplay class and all existing saves/equipment remain unchanged.
-
-The supplied `theme.mp3` is the entry music. Replace that file along with `index.html`; tapping the entry screen now plays it.

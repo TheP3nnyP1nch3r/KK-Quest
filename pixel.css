@@ -5,8 +5,10 @@
 .pixel-figure img,.collection img,.pixel-loot img{image-rendering:pixelated}
 .pixel-item{position:absolute;object-fit:contain;z-index:3;pointer-events:none}
 .pixel-pet{position:absolute;width:37%;height:33%;object-fit:contain;bottom:0;right:-16%;z-index:5;animation:pet-idle 3.7s ease-in-out infinite}
-.pixel-stage{display:flex;justify-content:center;position:relative;min-height:340px;overflow:hidden;background:radial-gradient(ellipse at 50% 80%,#b5a27b55,transparent 65%),#eadcba;border:1px solid var(--line2);border-radius:8px;margin-bottom:16px}
-.pixel-stage:before{content:'';position:absolute;inset:12px;background:url('icons/castle-room.png') right center/200px auto no-repeat;opacity:.12;filter:grayscale(1)}
+.pixel-pet-grown{width:56%;height:50%;right:-30%;bottom:-2%;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
+.pixel-stage{display:flex;justify-content:center;position:relative;min-height:340px;overflow:hidden;background:url('assets/pixel/stage-bg.jpg') center/cover no-repeat,#eadcba;border:1px solid var(--line2);border-radius:8px;margin-bottom:16px}
+.pixel-stage>.pixel-figure{position:relative;z-index:2;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.pixel-stage:before{content:'';position:absolute;inset:12px;background:url('icons/minotaur.png') right center/170px auto no-repeat;opacity:.24;filter:grayscale(1)}
 .pixel-stage>.pixel-figure{width:245px;align-self:flex-end;margin-bottom:14px;margin-right:35px}
 .pixel-stage-caption{position:absolute;top:14px;left:16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#72603f;z-index:6}
 .figure .pixel-figure{width:100%}.doll .figure{flex:0 0 70px}.mini .pixel-figure{height:100%;width:auto}
@@ -24,9 +26,20 @@
 #loot .lootbox{max-height:90dvh;overflow:auto}#loot .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}.pixel-legacy{margin-top:18px;border-top:1px dashed #b9a884;padding-top:12px}.pixel-legacy summary{cursor:pointer}.pixel-legacy .chips{margin-top:10px}
 button:focus-visible,select:focus-visible{outline:3px solid #35677a;outline-offset:3px}
 @keyframes pixel-idle{50%{transform:translateY(-2px) rotate(.3deg)}}@keyframes pet-idle{50%{transform:translateY(-3px) rotate(-1deg)}}@keyframes pixel-cheer{50%{transform:translateY(-9px) rotate(-2deg)}}
+@property --lag{syntax:'<angle>';inherits:false;initial-value:0deg}
+.pixel-weapon{animation:weapon-lag 4.8s ease-in-out infinite;animation-delay:-.35s}
+@keyframes weapon-lag{50%{--lag:-2.2deg}}
+.pixel-enter .pixel-rig{animation:pixel-enter .6s cubic-bezier(.34,1.56,.64,1) 1}
+@keyframes pixel-enter{0%{transform:translateY(10px) scale(.97);opacity:.6}60%{transform:translateY(-3px) scale(1.01)}100%{transform:none;opacity:1}}
+.pixel-tap .pixel-rig{animation:pixel-tap .4s ease-out 1}
+@keyframes pixel-tap{30%{transform:scale(1.035) translateY(-2px)}100%{transform:none}}
+.pixel-pet-arrive{animation:pet-arrive .8s cubic-bezier(.22,1,.36,1) 1!important}
+@keyframes pet-arrive{0%{transform:translateX(60px);opacity:0}100%{transform:none;opacity:1}}
 @media(max-width:440px){.pixel-stage{min-height:310px}.pixel-stage>.pixel-figure{width:220px}.collection{grid-template-columns:repeat(3,minmax(0,1fr))}.collection button{min-width:0}.collection img{max-width:100%}}
 @media(prefers-reduced-motion:reduce){.pixel-rig,.pixel-pet,.lawson-art{animation:none!important;transform:none!important}}
 
-#equipment-details>summary{cursor:pointer;font-family:var(--fd);font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 0;list-style:disclosure-closed}
-#equipment-details[open]>summary{list-style:disclosure-open;margin-bottom:14px}
-#equipment-details>summary:focus-visible{outline:3px solid #35677a;outline-offset:4px}
+.panel>details>summary{cursor:pointer;min-height:44px;display:list-item;padding:10px 0;font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--ink)}
+.panel>details>summary span{float:right;font-family:var(--f);font-weight:400;font-size:13px;letter-spacing:0;color:var(--mu)}
+.panel>details[open]>summary span{display:none}
+.panel>details[open]>summary{border-bottom:1px solid var(--line2);margin-bottom:12px}
+.panel>details>summary:focus-visible{outline:3px solid #35677a;outline-offset:3px}

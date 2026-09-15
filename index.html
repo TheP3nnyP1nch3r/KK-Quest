@@ -16,14 +16,14 @@
   :root{
     --bg:#E4D5B4; --s1:#F2E7CF; --s2:#E8DABB; --line:#C9B48C; --line2:#9C8460;
     --tx:#2B2117; --mu:#6E5B44; --dim:#9C8A6E; --ink:#3A2C1E;
-    --gold:#A35B3C; --gold-ink:#FFF6F0; --teal:#436B74; --teal-ink:#FFFFFF; --green:#4F7A5C; --red:#9B3F36; --amber:#B07A32;
+    --gold:#A67C1E; --gold-ink:#FFF8E6; --teal:#2F6F6A; --teal-ink:#FFFFFF; --green:#4E7A3B; --red:#9E2B25; --amber:#B8741A;
     --f:'Crimson Pro',Georgia,'Times New Roman',serif;
     --fd:'Cinzel','Crimson Pro',Georgia,serif;
     --r:6px; --rs:4px;
     --paper:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .32 0 0 0 0 .24 0 0 0 0 .12 0 0 0 .09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
     --panel:var(--s1); --raised:var(--s2); --gold-dim:var(--line2);
     --parch:var(--tx); --muted:var(--mu); --moss:var(--green); --ember:var(--red);
-    --rare:#436B74; --epic:#7A6193; --f-disp:var(--fd); --f-ui:var(--f);
+    --rare:#3E6A9C; --epic:#6A4E8C; --f-disp:var(--fd); --f-ui:var(--f);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;background:var(--bg);background-image:var(--paper);color:var(--tx);font:17px/1.4 var(--f);
@@ -31,7 +31,7 @@
   .hid{display:none!important}
 
   /* ---------- sticky top bar ---------- */
-  .topbar{position:sticky;top:0;z-index:12;background:var(--bg);background-image:var(--paper);
+  .topbar{position:sticky;top:0;z-index:12;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
     border-bottom:2px solid var(--line2);box-shadow:0 2px 0 var(--bg),0 3px 0 var(--line2),0 6px 14px rgba(60,40,10,.12);
     padding:calc(env(safe-area-inset-top) + 8px) 12px 0}
   #status{display:grid;grid-template-columns:1fr auto auto;grid-template-areas:"lv lv lv" "xp vit bonds";gap:4px 10px;align-items:center;
@@ -368,6 +368,10 @@
     .attr{grid-template-columns:110px 1fr 40px}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  html,body{background-size:auto,auto,cover;background-attachment:scroll,scroll,fixed;background-image:radial-gradient(ellipse at 12% 8%,rgba(110,70,20,.10),transparent 32%),var(--paper),url("bg-map2.jpg")}
+  #splash{background:linear-gradient(rgba(26,21,16,.28),rgba(26,21,16,.42)),url("bg-map2.jpg") center/cover no-repeat;gap:14px}
+  #splash .splash-map{max-width:min(92vw,650px);max-height:calc(100% - 54px);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+  #splash .tap{color:#F2D991;text-shadow:0 2px 10px rgba(0,0,0,.7)}
 </style>
 
 <div id="splash" role="button" aria-label="Enter">
@@ -377,7 +381,7 @@
   <div id="status"></div>
   <div class="tabs">
     <button data-t="today">Today</button><button data-t="plan">Plan</button>
-    <button data-t="hero">Hero</button><button data-t="night">Night</button>
+    <button data-t="hero">Hero</button><button data-t="night">Extras</button>
   </div>
 </div>
 <div class="wrap">
@@ -404,7 +408,7 @@
   </div>
 
   <div class="panel" id="p-gear"><i class="stain a"></i><i class="stain b"></i>
-    <details id="equipment-details"><summary>Equipped</summary>
+    <details id="equipment-drawer"><summary>Equipped gear &amp; collection <span>Tap to open</span></summary>
     <div id="gear"></div></details>
   </div>
 
@@ -414,19 +418,18 @@
   </div>
 
   <div class="panel" id="p-skills"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Skills</h2>
-    <p class="sub" id="ptsline">No points to spend.</p>
-    <div id="skills"></div>
+    <details><summary>Skills <span id="ptsline">No points to spend.</span></summary>
+    <div id="skills"></div></details>
   </div>
 
   <div class="panel" id="p-stats">
-    <h2>Chronicle <span>lifetime</span></h2>
-    <div id="stats"></div>
+    <details><summary>Chronicle <span>lifetime</span></summary>
+    <div id="stats"></div></details>
   </div>
 
   <div class="panel" id="p-attrs"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Attributes</h2>
-    <div id="attrs"></div>
+    <details open><summary>Attributes</summary>
+    <div id="attrs"></div></details>
   </div>
  </div>
 
@@ -434,12 +437,8 @@
   <div class="panel" id="p-commit"><i class="stain a"></i><i class="stain b"></i>
     <div class="sub" id="streakline"></div>
     <div id="comeback"></div>
+    <div id="missprompt"></div>
     <div id="commit"></div>
-  </div>
-
-  <div class="panel" id="p-today"><i class="stain a"></i><i class="stain b"></i>
-    <h2>On deck today</h2>
-    <div id="tlist"></div>
   </div>
 
   <div class="panel" id="p-season"><i class="stain a"></i><i class="stain b"></i>
@@ -464,15 +463,22 @@
     <div id="datewrap" class="hid" style="margin-top:8px">
       <label for="cdate" style="font-size:11.5px;color:var(--mu)">Which day</label>
       <input id="cdate" type="date"></div>
+    <div style="margin-top:8px"><label for="crepeat" style="font-size:11.5px;color:var(--mu)">Repeats</label>
+      <select id="crepeat"><option value="">Doesn't repeat</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></div>
     <div class="row" style="margin-top:9px"><button id="cadd">Add to log</button></div>
     <div id="cprompt"></div>
-    <div id="clist"></div>
+    <details style="margin-top:6px"><summary>Later, this week, and your list <span>Tap to open</span></summary>
+    <div id="clist"></div></details>
   </div>
 
   <div class="panel" id="p-board"><i class="stain a"></i><i class="stain b"></i>
     <h2>Quest board</h2>
     <p class="sub" id="boardsub"></p>
+    <div id="yearago"></div>
+    <h3 style="margin-top:0">Suggested</h3>
     <div id="board"></div>
+    <h3 style="margin-top:16px">Yours today</h3>
+    <div id="tlist"></div>
   </div>
 
   <div class="panel" id="p-draw"><i class="stain a"></i><i class="stain b"></i>
@@ -505,8 +511,8 @@
   </div>
 
   <div class="panel" id="p-pb"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Burn Boot Camp</h2>
-    <div id="pbtree"></div>
+    <details><summary>Burn Boot Camp <span>Tap to open</span></summary>
+    <div id="pbtree"></div></details>
   </div>
 
   <div class="panel" id="p-lift"><i class="stain a"></i><i class="stain b"></i>
@@ -519,7 +525,7 @@
   </div>
 
   <div class="panel" id="p-match"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Session log</h2>
+    <details><summary>Session log <span>Tap to open</span></summary>
     <p class="sub" id="focusquest">Log a pickleball session. Winning is a bonus, not the score.</p>
     <div class="frow">
       <div><label for="g">Games</label><input id="g" type="number" inputmode="numeric" min="0" value="0"></div>
@@ -538,12 +544,15 @@
     </div>
     <div class="row" style="margin-top:10px"><button id="logmatch">Log session</button></div>
     <div class="log" id="matchout"></div>
+    </details>
   </div>
 
   <div class="panel" id="cipanel"><i class="stain a"></i><i class="stain b"></i>
     <h2 id="citle">Evening check-in</h2>
     <p class="sub" id="cisub">Close out the day. Tap what actually happened.</p>
     <div id="carry"></div>
+    <div id="tomorrowbox"><input type="text" id="tmrtext" placeholder="One thing for tomorrow">
+      <div class="row" style="margin-top:6px"><button id="tmradd" class="ghost">Add to tomorrow's board</button></div></div>
     <div id="plan" class="ci"></div>
     <h3 style="margin-top:0">Everything else</h3>
     <div id="checkin"></div>
@@ -727,7 +736,7 @@ async function load(){
   if(S.rolledNote){const n=S.rolledNote;S.rolledNote=null;setTimeout(()=>toast(n),settled?3400:700);save()}
   if(S.pending)showLoot();else if(S.pending3d)showLoot3d();else if(S.pendingClass)showClassPick();
   else if(new Date().getDay()===0&&S.sabbathSeen!==today())showSabbath();
-  scheduleCritter();setTimeout(pixelNext,800);
+  checkCritterDue();setTimeout(pixelNext,800);
 }
 function showSabbath(){
   el('sabbath').classList.add('on');
@@ -988,7 +997,7 @@ function floatXp(n){const t=(window.event&&window.event.target)||null;const e=do
 function award(amount,attr,wg,label,special){
   const pushMult=(S.season&&S.season.diff==='push')?1.15:1;
   const mult=(WG[wg]||1)*perkMult(attr,wg,special)*pushMult,gain=Math.round(amount*mult),before=level().l;
-  if(!reduced)floatXp(gain);sfx('tick');
+  if(!reduced)floatXp(gain);sfx('tick');pixelPulse();
   S.xp+=gain;S.attr[attr]=(S.attr[attr]||0)+Math.round(amount*((WG[wg]||1)>1?1:1.5));
   S.log.unshift(`+${gain} xp — ${label}`);S.log=S.log.slice(0,25);
   const after=level().l;
@@ -1032,15 +1041,32 @@ function classify(t){
     if(sc>hi){hi=sc;best=k}}
   return hi?best:'nrv';
 }
+function spawnRepeat(c){
+  const d=new Date(today()+'T12:00:00');
+  if(c.repeat==='daily')d.setDate(d.getDate()+1);
+  else if(c.repeat==='weekly')d.setDate(d.getDate()+7);
+  else if(c.repeat==='monthly')d.setMonth(d.getMonth()+1);
+  S.custom.push({id:'c'+Date.now()+Math.random().toString(36).slice(2,6),t:c.t,scope:'date',a:c.a,due:dstr(d),m:c.m,done:false,made:today(),repeat:c.repeat});
+}
+function pixelPulse(){
+  if(reduced)return;const stage=document.getElementById('pixelstage');if(!stage)return;
+  stage.classList.remove('pixel-tap');void stage.offsetWidth;stage.classList.add('pixel-tap');
+  setTimeout(()=>stage.classList.remove('pixel-tap'),450);
+}
+function addTomorrow(){
+  const t=el('tmrtext').value.trim();if(!t){toast('Write it first.');return}
+  const a=classify(t);S.custom.push({id:'c'+Date.now(),t,scope:'tomorrow',a,due:tomorrowStr(),m:1,done:false,made:today()});
+  el('tmrtext').value='';render();save();toast('On tomorrow’s board.');
+}
 function addCustom(){
   const t=el('ctext').value.trim();if(!t){toast('Write the quest first.');return}
   const a=classify(t),sc=el('cscope').value;
   let due=null;
   if(sc==='date'){due=el('cdate').value;if(!due){toast('Pick the day first.');return}}
   if(sc==='tomorrow')due=tomorrowStr();
-  const item={id:'c'+Date.now(),t,scope:sc,a,due,m:+el('cdiff').value,done:false,made:today()};
+  const item={id:'c'+Date.now(),t,scope:sc,a,due,m:+el('cdiff').value,done:false,made:today(),repeat:el('crepeat').value||null};
   S.custom.push(item);
-  el('ctext').value='';render();save();
+  el('ctext').value='';el('crepeat').value='';render();save();
   toast('Filed under '+ATTRS.find(x=>x.k===a).n+'.');
   if(sc==='today'){
     const wg=item.m>=2.2?'Tenacity':item.m>1?'Invention':'Discernment';
@@ -1078,14 +1104,14 @@ function renderCustom(){
       const d=document.createElement('div');d.className='q'+(c.done?' done':'');d.dataset.undo='cu:'+c.id;
       d.innerHTML=`<div class="box"></div><div style="flex:1">
         <div class="qt">${esc(c.t)}</div>
-        <div class="meta"><span class="tag">${an}</span> · ${c.m>=2.2?'been avoiding it':c.m>1?'high priority':'normal'}${when}${c.rolls?` · carried ${c.rolls}×`:''}</div>
+        <div class="meta"><span class="tag">${an}</span> · ${c.m>=2.2?'been avoiding it':c.m>1?'high priority':'normal'}${when}${c.rolls?` · carried ${c.rolls}×`:''}${c.repeat?` · repeats ${c.repeat}`:''}</div>
         ${b==='todo'&&c.made&&(new Date(today()+'T12:00:00')-new Date(c.made+'T12:00:00'))/864e5>=30?`<div class="cy" style="margin:6px 0 0;padding:6px 8px"><div class="qt" style="font-size:13.5px;font-style:italic;color:var(--mu)">Thirty days on the list. Still real?</div><div class="row"><button class="ghost" data-age="keep">Still real</button><button class="ghost" data-age="drop">Let it go</button></div></div>`:''}</div>
         <div class="xp">${xp}</div><div class="del" data-del="${c.id}">\u00d7</div>`;
       d.onclick=e=>{
         if(e.target.dataset.age){e.stopPropagation();if(e.target.dataset.age==='keep'){c.made=today();toast('Kept.')}else{S.custom=S.custom.filter(x=>x.id!==c.id);toast('Let go. No penalty.')}render();save();return}
         if(e.target.dataset.del){S.custom=S.custom.filter(x=>x.id!==c.id);render();save();return}
         if(c.done){tryUndo('cu:'+c.id);return}
-        undoable('cu:'+c.id,()=>{c.done=true;
+        undoable('cu:'+c.id,()=>{c.done=true;if(c.repeat)spawnRepeat(c);
         const wg=c.m>=2.2?'Tenacity':c.m>1?'Invention':'Discernment';
         award(Math.round(base*c.m/WG[wg]),c.a,wg,esc(c.t).slice(0,34),c.scope==='week'?'weekly':null)})};
       box.appendChild(d)})});
@@ -1218,12 +1244,22 @@ function board(){
   const rr=S.rr;if(rr&&rr.day===S.day&&list[rr.i]){const r2=seed('rr'+S.day),cat=list[rr.i].c;const p=POOL.filter(q=>q.c===cat&&q.t!==list[rr.i].t);if(p.length)list[rr.i]=p[Math.floor(r2()*p.length)]}
   return list;
 }
+function yearAgoEntry(){
+  const hist=S.history||[];
+  return hist.find(h=>{
+    const days=Math.round((new Date(today()+'T12:00:00')-new Date(h.d+'T12:00:00'))/864e5);
+    return days>=364&&days<=366&&(h.gained>0||h.kept>0);
+  });
+}
 function renderBoard(){
   const b=board(),dow=new Date().getDay(),hr=new Date().getHours();
   el('boardsub').textContent = hr<5 ? 'Logged after midnight. Short board — the rest is tomorrow-you\u2019s problem.'
     : dow===0 ? 'A day of rest. Nothing on here is a task — just people, faith, and you.'
     : dow===6 ? 'Weekend weighting: rest and quiet count double.'
     : 'Five anchors. The last one is the one you would skip.';
+  const ya=yearAgoEntry();
+  el('yearago').innerHTML=ya
+    ? `<div class="banner">A year ago today: ${ya.gained} xp, ${ya.kept} of 5 commitments kept.</div>` : '';
   el('board').innerHTML='';
   b.forEach((q,i)=>{
     const id='b'+i,done=S.done.includes(id),d=document.createElement('div');
@@ -1760,6 +1796,20 @@ function sixthState(){
 }
 function ramp(id){S.ramp=S.ramp||{};if(!S.ramp[id])S.ramp[id]={t:0,hits:[],miss:0};return S.ramp[id]}
 function commitXp(c){const r=ramp(c.id);return Math.round(c.x*(1+r.t*.35)*(S.comeback?1.5:1))}
+function renderMissPrompt(){
+  const mp=S.missPrompt;
+  if(!mp){el('missprompt').innerHTML='';return}
+  const REASONS=[['busy','Busy'],['forgot','Forgot'],['didnt','Didn\u2019t want to'],['skip','Rather not say']];
+  el('missprompt').innerHTML=`<div class="banner" style="border-color:var(--ember)">
+    <b>Yesterday slipped on ${mp.ids.length>1?mp.ids.length+' things':'one thing'}.</b> No penalty for saying why. This is only for spotting your own patterns.
+    <div class="chips" style="margin-top:8px">${REASONS.map(([k,n])=>`<div class="chip2" data-reason="${k}">${n}</div>`).join('')}</div>
+  </div>`;
+  el('missprompt').querySelectorAll('[data-reason]').forEach(b=>{
+    b.onclick=()=>{
+      S.missReasons=(S.missReasons||[]).concat(mp.ids.map(id=>({d:mp.day,id,reason:b.dataset.reason}))).slice(-200);
+      S.missPrompt=null;render();save();toast('Noted. No judgment.')};
+  });
+}
 function renderCommit(){
   const C=S.commit.done,kept=COMMITS.filter(c=>C[c.id]).length;
   el('streakline').innerHTML=`<div class="streakrow"><span>Streak <b>${S.streak||0}</b> day${(S.streak||0)===1?'':'s'}</span>`
@@ -1856,10 +1906,11 @@ function settleCompanions(){
 function settleYesterday(){
   const missed=COMMITS.filter(c=>!S.commit.done[c.id]),kept=COMMITS.length-missed.length;
   settleRamps(kept);
+  if(missed.length)S.missPrompt={day:S.day||dstr(addDays(-1)),ids:missed.map(c=>c.id)};
   S.history=(S.history||[]).concat([{d:S.day||dstr(addDays(-1)),kept,
     gained:Math.max(0,S.xp-(S.dayStartXp||S.xp)),
     posts:(S.dd&&S.dd.posts)||0,yards:(S.dd&&S.dd.yards)||0,
-    session:(S.checkin.done&&S.checkin.done.pickle)?1:0}]).slice(-40);
+    session:(S.checkin.done&&S.checkin.done.pickle)?1:0}]).slice(-400);
   S.dayStartXp=S.xp;S.dd={date:today(),posts:0,yards:0};
   const v=()=>S.vitality==null?100:S.vitality;
   S.yMissed=null;S.lossUsed=0;
@@ -1962,7 +2013,7 @@ function render(){
   el('bwnote').textContent = bw>75?'Clear. You released something recently.'
     : bw>40?'Slipping. Something is riding along that you did not agree to carry.'
     : 'Low. You are holding outcomes you can influence but do not control.';
-  renderStatus();renderFigure();renderComps();renderSkills();renderPB();renderReview();renderSeason();renderWeek();renderCustom();renderBoard();renderSpecial();renderBoss();renderCommit();renderLift();renderCheckin();renderCarry();renderPlan();renderDDRoll();
+  renderStatus();renderFigure();renderComps();renderSkills();renderPB();renderReview();renderSeason();renderWeek();renderCustom();renderBoard();renderSpecial();renderBoss();renderMissPrompt();renderCommit();renderLift();renderCheckin();renderCarry();renderPlan();renderDDRoll();
   el('log').innerHTML=S.log.length?S.log.join('<br>'):'Nothing logged yet.';
   const st=S.settings;el('settings').innerHTML=`<h3>Settings</h3><div class="chips">
     <div class="chip2" data-set="pen">Penalties: ${st.penalties?'on':'off'}</div>
@@ -1994,6 +2045,8 @@ function render(){
 }
 
 el('cadd').onclick=addCustom;
+el('tmradd').onclick=addTomorrow;
+el('tmrtext').onkeydown=e=>{if(e.key==='Enter')addTomorrow()};
 el('cscope').onchange=()=>el('datewrap').classList.toggle('hid',el('cscope').value!=='date');
 el('cdate').value=tomorrowStr();
 el('sleepb').onclick=logSleep;
@@ -2056,12 +2109,12 @@ el('logmatch').onclick=()=>{
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');setTimeout(pixelNext,600)}
   else toast(`+${grand} xp on the court.`)};
-const APP_VERSION='3.0.1';
+const APP_VERSION='4.0.0';
 const TABS={
- today:['p-commit','p-lift','p-today','p-board','p-special','p-boss','p-draw'],
- plan:['p-log','p-season','p-week'],
- hero:['p-hero','p-comps','p-attrs','p-skills','p-pb','p-gear','p-stats','p-bw'],
- night:['p-review','cipanel','p-match','p-recent']
+ today:['p-board','p-commit','p-lift','p-boss','p-special','cipanel','p-draw'],
+ plan:['p-log','p-week','p-season'],
+ hero:['p-hero','p-gear','p-comps','p-attrs','p-skills','p-pb','p-stats','p-bw'],
+ night:['p-review','p-match','p-recent']
 };
 function buildTabs(){
   Object.keys(TABS).forEach(t=>TABS[t].forEach(id=>{const n=el(id);if(n)el('t-'+t).appendChild(n)}));
@@ -2072,7 +2125,8 @@ function showTab(t){
   Object.keys(TABS).forEach(k=>el('t-'+k).classList.toggle('hid',k!==t));
   [...document.querySelectorAll('.tabs button')].forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   scrollTo({top:0,behavior:'smooth'});
-  if(t==='hero')hero3dInit();
+  if(t==='hero'){hero3dInit();
+    if(!reduced){const stage=document.getElementById('pixelstage');if(stage){stage.classList.remove('pixel-tap');void stage.offsetWidth;stage.classList.add('pixel-tap');setTimeout(()=>stage.classList.remove('pixel-tap'),450)}}}
 }
 function renderStatus(){
   const L=level(),[c,label,col]=condition();
@@ -2615,14 +2669,20 @@ const CRITTERS=[
 ];
 function critterState(){
   S.critter=S.critter||{};
-  if(S.critter.date!==today())S.critter={date:today(),count:0,target:2+Math.floor(Math.random()*2)};
+  if(S.critter.date!==today()){
+    S.critter={date:today(),count:0,target:2+Math.floor(Math.random()*2),nextAt:Date.now()+(5+Math.random()*40)*60000};
+  }
+  if(S.critter.nextAt==null&&S.critter.count<S.critter.target){
+    S.critter.nextAt=Date.now()+(25+Math.random()*200)*60000;
+  }
   return S.critter;
 }
-function scheduleCritter(){
+function checkCritterDue(){
+  if(!S)return;
   const cs=critterState();
-  if(cs.count>=cs.target)return;
-  const mins = cs.count===0 ? 5+Math.random()*40 : 25+Math.random()*200;
-  setTimeout(spawnCritter,mins*60000);
+  if(cs.count>=cs.target||!cs.nextAt||document.hidden||reduced||Date.now()<cs.nextAt)return;
+  const activeTab=['today','plan','hero'].find(t=>{const p=el('t-'+t);return p&&!p.classList.contains('hid')});
+  if(activeTab)spawnCritter();
 }
 function spawnCritter(){
   const cs=critterState();
@@ -2630,8 +2690,9 @@ function spawnCritter(){
   const activeTab=['today','plan','hero'].find(t=>{const p=el('t-'+t);return p&&!p.classList.contains('hid')});
   if(!activeTab)return;
   const c=CRITTERS[Math.floor(Math.random()*CRITTERS.length)];
-  cs.count++;save();
-  scheduleCritter();
+  cs.count++;
+  cs.nextAt=cs.count<cs.target?Date.now()+(25+Math.random()*200)*60000:null;
+  save();
   const layer=el('critterLayer');if(!layer)return;
   const box=document.createElement('div');
   box.className='critter';
@@ -2670,6 +2731,8 @@ showTab('hero');
 schedulePop(true);
 setTimeout(checkChurchPrompt,1500);
 setInterval(checkChurchPrompt,5*60000);
+setInterval(checkCritterDue,60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkCritterDue()});
 load();
 </script>
 <script>
