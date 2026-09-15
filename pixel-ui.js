@@ -10,7 +10,7 @@ function pixelFigure(p=pixelState(),pets=true){
  const img=(id,x,y,w,h,cl='',rotation=0,pivot=[.5,.5])=>`<img class="pixel-item ${cl}" src="${pixelAsset(id,sex)}" alt="" style="left:${x/384*100}%;top:${y/512*100}%;width:${w/384*100}%;height:${h/512*100}%;transform-origin:${pivot[0]*100}% ${pivot[1]*100}%;transform:rotate(calc(${rotation}deg + var(--lag,0deg)))">`;
  let layers='';
  const main=PX.get(e.main);
- if(main){const spec={sword:[82,211,.48,.80,65],saber:[64,210,.30,.82,-145],axe:[124,222,.50,.84,65],hammer:[125,212,.50,.84,65],bow:[88,264,.25,.50,-10],staff:[75,270,.5,.79,0],spear:[43,278,.5,.77,0],paddle:[90,170,.50,.83,65],rake:[90,204,.50,.15],dustpan:[103,197,.50,.15]}[main.asset]||[78,224,.5,.84];
+ if(main){const spec={sword:[82,211,.48,.80,70],saber:[64,210,.30,.82,-145],axe:[124,222,.50,.84,70],hammer:[125,212,.50,.84,70],bow:[88,264,.25,.50,-10],staff:[75,270,.5,.79,0],spear:[43,278,.5,.77,0],paddle:[90,170,.50,.83,70],rake:[90,204,.50,.15],dustpan:[103,197,.50,.15]}[main.asset]||[78,224,.5,.84];
  const [w,h,px,py,rotation=0]=spec;layers+=img(main.id,hand[0]-w*px,hand[1]-h*py,w,h,'pixel-weapon '+(main.special?'pixel-special':''),rotation,[px,py]);}
  const off=PX.get(e.off);if(off){const isLantern=off.id==='lantern';layers+=img(off.id,hand[2]-(isLantern?30:59),hand[3]-(isLantern?8:58),isLantern?60:118,isLantern?104:118)}
  // Put the original clenched hand pixels back in front of the held layers.

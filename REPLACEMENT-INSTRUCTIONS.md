@@ -17,13 +17,13 @@ Extract the outer `kk_quest_v4_0_0_github.zip`. Its contents are the app root; `
 
 1. Open KK’s local clone and verify its remote and deployment branch. Pull the latest version and resolve any existing local changes.
 2. Copy every extracted file and folder into the directory containing KK’s `index.html`, replacing same-named files and merging folders. Preserve `.git`, `.github`, `CNAME`, and any repository-specific hosting files.
-3. Keep `legacy-3d-gear.zip` compressed. Do not expand it into the repository; the outer package is 97 files and the retired models inside that archive are not used by the active character renderer.
-4. Review the diff. The shared visual update is mainly in `index.html`, `pixel-ui.js`, `pixel.css`, `sw.js`, `bg-map2.jpg`, and `assets/pixel/`. KK’s storage identity and personal game tables remain hers.
-5. Commit and push to **KK’s** configured deployment branch when you choose to publish. A suitable message is `Update KK Quest to v4.0.0`.
+3. This release removed `legacy-3d-gear.zip` and `models/` entirely (see README's v4.1.1 note) \u2014 the 3D character view was fully retired for the pixel system, and those files were dead weight. If your existing repo still has them from an older release, delete them; nothing in the app references them anymore.
+4. Review the diff. The shared visual update is mainly in `index.html`, `pixel-ui.js`, `pixel.css`, `sw.js`, `bg-map2.jpg`, and `assets/pixel/`. KK's storage identity and personal game tables remain hers.
+5. Commit and push to **KK's** configured deployment branch when you choose to publish. A suitable message is `Update KK Quest to v4.1.1`.
 
 ### GitHub website upload
 
-Open KK’s repository at its deployment branch. Navigate to the folder containing `index.html`, choose **Add file → Upload files**, and drag in the **contents** of the extracted folder. Commit the replacements. Do not upload a wrapper folder or the outer ZIP itself. The package contains 97 files, below GitHub’s 100-file web-upload limit.
+Open KK's repository at its deployment branch. Navigate to the folder containing `index.html`, choose **Add file → Upload files**, and drag in the **contents** of the extracted folder. Commit the replacements. Do not upload a wrapper folder or the outer ZIP itself. If your repo still has `three.min.js`, `models/`, or `legacy-3d-gear.zip` from an older release, delete those too \u2014 they're no longer part of the app. The package contains 84 files, comfortably below GitHub's 100-file web-upload limit.
 
 The app root should include:
 
@@ -32,9 +32,8 @@ index.html                  pixel-core.js             pixel-ui.js
 pixel.css                   sw.js                     manifest.webmanifest
 bg-map2.jpg                 map.jpg                   theme.mp3
 assets/pixel/               icons/                    critters/
-models/                     artwork-references/       worker/
-legacy-3d-gear.zip          tests/                    README.txt
-REPLACEMENT-INSTRUCTIONS.md TEST-REPORT.md
+artwork-references.zip      worker/                   tests.zip
+README.txt                  REPLACEMENT-INSTRUCTIONS.md TEST-REPORT.md
 ```
 
 This static app has no build step. Replacing the `worker/` source in the repository does not deploy a Cloudflare Worker.

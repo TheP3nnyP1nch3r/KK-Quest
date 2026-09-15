@@ -413,7 +413,7 @@
   </div>
 
   <div class="panel" id="p-comps"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Her people <span class="sub" style="margin:0;font-weight:400">slow to drain, but they drain</span></h2>
+    <h2>Her people <span class="sub" style="margin:0;font-weight:400">worth checking in on</span></h2>
     <div id="comps"></div>
   </div>
 
@@ -453,7 +453,7 @@
 
   <div class="panel" id="p-log"><i class="stain a"></i><i class="stain b"></i>
     <h2>Quest log</h2>
-    <input type="text" id="ctext" placeholder="What are you actually going to do?" style="margin-top:0">
+    <input type="text" id="ctext" placeholder="What do you want to do?" style="margin-top:0">
     <div class="frow" style="grid-template-columns:1fr 1fr">
       <div><label for="cscope">When</label>
         <select id="cscope"><option value="today">Today</option><option value="tomorrow">Tomorrow</option><option value="date">Pick a day</option><option value="week">This week</option><option value="todo">To-do list</option></select></div>
@@ -499,9 +499,9 @@
 
   <div class="panel" id="p-bw"><i class="stain a"></i><i class="stain b"></i>
     <h2>Bandwidth</h2>
-    <p class="sub" id="bwnote">Drains while you carry outcomes you don't control.</p>
+    <p class="sub" id="bwnote">Goes down when you're carrying something you can't control.</p>
     <div class="bw"><div class="bwfill" id="bwfill"></div></div>
-    <input type="text" id="release" placeholder="One thing you're carrying that isn't yours to control" style="margin-top:10px">
+    <input type="text" id="release" placeholder="Something on your mind you can't control" style="margin-top:10px">
     <div class="row" style="margin-top:9px"><button id="relbtn">Release it</button></div>
   </div>
 
@@ -516,17 +516,20 @@
   </div>
 
   <div class="panel" id="p-lift"><i class="stain a"></i><i class="stain b"></i>
-    <h2>Strength block</h2>
-    <p class="sub" id="liftsub">Three days a week. Starting slow on purpose.</p>
-    <div class="track"><div class="tfill" id="liftbar" style="background:#C2573C"></div></div>
+    <h2>Weigh-in</h2>
+    <p class="sub" id="liftsub">Whenever you step on the scale. Just for you to see.</p>
+    <div class="frow" style="grid-template-columns:1fr auto;align-items:end">
+      <div><label for="weightin">Weight</label>
+        <input id="weightin" type="number" step="0.1" inputmode="decimal" placeholder="From the scale"></div>
+      <button id="weightlog" style="margin-bottom:1px">Log it</button>
+    </div>
     <div id="liftlist" style="margin-top:10px"></div>
-    <div class="row" style="margin-top:10px"><button id="liftlog">Log today's lift</button></div>
     <div class="log" id="liftout"></div>
   </div>
 
   <div class="panel" id="p-match"><i class="stain a"></i><i class="stain b"></i>
     <details><summary>Session log <span>Tap to open</span></summary>
-    <p class="sub" id="focusquest">Log a pickleball session. Winning is a bonus, not the score.</p>
+    <p class="sub" id="focusquest">Log a pickleball session.</p>
     <div class="frow">
       <div><label for="g">Games</label><input id="g" type="number" inputmode="numeric" min="0" value="0"></div>
       <div><label for="w">Wins</label><input id="w" type="number" inputmode="numeric" min="0" value="0"></div>
@@ -549,7 +552,7 @@
 
   <div class="panel" id="cipanel"><i class="stain a"></i><i class="stain b"></i>
     <h2 id="citle">Evening check-in</h2>
-    <p class="sub" id="cisub">Close out the day. Tap what actually happened.</p>
+    <p class="sub" id="cisub">Tap what you actually did today.</p>
     <div id="carry"></div>
     <div id="tomorrowbox"><input type="text" id="tmrtext" placeholder="One thing for tomorrow">
       <div class="row" style="margin-top:6px"><button id="tmradd" class="ghost">Add to tomorrow's board</button></div></div>
@@ -743,35 +746,37 @@ function showSabbath(){
   el('sabgo').onclick=()=>{S.sabbathSeen=today();el('sabbath').classList.remove('on');save()};
 }
 
-/* ---------- lifting: three days a week, ramped slow on purpose ---------- */
-const LIFT_TIERS=[
- {n:'Showing up',ex:[['Goblet squat','2\u00d78, light'],['Dumbbell press','2\u00d78, light'],['Farmer carry','one lap, light']]},
- {n:'Full sets',ex:[['Goblet squat','3\u00d710'],['Dumbbell press','3\u00d710'],['Farmer carry','two laps']]},
- {n:'Adding a pull',ex:[['Goblet squat','3\u00d710'],['Dumbbell press','3\u00d710'],['Farmer carry','two laps'],['Bent-over row','3\u00d710']]},
- {n:'The finisher',ex:[['Goblet squat','3\u00d710'],['Dumbbell press','3\u00d710'],['Farmer carry','two laps'],['Bent-over row','3\u00d710'],['Hip bridge','3\u00d712 \u2014 finisher']]}
-];
-function liftState(){
-  S.lift=S.lift||{week:weekKey(),count:0,tier:0,checked:false};
-  if(S.lift.week!==weekKey()){
-    if(S.lift.count>=3&&S.lift.tier<LIFT_TIERS.length-1)S.lift.tier++;
-    S.lift={week:weekKey(),count:0,tier:S.lift.tier,checked:false};
-  }
-  return S.lift;
-}
+/* ---------- weigh-in: a number from the scale, logged and left alone ---------- */
+function weightState(){S.weight=S.weight||{log:[]};return S.weight}
 function renderLift(){
-  const L=liftState(),tier=LIFT_TIERS[L.tier];
-  el('liftsub').textContent=`${tier.n} · ${L.count}/3 sessions this week`;
-  el('liftbar').style.width=Math.min(100,L.count/3*100)+'%';
-  el('liftlist').innerHTML=tier.ex.map(e=>`<div class="crow" style="border-top:none;padding:3px 0">
-    <label>${e[0]}</label><span class="meta" style="font-size:13px">${e[1]}</span></div>`).join('');
-  el('liftlog').textContent = L.count>=3 ? 'Bonus session' : 'Log today\'s lift';
+  const W=weightState(),log=W.log;
+  if(!log.length){
+    el('liftsub').textContent='Whenever you step on the scale. Just for you to see.';
+    el('liftlist').innerHTML='';return;
+  }
+  const last=log[log.length-1],prev=log.length>1?log[log.length-2]:null;
+  const delta=prev?+(last.w-prev.w).toFixed(1):null;
+  const deltaTxt=delta==null?'':delta===0?'no change since last time':
+    (delta>0?'+':'')+delta+' since last time';
+  el('liftsub').textContent=`Last logged ${last.w}${deltaTxt?' \u00b7 '+deltaTxt:''}`;
+  const recent=log.slice(-6).reverse();
+  el('liftlist').innerHTML=recent.map((e,i)=>{
+    const p=recent[i+1];
+    const d=p?+(e.w-p.w).toFixed(1):null;
+    const dTxt=d==null?'':d===0?'\u00b70':(d>0?'+':'')+d;
+    return `<div class="crow" style="border-top:none;padding:3px 0">
+      <label>${e.d}</label><span class="meta" style="font-size:13px">${e.w} ${dTxt?'\u00b7 '+dTxt:''}</span></div>`;
+  }).join('');
 }
-el('liftlog').onclick=()=>{
-  const L=liftState(),base=40+LIFT_TIERS[L.tier].ex.length*15,bonus=L.count>=3?20:0;
-  L.count++;
-  const x=Math.round((base+bonus)*perkMult('vig','Tenacity'));
-  el('liftout').textContent=`${LIFT_TIERS[L.tier].ex.length} moves logged. +${x} xp.`;
-  award(x,'vig','Tenacity','lifted — '+LIFT_TIERS[L.tier].n);
+el('weightlog').onclick=()=>{
+  const v=parseFloat(el('weightin').value);
+  if(!v||v<=0){toast('Enter the number from the scale.');return}
+  const W=weightState();
+  W.log=W.log.concat([{d:today(),w:+v.toFixed(1)}]).slice(-60);
+  el('weightin').value='';
+  const x=Math.round(20*perkMult('vig','Tenacity'));
+  el('liftout').textContent=`Logged. +${x} xp for tracking it.`;
+  award(x,'vig','Tenacity','logged her weight');
   render();save();
 };
 
@@ -781,7 +786,6 @@ function churchState(){S.church=S.church||{lastSun:null,lastWed:null,log:[]};ret
 function churchDue(){
   const d=new Date(),dow=d.getDay(),h=d.getHours(),cs=churchState();
   if(dow===0&&h>=12&&cs.lastSun!==today())return 'Sunday service';
-  if(dow===3&&h>=20&&cs.lastWed!==today())return 'Ladies\u2019 devotional';
   return null;
 }
 function checkChurchPrompt(){
@@ -805,7 +809,7 @@ function checkChurchPrompt(){
     if(!vals.length){toast('Pick at least one number.');return}
     const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
     const cs=churchState();
-    if(which==='Sunday service')cs.lastSun=today();else cs.lastWed=today();
+    if(which==='Sunday service')cs.lastSun=today();
     cs.log=(cs.log||[]).concat([{d:today(),which,avg:+avg.toFixed(1),picks:{...picks}}]).slice(-30);
     el('church').classList.remove('on');
     award(Math.round(20+avg*8),'dev','Enablement',which+' check-in');
@@ -1071,7 +1075,7 @@ function addCustom(){
   if(sc==='today'){
     const wg=item.m>=2.2?'Tenacity':item.m>1?'Invention':'Discernment';
     gate({t,a,wg,noList:true,x:Math.round(40*item.m/WG[wg]),tagline:'Just added'},'cprompt',res=>{
-      if(res==='now'||res==='no'){S.custom=S.custom.filter(x=>x.id!==item.id)}
+      if(res==='now'||res==='done'||res==='no'){S.custom=S.custom.filter(x=>x.id!==item.id)}
       if(res==='park'){item.scope='todo';item.due=null;toast('Parked on the to-do list.')}
       if(res==='later'){item.scope='today';item.due=today();toast("Staying on today's board.")}
       if(res==='na'){toast("Kept on today's board.")}
@@ -1128,7 +1132,7 @@ function renderWeek(){
       const fill=kept==null?'transparent':kept>=3?'var(--gold)':kept>0?'color-mix(in srgb,var(--gold) 45%,transparent)':'var(--s2)';
       dots+=`<div style="text-align:center"><div style="width:26px;height:26px;border-radius:50%;margin:0 auto;border:1.5px solid ${ds===today()?'var(--gold)':'var(--line2)'};background:${fill};display:grid;place-items:center;font-size:11px;font-weight:700;color:${kept>=3?'var(--gold-ink)':'var(--mu)'}">${kept==null?'':kept}</div><div style="font-size:10px;color:var(--dim);margin-top:3px">${DAYN[d.getDay()].slice(0,2)}</div></div>`}
     out+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px">${dots}</div>
-      <div class="sub" style="margin-bottom:10px">${seen?`Held the streak ${held} of ${seen} day${seen>1?'s':''} so far this week.`:'A fresh week. Three of five holds it.'}${(S.streak||0)?` Streak ${S.streak}.`:''} A missed day is one dot, not the story.</div>`;
+      <div class="sub" style="margin-bottom:10px">${seen?`Held the streak ${held} of ${seen} day${seen>1?'s':''} so far this week.`:'New week. Keep 3 of 5 to hold the streak.'}${(S.streak||0)?` Streak ${S.streak}.`:''} One missed day doesn't ruin the week.</div>`;
   }
   for(let i=0;i<7;i++){
     const d=addDays(i),ds=dstr(d),dow=d.getDay();
@@ -1297,6 +1301,7 @@ function gate(q,host,onResolve){
     <div class="rule">Will it take less than five minutes?</div>
     <div class="opts">
       <button data-a="now">Yes — doing it right now <span style="float:right;opacity:.8">+25%</span></button>
+      <button data-a="done">Already done — just logging it <span style="float:right;opacity:.8">+10%</span></button>
       <button class="ghost" data-a="later">Longer than five minutes</button>
       <button class="ghost" data-a="park">Not in a position to do it</button>
       <button class="ghost" data-a="na">Doesn't apply right now</button>
@@ -1306,6 +1311,8 @@ function gate(q,host,onResolve){
     b.onclick=()=>{const a=b.dataset.a;box.innerHTML='';
       if(a==='now'){award(Math.round(q.x*1.25),q.a,q.wg,q.t.slice(0,34)+' — done on the spot');
         confetti(45,'center')}
+      if(a==='done'){award(Math.round(q.x*1.10),q.a,q.wg,q.t.slice(0,34)+' — already done, logged');
+        confetti(30,'center')}
       if(a==='later'&&!q.noList){S.custom.push({id:'c'+Date.now(),t:q.t,scope:'today',a:q.a,due:today(),
         x:Math.round(q.x*(WG[q.wg]||1)),m:1,done:false,made:today()});
         toast("On today's board.");render();save()}
@@ -1339,11 +1346,11 @@ function draw(){
         tagline:`<span style="color:${rc}">${rn}</span> · ${q.c}`},'reveal');
 }
 const BOSSES=[
- {n:'The Unsaid',ic:'dragon',d:'The thing you have decided not to say, again. It gets a little larger every time you walk past it. Say one honest sentence out loud, to the person it belongs to.',x:250,a:'nrv',wg:'Galvanizing'},
- {n:'The Weathervane',ic:'minotaur',d:'It takes on the mood of whoever is closest and spins you with it. Name today\u2019s bad mood as theirs, not yours, and finish your own day anyway.',x:225,a:'nrv',wg:'Discernment'},
- {n:'The Long Hallway',ic:'chamber',d:'No monster at all. Just distance, and a first step that is slightly awkward. Make the call, send the email, ask the question.',x:200,a:'nrv',wg:'Tenacity'},
- {n:'The Open Loop',ic:'tower',d:'Every thread you left half-finished because closing it means one more conversation. Close the oldest one today.',x:200,a:'nrv',wg:'Tenacity'},
- {n:'The Quiet Hour',ic:'cave',d:'One hour, phone in another room, spent on something that is yours. Not errands, not anyone else\u2019s list.',x:175,a:'stl',wg:'Wonder'}
+ {n:'The Unsaid',ic:'dragon',d:'Something you have been avoiding saying. Say one honest sentence about it, out loud, to the person it is about.',x:250,a:'nrv',wg:'Galvanizing'},
+ {n:'The Weathervane',ic:'minotaur',d:'Someone else\u2019s bad mood rubbing off on you. Notice it is theirs, not yours, and get on with your day.',x:225,a:'nrv',wg:'Discernment'},
+ {n:'The Long Hallway',ic:'chamber',d:'A first step you keep putting off because it feels awkward. Make the call, send the email, or ask the question.',x:200,a:'nrv',wg:'Tenacity'},
+ {n:'The Open Loop',ic:'tower',d:'Something you started and never finished. Pick the oldest one and finish it today.',x:200,a:'nrv',wg:'Tenacity'},
+ {n:'The Quiet Hour',ic:'cave',d:'One hour with your phone in another room, doing something just for you \u2014 not errands, not anyone else\u2019s list.',x:175,a:'stl',wg:'Wonder'}
 ];
 /* ---------- birthdays & holidays: toggleable, off is not the default ---------- */
 const BIRTHDAYS=[
@@ -1545,43 +1552,43 @@ function renderReview(){
 
 /* ---------- seasons: four weeks, named for you ---------- */
 const SEASONS=[
- {n:'The Hovering Year',sub:'A kestrel holds still in the air before it moves. Learn to hold steady before the dive.',focus:'stl',
+ {n:'The Hovering Year',sub:'Get steady first, then move. All five commitments, most days.',focus:'stl',
   obj:{k:'perfect',target:14,label:'14 days with all five commitments kept'}},
- {n:'Ten Pages a Night',sub:'The scroll gets shorter and the shelf gets longer. That is the whole season.',focus:'stl',
+ {n:'Ten Pages a Night',sub:'Read more, scroll less. That is the whole season.',focus:'stl',
   obj:{k:'steady',target:22,label:'22 days holding the streak'}},
- {n:'Strength in the Cold Months',sub:'Nobody wants to be at camp at 5 a.m. in February. Go anyway.',focus:'vig',
+ {n:'Strength in the Cold Months',sub:'Camp is harder to get to in the cold months. Go anyway.',focus:'vig',
   obj:{k:'sessions',target:12,label:'12 sessions logged'}},
- {n:'The Named Hour',sub:'Prayer with a shape to it. Same time, same place, however short.',focus:'dev',
+ {n:'The Named Hour',sub:'Pray at the same time and place each day, even if it is short.',focus:'dev',
   obj:{k:'perfect',target:16,label:'16 days with all five kept'}},
- {n:'Say It Kindly, Say It Once',sub:'One honest sentence a day, for a season. That is the entire curriculum.',focus:'nrv',
+ {n:'Say It Kindly, Say It Once',sub:'Say one honest sentence a day. That is the whole season.',focus:'nrv',
   obj:{k:'steady',target:20,label:'20 days holding the streak'}},
- {n:'The Walled Garden',sub:'Tend what is already planted. Nothing new gets added this season.',focus:'kin',
+ {n:'The Walled Garden',sub:'Look after the people already close to you. Nothing new this season.',focus:'kin',
   obj:{k:'bond',target:88,label:'both bonds at 88 or better when it ends'}},
- {n:'Stillwater',sub:'Quiet is not what is left over after everything else. It goes on the calendar first.',focus:'stl',
+ {n:'Stillwater',sub:'Put quiet time on the calendar first, before anything else fills it.',focus:'stl',
   obj:{k:'perfect',target:18,label:'18 days with all five kept'}},
- {n:'The Long Hallway',sub:'Every awkward first step you have been walking past. One a day until the hall is empty.',focus:'nrv',
+ {n:'The Long Hallway',sub:'One awkward first step a day, until the list is clear.',focus:'nrv',
   obj:{k:'steady',target:24,label:'24 days holding the streak'}},
- {n:'The Orchard',sub:'Friendships are slow fruit. Water them on a schedule, not a feeling.',focus:'kin',
+ {n:'The Orchard',sub:'Reach out to friends on a schedule, not just when you feel like it.',focus:'kin',
   obj:{k:'bond',target:92,label:'both bonds at 92 or better when it ends'}},
- {n:'Agility',sub:'Not stronger. Quicker to change direction, and kinder about it when you do.',focus:'vig',
+ {n:'Agility',sub:'Not about strength. About changing plans without getting hard on yourself.',focus:'vig',
   obj:{k:'sessions',target:14,label:'14 sessions logged'}},
- {n:'Harvest of Small Things',sub:'Nothing heroic. Twenty-eight unremarkable days stacked end to end.',focus:'dev',
+ {n:'Harvest of Small Things',sub:'Nothing big. Just twenty-eight ordinary days in a row.',focus:'dev',
   obj:{k:'perfect',target:18,label:'18 days with all five kept'}},
- {n:'Bold Eyes, Kind Hands',sub:'The house motto, as a season. Say the hard thing and stay warm while you say it.',focus:'nrv',
+ {n:'Bold Eyes, Kind Hands',sub:'Say the hard thing, and stay kind while you say it.',focus:'nrv',
   obj:{k:'steady',target:26,label:'26 days holding the streak'}}
 ];
 const EXTRA_SEASONS=[
- {n:'The Mended Net',sub:'What you almost let go of, held together on purpose.',focus:'kin',
+ {n:'The Mended Net',sub:'Something you almost let slide, kept up on purpose.',focus:'kin',
   obj:{k:'bond',target:90,label:'both bonds at 90 or better when it ends'}},
- {n:'Unhidden',sub:'Not smaller than you are, just to keep a room comfortable.',focus:'nrv',
+ {n:'Unhidden',sub:'Do not shrink yourself just to keep a room comfortable.',focus:'nrv',
   obj:{k:'perfect',target:16,label:'16 days with all five kept'}},
- {n:'The Long Obedience',sub:'Nothing dramatic. Just the next right thing, twenty-eight times.',focus:'dev',
+ {n:'The Long Obedience',sub:'Nothing dramatic. Just the next right thing, over and over.',focus:'dev',
   obj:{k:'steady',target:22,label:'22 days holding the streak'}},
- {n:'Clear the Hallway',sub:'Every awkward first step you have been walking past, one a day.',focus:'nrv',
+ {n:'Clear the Hallway',sub:'One awkward first step a day, until the list is clear.',focus:'nrv',
   obj:{k:'posts',target:26,label:'26 loose ends closed'}},
- {n:'The Second Wind',sub:'Whatever this body has left after the first excuse, spend it.',focus:'vig',
+ {n:'The Second Wind',sub:'Move even after you have already made an excuse not to.',focus:'vig',
   obj:{k:'sessions',target:9,label:'9 camp sessions logged'}},
- {n:'Undivided',sub:'One thing at a time, done all the way, instead of six things half done.',focus:'stl',
+ {n:'Undivided',sub:'One thing at a time, finished, instead of six things half done.',focus:'stl',
   obj:{k:'perfect',target:18,label:'18 days with all five kept'}}
 ];
 function seasonPool(){return SEASONS.concat(EXTRA_SEASONS)}
@@ -2018,7 +2025,7 @@ function render(){
   const st=S.settings;el('settings').innerHTML=`<h3>Settings</h3><div class="chips">
     <div class="chip2" data-set="pen">Penalties: ${st.penalties?'on':'off'}</div>
     <div class="chip2" data-set="cap">Daily loss cap: ${st.penalties?(st.cap==null?'none':st.cap+' xp'):'—'}</div></div>
-    <div class="sub" style="margin-top:6px">Penalties are the −20 per skipped minimum and −10 per rolled item. The cap limits the total you can lose in one day.</div>`;
+    <div class="sub" style="margin-top:6px">Missing a minimum costs −20. A rolled-over item costs −10. There's a daily cap on how much you can lose.</div>`;
   el('settings').querySelector('[data-set="pen"]').onclick=()=>{st.penalties=!st.penalties;save();render();toast(st.penalties?'Penalties on.':'Penalties off. XP only goes up.')};
   el('settings').querySelector('[data-set="cap"]').onclick=()=>{const seq=[40,60,100,null];st.cap=seq[(seq.indexOf(st.cap)+1)%seq.length];save();render()};
   el('settings').querySelector('.chips').insertAdjacentHTML('beforeend',`<div class="chip2" data-set="snd">Sounds: ${st.sound===false?'off':'on'}</div><div class="chip2" data-set="bday">Birthdays &amp; holidays: ${st.bdays===false?'off':'on'}</div>`);
@@ -2109,7 +2116,7 @@ el('logmatch').onclick=()=>{
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');setTimeout(pixelNext,600)}
   else toast(`+${grand} xp on the court.`)};
-const APP_VERSION='4.0.0';
+const APP_VERSION='4.1.1';
 const TABS={
  today:['p-board','p-commit','p-lift','p-boss','p-special','cipanel','p-draw'],
  plan:['p-log','p-week','p-season'],
@@ -2287,255 +2294,12 @@ function showLoot3d(){
   el('loot').classList.add('on');
 }
 
-function h3codePiece(kind){
-  const o=new THREE.Group();
-  const wood=MAT(0x7A5A3C,{roughness:.85}),paper=MAT(0xEEE8DA,{roughness:.95}),
-        copper=MAT(0xB9643F,{metalness:.5,roughness:.45}),brass=MAT(0xB08A4E,{metalness:.6,roughness:.4}),
-        slate=MAT(0x3C4C58),cream=MAT(0xEEF0E8),green=MAT(0x4F7A5C),purple=MAT(0x6E5A86);
-  const book=(w,h,d,cover)=>{const b=new THREE.Group();
-    b.add(new THREE.Mesh(new THREE.BoxGeometry(w,h,d),cover));
-    const p=new THREE.Mesh(new THREE.BoxGeometry(w*.92,h*.92,d*.8),paper);p.position.x=w*.06;b.add(p);return b};
-  if(kind==='book'){o.add(book(.05,.17,.13,purple))}
-  else if(kind==='journal'){o.add(book(.04,.15,.11,green));const bd=new THREE.Mesh(new THREE.BoxGeometry(.012,.16,.012),copper);bd.position.z=.06;o.add(bd)}
-  else if(kind==='tome'){o.add(book(.08,.23,.17,MAT(0x4A3A5C)));const cl=new THREE.Mesh(new THREE.BoxGeometry(.02,.035,.035),brass);cl.position.set(.012,0,.09);o.add(cl)}
-  else if(kind==='stack'){[[0,purple,.16],[.055,green,.15],[.105,slate,.14]].forEach(([y,c,h])=>{const b=book(.04,h,.12,c);b.position.y=y;b.rotation.y=y*3;o.add(b)})}
-  else if(kind==='ledger'){o.add(book(.035,.20,.15,MAT(0x8C5A3C)));const rib=new THREE.Mesh(new THREE.BoxGeometry(.008,.09,.012),copper);rib.position.set(0,-.13,.035);o.add(rib)}
-  else if(kind==='mug'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.043,.037,.085,14),cream));
-    const h=new THREE.Mesh(new THREE.TorusGeometry(.028,.008,6,14,Math.PI*1.3),cream);h.position.set(.049,0,0);h.rotation.y=Math.PI/2;o.add(h);
-    const cof=new THREE.Mesh(new THREE.CylinderGeometry(.038,.038,.006,14),MAT(0x4A3325));cof.position.y=.04;o.add(cof)}
-  else if(kind==='teacup'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.04,.026,.05,14),cream);c.position.y=.018;o.add(c);
-    o.add(new THREE.Mesh(new THREE.CylinderGeometry(.063,.063,.007,16),cream));
-    const t=new THREE.Mesh(new THREE.CylinderGeometry(.034,.034,.005,14),MAT(0x9C6B3A));t.position.y=.037;o.add(t)}
-  else if(kind==='bottle'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.034,.034,.17,14),MAT(0x436B74)));
-    const cap=new THREE.Mesh(new THREE.CylinderGeometry(.023,.023,.034,12),copper);cap.position.y=.10;o.add(cap)}
-  else if(kind==='dumbbell'){const bar=new THREE.Mesh(new THREE.CylinderGeometry(.013,.013,.17,10),MAT(0x6E7A72,{metalness:.6}));bar.rotation.z=Math.PI/2;o.add(bar);
-    [-.074,.074].forEach(x=>{const w=new THREE.Mesh(new THREE.CylinderGeometry(.043,.043,.04,14),MAT(0x2F3A40));w.rotation.z=Math.PI/2;w.position.x=x;o.add(w)})}
-  else if(kind==='quill'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.005,.008,.17,8),cream));
-    const f=new THREE.Mesh(new THREE.ConeGeometry(.028,.11,8),MAT(0xC2B083));f.position.y=.10;f.scale.z=.3;o.add(f)}
-  else if(kind==='wand'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.007,.012,.20,8),wood));
-    const tip=new THREE.Mesh(new THREE.OctahedronGeometry(.02),MAT(0xD8C48A,{emissive:0x7A6430}));tip.position.y=.11;o.add(tip)}
-  else if(kind==='staff'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.016,.02,.95,10),wood);s.position.y=.24;o.add(s);
-    const ring=new THREE.Mesh(new THREE.TorusGeometry(.058,.013,8,20),brass);ring.position.y=.70;o.add(ring);
-    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.035),MAT(0xA7C4C9,{emissive:0x2E4A50}));gem.position.y=.70;o.add(gem)}
-  else if(kind==='lantern'){const top=new THREE.Mesh(new THREE.ConeGeometry(.052,.04,8),brass);top.position.y=.07;o.add(top);
-    o.add(new THREE.Mesh(new THREE.CylinderGeometry(.037,.037,.085,10),MAT(0xF6EFC9,{emissive:0x8A7430,transparent:true,opacity:.92})));
-    const base=new THREE.Mesh(new THREE.CylinderGeometry(.046,.049,.023,10),brass);base.position.y=-.052;o.add(base);o.position.y=-.05}
-  else if(kind==='candle'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.026,.029,.115,12),cream));
-    const dish=new THREE.Mesh(new THREE.CylinderGeometry(.058,.052,.012,14),brass);dish.position.y=-.063;o.add(dish);
-    const fl=new THREE.Mesh(new THREE.ConeGeometry(.013,.04,8),MAT(0xF0C070,{emissive:0xB07A32}));fl.position.y=.08;o.add(fl)}
-  else if(kind==='keys'){const ring=new THREE.Mesh(new THREE.TorusGeometry(.029,.005,6,16),brass);ring.rotation.x=Math.PI/2;o.add(ring);
-    [-.017,0,.017].forEach((x,i)=>{const k=new THREE.Mesh(new THREE.BoxGeometry(.007,.075,.003),brass);k.position.set(x,-.052,0);k.rotation.z=(i-1)*.2;o.add(k)})}
-  else if(kind==='basket'){o.add(new THREE.Mesh(new THREE.CylinderGeometry(.075,.052,.08,14,1,true),MAT(0xA07A4E,{side:THREE.DoubleSide})));
-    const h=new THREE.Mesh(new THREE.TorusGeometry(.069,.007,6,16,Math.PI),MAT(0xA07A4E));h.position.y=.035;o.add(h);
-    [[-.028,.012],[.023,.017],[0,-.012]].forEach(([x,z])=>{const f=new THREE.Mesh(new THREE.SphereGeometry(.026,8,8),green);f.position.set(x,.046,z);o.add(f)})}
-  else if(kind==='bouquet'){for(let i=0;i<6;i++){const a=i/6*Math.PI*2;
-      const st=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.125,6),green);st.position.set(Math.sin(a)*.017,.035,Math.cos(a)*.017);o.add(st);
-      const fl=new THREE.Mesh(new THREE.SphereGeometry(.022,8,8),MAT([0xE0B7C4,0xF0E0C0,0xC9DCC2,0xD8A6B4][i%4]));
-      fl.position.set(Math.sin(a)*.035,.108,Math.cos(a)*.035);o.add(fl)}}
-  else if(kind==='satchel'){o.add(new THREE.Mesh(new THREE.BoxGeometry(.15,.115,.05),MAT(0x7A5A3C)));
-    const fl=new THREE.Mesh(new THREE.BoxGeometry(.155,.058,.058),MAT(0x8C6B48));fl.position.y=.035;o.add(fl);o.position.y=-.04}
-  else if(kind==='shawl'){const s=new THREE.Mesh(new THREE.CylinderGeometry(.26,.30,.30,18,1,true),MAT(0x7E9479,{side:THREE.DoubleSide,roughness:1}));
-    s.position.y=-.06;o.add(s)}
-  else if(kind==='bag'){const b=new THREE.Mesh(new THREE.CylinderGeometry(.11,.11,.28,14),MAT(0x5E6E63,{roughness:1}));b.position.y=-.10;o.add(b);
-    const cap=new THREE.Mesh(new THREE.SphereGeometry(.11,12,8,0,Math.PI*2,0,Math.PI/2),MAT(0x46554B));cap.position.y=.04;o.add(cap)}
-  else if(kind==='cloak'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.24,.52,1.0,20,1,true),MAT(0x3C4C58,{side:THREE.DoubleSide,roughness:1}));
-    c.position.y=-.40;o.add(c);const lin=new THREE.Mesh(new THREE.CylinderGeometry(.235,.50,.98,20,1,true),MAT(0x8E4830,{side:THREE.BackSide,roughness:1}));
-    lin.position.y=-.40;o.add(lin)}
-  else if(kind==='star'){const c=new THREE.Mesh(new THREE.CylinderGeometry(.24,.55,1.05,20,1,true),MAT(0x2E3448,{side:THREE.DoubleSide,roughness:1}));
-    c.position.y=-.42;o.add(c);
-    for(let i=0;i<14;i++){const s=new THREE.Mesh(new THREE.OctahedronGeometry(.018),MAT(0xE6DCA8,{emissive:0x6A6030}));
-      const a=(i/14)*Math.PI*1.6+Math.PI*.7,rr=.26+Math.random()*.22;
-      s.position.set(Math.sin(a)*rr,-.20-Math.random()*.65,Math.cos(a)*rr-.05);o.add(s)}}
-  else return null;
-  return o;
-}
-const H3={ready:false,failed:false,R:null,cheerQueued:false,attached:{},cls:null,
-  assets:null,loading:false,gearCache:{},loadingSlot:{}};
-const MAT=(c,extra)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.8,metalness:.05},extra||{}));
-function h3load(url){return new Promise((res,rej)=>new GLTFLoader().load(url,res,undefined,rej))}
-
-/* The ranger outfit ships without a head, and the free base body is a different
-   build that bursts through the clothes — so head.glb is just the head and neck,
-   cut below the tunic collar. Hair and hood carry their own copy of the same
-   65-bone rig; rebinding them to her skeleton lets one mixer drive everything. */
-async function h3assets(){
-  if(H3.assets)return H3.assets;
-  const [body,head,hair,anims]=await Promise.all([
-    h3load('models/hero.glb'),h3load('models/head.glb'),
-    h3load('models/hair-up.glb'),h3load('models/anims.glb')]);
-  let skinned=0;body.scene.traverse(o=>{if(o.isSkinnedMesh)skinned++});
-  if(!skinned)throw new Error('hero.glb has no skinned meshes');
-  if(!anims.animations.length)throw new Error('anims.glb has no clips');
-  const clips={};anims.animations.forEach(c=>clips[c.name]=c);
-  H3.assets={body:body.scene,head:head.scene,hair:hair.scene,clips};
-  return H3.assets;
-}
-function h3rebind(root,scene,skel){
-  const byName={};skel.bones.forEach(b=>byName[b.name]=b);
-  const added=[];
-  scene.traverse(o=>{
-    if(!o.isSkinnedMesh)return;
-    const m=o.clone();
-    m.skeleton=new THREE.Skeleton(o.skeleton.bones.map(b=>byName[b.name]||b),o.skeleton.boneInverses);
-    m.bindMode=o.bindMode;m.bindMatrix=o.bindMatrix.clone();m.bindMatrixInverse=o.bindMatrixInverse.clone();
-    m.material=o.material.clone();m.frustumCulled=false;
-    root.add(m);added.push(m);
-  });
-  return added;
-}
-function hero3dSync(){
-  const R=H3.R;if(!R)return;
-  S.gear3d=S.gear3d||{};
-  const hairCol=new THREE.Color(HAIR[(S.look&&S.look.hair)||0][0]);
-  R.hair.forEach(m=>m.material.color.copy(hairCol));
-  const hoodOn=S.gear3d.head==='g-hood';
-  R.hair.forEach(m=>m.visible=!hoodOn);
-  for(const slot of ['r','l','head','back']){
-    const id=S.gear3d[slot],g=id?g3(id):null,cur=H3.attached[slot];
-    if(cur&&(!g||cur.id!==g[0])){if(cur.obj.parent)cur.obj.parent.remove(cur.obj);delete H3.attached[slot]}
-    if(!g)continue;
-    if(H3.attached[slot]&&H3.attached[slot].id===g[0])continue;
-    const anchor=R.anchors[slot];if(!anchor)continue;
-    const src=g[6];
-    if(src.startsWith('file:')){
-      const fname=src.slice(5);
-      if(H3.loadingSlot[slot]===g[0])continue;
-      H3.loadingSlot[slot]=g[0];
-      const place=scene=>{
-        delete H3.loadingSlot[slot];
-        if((S.gear3d||{})[slot]!==g[0])return;
-        const old=H3.attached[slot];if(old&&old.obj.parent)old.obj.parent.remove(old.obj);
-        if(fname==='hood'){
-          const added=h3rebind(R.model,scene,R.skel);
-          H3.attached[slot]={id:g[0],obj:{parent:{remove:()=>added.forEach(m=>R.model.remove(m))}}};
-          hero3dSync();return;
-        }
-        const w=scene.clone(true);
-        /* GRIP: weapons are exported standing up +Y with the handle at the origin.
-           Nudge these three numbers if a piece sits wrong in her hand. */
-        w.rotation.set(-Math.PI/2,0,slot==='l'?Math.PI:0);
-        w.position.set(0,.03,0);
-        anchor.add(w);H3.attached[slot]={id:g[0],obj:w};
-      };
-      const path = fname==='hood' ? 'models/hood.glb' : 'models/gear/'+fname+'.glb';
-      if(H3.gearCache[fname]){place(H3.gearCache[fname])}
-      else h3load(path).then(gl=>{H3.gearCache[fname]=gl.scene;place(gl.scene)})
-        .catch(()=>{delete H3.loadingSlot[slot]});
-      continue;
-    }
-    const o=h3codePiece(src.replace('code:',''));if(!o)continue;
-    o.rotation.x=-Math.PI/2;o.position.set(0,.02,0);
-    anchor.add(o);H3.attached[slot]={id:g[0],obj:o};
-  }
-  hero3dPlay();
-}
-
-function hero3dPlay(name){
-  const R=H3.R;if(!R||!R.mixer)return;
-  const c=condition()[0];
-  const armed=['r','l'].some(sl=>!!(S.gear3d||{})[sl]);
-  const idle=[armed?'Sword_Idle':'Idle_Loop',armed?'Sword_Idle':'Idle_Talking_Loop','Sitting_Idle_Loop'][c];
-  const target=name||idle,a=R.actions[target];if(!a)return;
-  if(!name&&R.danceUntil>performance.now())return;
-  if(R.current===a&&!name)return;
-  if(R.current&&R.current!==a)R.current.fadeOut(.35);
-  a.reset().fadeIn(.35).play();
-  a.timeScale=(c===1&&!name)?.8:1;
-  R.current=a;
-  if(name==='Dance_Loop'){R.danceUntil=performance.now()+3200;
-    setTimeout(()=>{R.danceUntil=0;R.current=null;hero3dPlay()},3200)}
-}
-function hero3dCheer(){pixelCheer()}
-function hero3dInit(){return;
-  if(H3.ready||H3.failed)return;
-  if(!S){H3.deferred=true;return}
-  const host=el('stage3d');
-  if(!window.THREE||!window.GLTFLoader){H3.failed=true;host.classList.add('hid');return}
-  H3.ready=true;
-  const W=host.clientWidth,Hh=host.clientHeight;
-  const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(W,Hh);
-  if(THREE.SRGBColorSpace)renderer.outputColorSpace=THREE.SRGBColorSpace;
-  host.appendChild(renderer.domElement);
-  const scene=new THREE.Scene();
-  const cam=new THREE.PerspectiveCamera(30,W/Hh,.1,50);cam.position.set(0,1.2,4.6);
-  const look=new THREE.Vector3(0,.95,0);cam.lookAt(look);
-  const hemi=new THREE.HemisphereLight(0xF4EEDD,0x33302A,1.9);scene.add(hemi);
-  const key=new THREE.DirectionalLight(0xFFF6E8,2.1);key.position.set(2.5,4,3);scene.add(key);
-  const rim=new THREE.DirectionalLight(0xB9643F,1.0);rim.position.set(-3,2,-3);scene.add(rim);
-  const ground=new THREE.Mesh(new THREE.CircleGeometry(1.1,40),
-    new THREE.MeshBasicMaterial({color:0x4A4232,transparent:true,opacity:.20}));
-  ground.rotation.x=-Math.PI/2;ground.position.y=.004;scene.add(ground);
-  H3.stage={renderer,scene,cam,look,hemi,key,rim};
-  hero3dLoadModel(heroClass(),()=>{
-    let rotY=.25,drag=null,vel=0;
-    const cv=renderer.domElement;
-    cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,r:rotY};cv.setPointerCapture(e.pointerId)});
-    cv.addEventListener('pointermove',e=>{if(!drag)return;const nr=drag.r+(e.clientX-drag.x)*.012;vel=nr-rotY;rotY=nr});
-    cv.addEventListener('pointerup',()=>drag=null);cv.addEventListener('pointercancel',()=>drag=null);
-    const clock=new THREE.Clock(),tmp=new THREE.Vector3(),tc=new THREE.Color();
-    const dayLight=()=>{const h=new Date().getHours()+new Date().getMinutes()/60;
-      if(h<5.5||h>=21)return{sky:0xA9B4CC,ground:0x262A33,key:0xB8C2DC,ki:1.2,hi:1.3};
-      if(h<9)return{sky:0xF7E4CE,ground:0x4E4638,key:0xFFDDB4,ki:2.0,hi:1.8};
-      if(h<17)return{sky:0xF6F0E0,ground:0x3A362C,key:0xFFF6E8,ki:2.1,hi:1.9};
-      if(h<19.5)return{sky:0xF2C79A,ground:0x46362A,key:0xE8AE79,ki:2.0,hi:1.7};
-      return{sky:0xCDB6BC,ground:0x2E2A32,key:0xD8BCC6,ki:1.5,hi:1.4}};
-    renderer.setAnimationLoop(()=>{
-      if(el('t-hero').classList.contains('hid'))return;
-      const R=H3.R;if(!R)return;
-      const dt=Math.min(.05,clock.getDelta());
-      if(R.mixer)R.mixer.update(reduced?0:dt);
-      if(!drag){if(!reduced)rotY+=vel;vel*=.92;if(Math.abs(vel)<.0005)vel=0}
-      R.model.rotation.y=rotY;
-      const c=condition()[0];
-      const CV=[[[0,1.2,4.6],[0,.95,0],1],[[0,1.15,4.4],[0,.9,0],.74],[[.42,.95,3.8],[0,.55,0],.52]][c];
-      const k=reduced?1:Math.min(1,dt*3);
-      cam.position.lerp(tmp.set(...CV[0]),k);look.lerp(new THREE.Vector3(...CV[1]),k);cam.lookAt(look);
-      const L=dayLight();
-      hemi.color.lerp(tc.set(L.sky),k);hemi.groundColor.lerp(tc.set(L.ground),k);key.color.lerp(tc.set(L.key),k);
-      hemi.intensity+=(L.hi*CV[2]-hemi.intensity)*k;key.intensity+=(L.ki*CV[2]-key.intensity)*k;
-      renderer.render(scene,cam);
-    });
-  });
-  addEventListener('resize',()=>{const R=H3.R;if(!R)return;const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;
-    R.renderer.setSize(w,h);R.cam.aspect=w/h;R.cam.updateProjectionMatrix()});
-}
-
-
-function hero3dLoadModel(cls,then){return;
-  const st=H3.stage;if(!st)return;
-  if(H3.R){H3.cls=cls;hero3dSync();if(then)then();return}
-  if(H3.loading)return;
-  H3.loading=true;
-  const ld=el('stage3dload');if(ld){ld.textContent='Loading character\\u2026';ld.classList.remove('hid')}
-  h3assets().then(A=>{
-    const model=A.body;
-    let skel=null;
-    model.traverse(o=>{if(o.isSkinnedMesh){o.frustumCulled=false;o.material=o.material.clone();if(!skel)skel=o.skeleton}});
-    if(!skel)throw new Error('no skeleton on hero.glb');
-    h3rebind(model,A.head,skel);
-    const hair=h3rebind(model,A.hair,skel);
-    const bone=n=>skel.bones.find(b=>b.name===n)||model.getObjectByName(n);
-    const mk=(bn,y,z)=>{const g=new THREE.Group();const b=bone(bn);if(b)b.add(g);
-      if(y)g.position.y=y;if(z)g.position.z=z;return g};
-    const anchors={r:mk('hand_r'),l:mk('hand_l'),head:mk('Head',.14,0),back:mk('spine_03',0,-.1)};
-    st.scene.add(model);
-    const mixer=new THREE.AnimationMixer(model);
-    const actions={};Object.entries(A.clips).forEach(([n,c])=>{actions[n]=mixer.clipAction(c)});
-    H3.R={renderer:st.renderer,scene:st.scene,cam:st.cam,model,mixer,actions,current:null,
-          anchors,hair,skel,look:st.look,hemi:st.hemi,key:st.key,danceUntil:0};
-    H3.cls=cls;H3.loading=false;
-    const ld2=el('stage3dload');if(ld2)ld2.classList.add('hid');
-    hero3dSync();
-    if(H3.cheerQueued){H3.cheerQueued=false;hero3dPlay('Dance_Loop')}
-    if(then)then();
-  }).catch(err=>{
-    H3.loading=false;console.error('character failed to load:',err);
-    H3.failed=true;
-    const ld3=el('stage3dload');
-    if(ld3){ld3.textContent='Character art failed to load \\u2014 check that the models/ folder deployed.';ld3.classList.remove('hid')}
-  });
-}
+/* the 3D character view was retired in favor of the layered pixel character (see pixel-core.js /
+   pixel-ui.js). These stubs stay only because a couple of call sites below still check them for
+   pre-pixel saves that may have H3.deferred set; both are immediate no-ops. */
+const H3={deferred:false};
+function hero3dInit(){}
+function hero3dLoadModel(){}
 /* ---------- tiny synthesized sound effects ---------- */
 let ACTX=null;
 function sfx(kind){
