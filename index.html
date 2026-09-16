@@ -189,9 +189,6 @@
   #sabbath{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 94%,transparent);background-image:var(--paper);backdrop-filter:blur(6px);
     z-index:20;display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
   #sabbath.on{display:flex}
-  #church{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 94%,transparent);background-image:var(--paper);backdrop-filter:blur(6px);
-    z-index:20;display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
-  #church.on{display:flex}
   .crow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--line2);text-align:left}
   .crow:first-child{border-top:none}
   .crow label{font-size:14.5px;color:var(--tx)}
@@ -645,12 +642,6 @@
     and a nap you don't have to justify. The board is lighter on purpose — enjoy the day the Lord made.</p>
   <button id="sabgo">Begin the day</button>
 </div></div>
-<div id="church"><div class="sabbox">
-  <div class="sabhead" id="churchhead">How was it?</div>
-  <p class="sabtx" id="churchsub">A few honest numbers. Nobody's grading you — this is just for you.</p>
-  <div id="churchrows"></div>
-  <button id="churchgo" style="margin-top:14px">Log it</button>
-</div></div>
 <div id="pop"><div id="popbox"></div></div>
 <canvas id="fx"></canvas><div id="critterLayer"></div>
 <div class="toast" id="toast"></div>
@@ -817,41 +808,6 @@ el('weightlog').onclick=()=>{
   render();save();
 };
 
-/* ---------- church check-in: Sunday 12pm, Wednesday 8pm ---------- */
-const CHURCH_QS=[['attentive','Present, not elsewhere'],['application','Took something with me'],['spoke','Said something out loud'],['met','Talked to someone new']];
-function churchState(){S.church=S.church||{lastSun:null,lastWed:null,log:[]};return S.church}
-function churchDue(){
-  const d=new Date(),dow=d.getDay(),h=d.getHours(),cs=churchState();
-  if(dow===0&&h>=12&&cs.lastSun!==today())return 'Sunday service';
-  return null;
-}
-function checkChurchPrompt(){
-  if(el('church').classList.contains('on')||el('sabbath').classList.contains('on'))return;
-  const which=churchDue();if(!which)return;
-  el('churchhead').textContent='How was '+which+'?';
-  const picks={};
-  el('churchrows').innerHTML=CHURCH_QS.map(([k,label])=>`<div class="crow">
-    <label>${label}</label><div class="cscale" data-k="${k}">
-      ${[1,2,3,4,5].map(n=>`<button data-v="${n}">${n}</button>`).join('')}</div></div>`).join('');
-  el('churchrows').querySelectorAll('.cscale').forEach(row=>{
-    const k=row.dataset.k;
-    row.querySelectorAll('button').forEach(b=>{
-      b.onclick=()=>{picks[k]=+b.dataset.v;
-        row.querySelectorAll('button').forEach(x=>x.classList.toggle('pick',x===b))};
-    });
-  });
-  el('church').classList.add('on');
-  el('churchgo').onclick=()=>{
-    const vals=CHURCH_QS.map(([k])=>picks[k]).filter(v=>v!=null);
-    if(!vals.length){toast('Pick at least one number.');return}
-    const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
-    const cs=churchState();
-    if(which==='Sunday service')cs.lastSun=today();
-    cs.log=(cs.log||[]).concat([{d:today(),which,avg:+avg.toFixed(1),picks:{...picks}}]).slice(-30);
-    el('church').classList.remove('on');
-    award(Math.round(20+avg*8),'dev','Enablement',which+' check-in');
-  };
-}
 
 const SYNC={get(){try{return JSON.parse(localStorage.getItem('liferpg:kk:sync')||'null')}catch(e){return null}},set(v){localStorage.setItem('liferpg:kk:sync',JSON.stringify(v))}};
 const HH_KEY='liferpg:kk:household';
@@ -1186,7 +1142,7 @@ const LEX={
       'yoga','steps','cardio','strength','mobility','water','protein','meal prep','sleep','nap','rest','hike','bike'],
  stl:['read','reading','book','chapter','pages','journal','quiet','phone','scroll','scrolling','instagram',
       'facebook','tiktok','social','screen','library','plan','budget','spending','no spend','savings','notes','think'],
- dev:['pray','prayer','devotional','bible','scripture','church','verse','study','worship','ladies','small group',
+ dev:['pray','prayer','devotional','bible','scripture','verse','study','worship',
       'gratitude','quiet time','sermon'],
  kin:['ty','lawson','kids','kid','son','family','mom','mom friends','friend','friends','playdate','play date',
       'coffee with','lunch with','dinner','birthday','visit','text','call mom','call dad','check on','check in',
@@ -1265,10 +1221,11 @@ function renderCustom(){
       const d=document.createElement('div');d.className='q'+(c.done?' done':'');d.dataset.undo='cu:'+c.id;
       d.innerHTML=`<div class="box"></div><div style="flex:1">
         <div class="qt">${esc(c.t)}</div>
-        <div class="meta"><span class="tag">${an}</span> · ${c.m>=2.2?'been avoiding it':c.m>1?'high priority':'normal'}${when}${c.rolls?` · carried ${c.rolls}×`:''}${c.repeat?` · repeats ${c.repeat}`:''}</div>
+        <div class="meta"><span class="tag">${an}</span> · ${c.m>=2.2?'been avoiding it':c.m>1?'high priority':'normal'}${when}${c.rolls?` · carried ${c.rolls}×`:''}${c.repeat?` · <span class="stoprepeat" data-stoprepeat="${c.id}" style="text-decoration:underline;cursor:pointer">repeats ${c.repeat} — stop</span>`:''}</div>
         ${b==='todo'&&c.made&&(new Date(today()+'T12:00:00')-new Date(c.made+'T12:00:00'))/864e5>=30?`<div class="cy" style="margin:6px 0 0;padding:6px 8px"><div class="qt" style="font-size:13.5px;font-style:italic;color:var(--mu)">Thirty days on the list. Still real?</div><div class="row"><button class="ghost" data-age="keep">Still real</button><button class="ghost" data-age="drop">Let it go</button></div></div>`:''}</div>
         <div class="xp">${xp}</div><div class="del" data-del="${c.id}">\u00d7</div>`;
       d.onclick=e=>{
+        if(e.target.dataset.stoprepeat){e.stopPropagation();c.repeat=null;toast('Won\u2019t repeat after this one.');render();save();return}
         if(e.target.dataset.age){e.stopPropagation();if(e.target.dataset.age==='keep'){c.made=today();toast('Kept.')}else{S.custom=S.custom.filter(x=>x.id!==c.id);toast('Let go. No penalty.')}render();save();return}
         if(e.target.dataset.del){S.custom=S.custom.filter(x=>x.id!==c.id);render();save();return}
         if(c.done){tryUndo('cu:'+c.id);return}
@@ -1278,7 +1235,7 @@ function renderCustom(){
       box.appendChild(d)})});
 }
 function renderWeek(){
-  const fixed={0:['Church'],2:['Ladies\u2019 devotional'],3:['Camp']};
+  const fixed={3:['Camp']};
   let out='';
   { const mon=new Date();mon.setHours(12,0,0,0);mon.setDate(mon.getDate()-mon.getDay());
     let held=0,seen=0,dots='';
@@ -1342,7 +1299,7 @@ const POOL=[
  {c:'Body',a:'vig',wg:'Wonder',t:'Stand outside for three minutes and look at nothing useful.',x:15},
  {c:'Faith',a:'dev',wg:'Enablement',t:'Pray for one person by name who does not know you are praying.',x:20},
  {c:'Faith',a:'dev',wg:'Wonder',t:'Read one psalm. Just one. Do not study it.',x:20},
- {c:'Faith',a:'dev',wg:'Galvanizing',t:'Text one of the devotional women something you were thinking about.',x:25},
+ {c:'Faith',a:'dev',wg:'Galvanizing',t:'Share something you\u2019ve been thinking about with someone who\u2019d appreciate it.',x:25},
  {c:'Faith',a:'dev',wg:'Discernment',t:'Name one thing this week that worked out without your managing it.',x:30},
  {c:'Faith',a:'dev',wg:'Enablement',t:'Say thank you out loud for something small and specific.',x:15},
  {c:'Faith',a:'dev',wg:'Wonder',t:'Ninety seconds of quiet before you ask for anything.',x:25},
@@ -1566,8 +1523,6 @@ const ROUTINES=[
  {id:'read',n:'Read something that was not a screen',a:'stl',wg:'Wonder',x:45,days:[]},
  {id:'offphone',n:'Stayed off the scroll tonight',a:'stl',wg:'Discernment',x:45,days:[]},
  {id:'prayed',n:'Prayed or read scripture',a:'dev',wg:'Wonder',x:40,days:[]},
- {id:'devo',n:'Ladies\u2019 devotional',a:'dev',wg:'Enablement',x:70,days:[2,3]},
- {id:'church',n:'Church',a:'dev',wg:'Enablement',x:60,days:[0]},
  {id:'friend',n:'Real contact with a friend',a:'kin',wg:'Enablement',x:50,days:[]},
  {id:'family',n:'Unhurried time with Ty or Lawson',a:'kin',wg:'Enablement',x:50,days:[]},
  {id:'said',n:'Said the thing instead of swallowing it',a:'nrv',wg:'Galvanizing',x:60,days:[]}
@@ -2294,7 +2249,7 @@ el('logmatch').onclick=()=>{
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');setTimeout(pixelNext,600)}
   else toast(`+${grand} xp on the court.`)};
-const APP_VERSION='4.2.0';
+const APP_VERSION='4.2.1';
 const TABS={
  today:['p-board','p-commit','p-lift','p-boss','p-special','cipanel','p-draw'],
  together:['p-household'],
@@ -2669,8 +2624,6 @@ el('imp').onclick=()=>{const t=prompt('Paste your save code:');if(!t)return;
 pixelInstall();buildTabs();eveningOrder();
 showTab('hero');
 schedulePop(true);
-setTimeout(checkChurchPrompt,1500);
-setInterval(checkChurchPrompt,5*60000);
 setInterval(checkCritterDue,60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkCritterDue()});
 load();
