@@ -52,7 +52,8 @@ async function pixelNext(){
 }
 function pixelRender(){
  const p=pixelState();
- el('pixelstage').innerHTML='<span class="pixel-stage-caption">Ashcombe Hall</span>'+pixelFigure(p);
+ el('pixelstage').innerHTML='<span class="pixel-stage-caption"></span>'+pixelFigure(p);
+ window.QuestScenes?.refresh();
  const vit=S.vitality??100,rig=el('pixelstage').querySelector('.pixel-rig');
  if(rig){rig.style.animationDuration=(3.6+(100-vit)/100*3.2).toFixed(2)+'s';rig.style.opacity=vit<40?'.94':'1'}
  el('fig').innerHTML=pixelFigure(p,false);el('fig2').innerHTML=pixelFigure(p,false);

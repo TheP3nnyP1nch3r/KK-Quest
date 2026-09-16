@@ -1,0 +1,11 @@
+KK Quest 4.2.2
+
+Hero scenery changes at 6 a.m. and 6 p.m. using the device local time.
+All 16 scenes cycle in order over eight days. Refreshing keeps the same scene.
+Scenes are cached for offline use after the updated service worker installs.
+Progress, equipment, profile, and cloud sync settings are unchanged.
+
+Upload the extracted contents to the existing GitHub repository root,
+including assets/scenes and hero-scenes.js. Do not upload only the ZIP.
+Allow Cloudflare to finish deploying, then reopen or refresh the app.
+No changes to the Cloudflare Worker or KV are required.

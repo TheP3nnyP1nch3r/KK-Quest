@@ -647,6 +647,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="pixel-core.js"></script>
+<script src="hero-scenes.js"></script>
 <script src="pixel-ui.js"></script>
 <script>
 if(!window.storage){window.storage={
@@ -2249,7 +2250,7 @@ el('logmatch').onclick=()=>{
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');setTimeout(pixelNext,600)}
   else toast(`+${grand} xp on the court.`)};
-const APP_VERSION='4.2.1';
+const APP_VERSION='4.2.2';
 const TABS={
  today:['p-board','p-commit','p-lift','p-boss','p-special','cipanel','p-draw'],
  together:['p-household'],

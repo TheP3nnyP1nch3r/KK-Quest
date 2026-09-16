@@ -8,9 +8,9 @@
 .pixel-pet-grown{width:56%;height:50%;right:-30%;bottom:-2%;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
 .pixel-stage{display:flex;justify-content:center;position:relative;min-height:340px;overflow:hidden;background:url('assets/pixel/stage-bg.jpg') center/cover no-repeat,#eadcba;border:1px solid var(--line2);border-radius:8px;margin-bottom:16px}
 .pixel-stage>.pixel-figure{position:relative;z-index:2;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
-.pixel-stage:before{content:'';position:absolute;inset:12px;background:url('icons/minotaur.png') right center/170px auto no-repeat;opacity:.24;filter:grayscale(1)}
+.pixel-stage:before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.22),transparent 32%);pointer-events:none}
 .pixel-stage>.pixel-figure{width:245px;align-self:flex-end;margin-bottom:14px;margin-right:35px}
-.pixel-stage-caption{position:absolute;top:14px;left:16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#72603f;z-index:6}
+.pixel-stage-caption{position:absolute;top:14px;left:16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#fff5df;text-shadow:0 1px 4px #000;padding:6px 9px;border-radius:4px;background:rgba(25,22,18,.55);z-index:6}
 .figure .pixel-figure{width:100%}.doll .figure{flex:0 0 70px}.mini .pixel-figure{height:100%;width:auto}
 .lawson-art{height:100%;width:100%;object-fit:contain;image-rendering:pixelated;animation:pixel-idle 4.5s ease-in-out infinite;transform-origin:50% 100%}
 .pixel-cheer .pixel-rig,.pixel-cheer .lawson-art{animation:pixel-cheer .65s ease-in-out 2}.pixel-cheer .pixel-pet{animation:pixel-cheer .65s ease-in-out 2}
