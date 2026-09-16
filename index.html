@@ -50,12 +50,12 @@
   #status .sbonds{display:flex;flex-direction:column;gap:5px;width:44px}
   #status .sbonds .b{height:5px;background:var(--s2);border-radius:99px;overflow:hidden}
   #status .sbonds .b i{display:block;height:100%;border-radius:99px;transition:width .5s}
-  .tabs{display:grid;grid-template-columns:repeat(4,1fr);max-width:720px;margin:6px auto 0}
+  .tabs{display:grid;grid-template-columns:repeat(5,1fr);max-width:720px;margin:6px auto 0}
   .tabs button{width:auto;padding:9px 0 11px;font-size:13.5px;font-weight:600;color:var(--mu);
     background:none;border:0;border-radius:0;position:relative}
   .tabs button.on{color:var(--tx)}
   .tabs button.on::after{content:"";position:absolute;left:22%;right:22%;bottom:0;height:2px;background:var(--gold);border-radius:2px 2px 0 0}
-  .tabs button{font-family:var(--fd);font-size:13px;letter-spacing:.04em}
+  .tabs button{font-family:var(--fd);font-size:11.5px;letter-spacing:.03em}
   .tabs button.on::after{background:var(--ink)}
   .tabs button .n{display:inline-block;vertical-align:top;margin:-2px 0 0 5px;min-width:17px;height:17px;padding:0 5px;
     border-radius:99px;background:var(--red);color:#fff;font-size:11px;font-weight:700;line-height:17px;font-family:var(--f)}
@@ -380,12 +380,13 @@
 <div class="topbar">
   <div id="status"></div>
   <div class="tabs">
-    <button data-t="today">Today</button><button data-t="plan">Plan</button>
+    <button data-t="today">Today</button><button data-t="together">Together</button><button data-t="plan">Plan</button>
     <button data-t="hero">Hero</button><button data-t="night">Extras</button>
   </div>
 </div>
 <div class="wrap">
  <div id="t-today" class="tabpane"></div>
+ <div id="t-together" class="tabpane hid"></div>
  <div id="t-plan" class="tabpane hid"></div>
  <div id="t-hero" class="tabpane hid"></div>
  <div id="t-night" class="tabpane hid"></div>
@@ -574,6 +575,41 @@
     </div>
   </div>
 
+  <div class="panel" id="p-household"><i class="stain a"></i><i class="stain b"></i>
+    <h2>Together</h2>
+    <p class="sub">A shared calendar between you and Ty. Either of you can add to it, complete it, or both.</p>
+    <div id="householdSetup">
+      <input type="text" id="hhurl" placeholder="https://tys-quest-household-api.….workers.dev" autocapitalize="off" autocorrect="off">
+      <input type="password" id="hhtok" placeholder="your household token" autocapitalize="off" autocorrect="off">
+      <div class="row" style="margin-top:8px"><button id="hhsave">Connect</button></div>
+    </div>
+    <div id="householdBody" class="hid">
+      <div class="row" style="margin-bottom:6px">
+        <button class="ghost" id="hhprev">‹ Prev week</button>
+        <button class="ghost" id="hhnext">Next week ›</button>
+      </div>
+      <p class="sub" id="hhrange"></p>
+      <div id="hhlist"></div>
+      <h3>Add something</h3>
+      <input type="text" id="hhtext" placeholder="What's this about?">
+      <div class="frow">
+        <div><label for="hhdate">Date</label><input id="hhdate" type="date"></div>
+        <div><label for="hhtime">Time (optional)</label><input id="hhtime" type="time"></div>
+      </div>
+      <div class="frow">
+        <div><label for="hhfor">Planned for</label><select id="hhfor">
+          <option value="both">Both of us</option><option value="either">Either of us</option>
+          <option value="ty">Ty</option><option value="kk">Kaitlyn</option></select></div>
+        <div><label for="hhimp">Size</label><select id="hhimp">
+          <option value="small">Small · 15 xp</option><option value="standard" selected>Standard · 30 xp</option>
+          <option value="major">Major · 50 xp</option></select></div>
+      </div>
+      <input type="text" id="hhnotes" placeholder="Notes (optional)" style="margin-top:8px">
+      <div class="row" style="margin-top:8px"><button id="hhadd">Add to the shared calendar</button></div>
+      <div class="row" style="margin-top:14px"><button class="quiet" id="hhdisconnect">Disconnect</button></div>
+    </div>
+  </div>
+
   <div class="panel" id="p-recent"><i class="stain a"></i><i class="stain b"></i>
     <h2>Recent activity</h2>
     <div class="log" id="log">Nothing logged yet.</div>
@@ -733,6 +769,7 @@ async function load(){
   }
   if(S.week!==weekKey()){S.week=weekKey();S.custom=S.custom.filter(c=>c.scope!=='week'||!c.done)}
   if(await syncPull()){toast('Newer save pulled from the cloud.')}
+  applyHouseholdRewards();
   pixelState();render();await save();renderSync();
   if(H3.deferred){H3.deferred=false;hero3dInit()}
   if(settled)setTimeout(()=>toast(settled),700);
@@ -817,6 +854,126 @@ function checkChurchPrompt(){
 }
 
 const SYNC={get(){try{return JSON.parse(localStorage.getItem('liferpg:kk:sync')||'null')}catch(e){return null}},set(v){localStorage.setItem('liferpg:kk:sync',JSON.stringify(v))}};
+const HH_KEY='liferpg:kk:household';
+const HH_IMP={small:15,standard:30,major:50};
+function hhConfig(){try{return JSON.parse(localStorage.getItem(HH_KEY)||'null')}catch(e){return null}}
+function hhSet(v){localStorage.setItem(HH_KEY,JSON.stringify(v))}
+function hhUid(prefix){return prefix+'_'+(crypto.randomUUID?crypto.randomUUID():Date.now()+Math.random().toString(36).slice(2))}
+function hhClient(){
+  const c=hhConfig();if(!c||!c.url||!c.token)return null;
+  const url=c.url.replace(/\/$/,''),token=c.token,member='kk';
+  async function request(path,opts={}){
+    const r=await fetch(url+path,{...opts,headers:{Authorization:'Bearer '+token,'Content-Type':'application/json',...(opts.headers||{})}});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok){const e=new Error(d.error||('Household request failed ('+r.status+')'));e.status=r.status;e.data=d;throw e}
+    return d;
+  }
+  return {member,
+    list:(from,to)=>request(`/v1/calendar?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`),
+    add:item=>request('/v1/calendar',{method:'POST',body:JSON.stringify({...item,id:item.id||hhUid('item'),requestId:hhUid('req')})}),
+    update:(id,version,changes)=>request(`/v1/calendar/${encodeURIComponent(id)}`,{method:'PATCH',body:JSON.stringify({...changes,version,requestId:hhUid('req')})}),
+    complete:(id,credit)=>request(`/v1/calendar/${encodeURIComponent(id)}/complete`,{method:'POST',body:JSON.stringify({credit,requestId:hhUid('req')})}),
+    removeCompletion:(id,who)=>request(`/v1/calendar/${encodeURIComponent(id)}/complete/${who}`,{method:'DELETE',headers:{'Idempotency-Key':hhUid('req')}}),
+    archive:id=>request(`/v1/calendar/${encodeURIComponent(id)}`,{method:'DELETE',headers:{'Idempotency-Key':hhUid('req')}}),
+    rewards:()=>request('/v1/rewards'),
+    claimReward:id=>request(`/v1/rewards/${encodeURIComponent(id)}/claim`,{method:'POST',body:'{}'})
+  };
+}
+async function applyHouseholdRewards(){
+  const client=hhClient();if(!client)return;
+  try{
+    const {rewards}=await client.rewards();
+    S.appliedSharedRewardIds=S.appliedSharedRewardIds||[];
+    let any=false;
+    for(const r of rewards){
+      if(S.appliedSharedRewardIds.includes(r.id))continue;
+      const before=level().l;
+      S.xp=Math.max(0,S.xp+r.amount);
+      S.log.unshift(`${r.amount>=0?'+':''}${r.amount} xp — Together: ${r.reason}`);
+      S.appliedSharedRewardIds.push(r.id);
+      S.appliedSharedRewardIds=S.appliedSharedRewardIds.slice(-1000);
+      any=true;
+      const after=level().l;
+      if(after>before){S.pending=offer(after);S.points=(S.points||0)+(after-before);
+        for(let L=before+1;L<=after;L++)if(L%2===0&&!S.pending3d)S.pending3d=offer3d(L);
+        S.log.unshift(`level ${after} — +1 skill point`)}
+      try{await client.claimReward(r.id)}catch(e){/* stays unclaimed, local id prevents double-award */}
+    }
+    if(any){await save();render()}
+  }catch(e){/* offline or not connected — try again next load */}
+}
+let hhWeekOffset=0,hhCache=[];
+function hhWeekRange(){
+  const base=new Date();base.setDate(base.getDate()+hhWeekOffset*7);
+  const dow=base.getDay(),start=new Date(base);start.setDate(base.getDate()-dow);
+  const end=new Date(start);end.setDate(start.getDate()+13);
+  return {from:dstr(start),to:dstr(end),start,end};
+}
+function hhStatusLabel(item){
+  if(item.status==='together')return 'Done together';
+  if(item.status==='ty')return 'Done by Ty';
+  if(item.status==='kk')return 'Done by Kaitlyn';
+  return 'Planned';
+}
+function hhItemRow(item){
+  const done=item.status!=='planned';
+  const forLabel={ty:'Ty',kk:'Kaitlyn',both:'both of us',either:'either of us'}[item.plannedFor]||'';
+  return `<div class="ci${done?' yes':''}" data-hh="${item.id}" data-v="${item.version}">
+    <div class="box"></div>
+    <span>${esc(item.title)}<span class="meta" style="display:block">${item.date}${item.time?' · '+item.time:''} · for ${forLabel} · ${HH_IMP[item.importance]||30} xp</span>
+    ${item.notes?`<span class="meta" style="display:block">${esc(item.notes)}</span>`:''}
+    <span class="meta" style="display:block;color:var(--gold)">${hhStatusLabel(item)}</span></span>
+    <div class="rt"><button class="quiet" data-hh-arch="${item.id}" style="width:auto;padding:2px 6px;font-size:12px">Archive</button></div>
+  </div>`;
+}
+function hhOpenComplete(id){
+  const item=hhCache.find(x=>x.id===id);if(!item)return;
+  const client=hhClient();if(!client)return;
+  const row=document.querySelector(`[data-hh="${id}"]`);if(!row)return;
+  const already={ty:item.completions.ty,kk:item.completions.kk};
+  row.insertAdjacentHTML('afterend',`<div class="banner" id="hhPick-${id}">
+    <b>Who got this done?</b>
+    <div class="chips" style="margin-top:8px">
+      <div class="chip2" data-pick="kk">${already.kk?'Undo · Kaitlyn':'I did it (Kaitlyn)'}</div>
+      <div class="chip2" data-pick="ty">${already.ty?'Undo · Ty':'Ty did it'}</div>
+      <div class="chip2" data-pick="together">Together</div>
+      <div class="chip2" data-pick="cancel">Cancel</div>
+    </div></div>`);
+  const picker=document.getElementById('hhPick-'+id);
+  picker.querySelectorAll('[data-pick]').forEach(b=>{
+    b.onclick=async()=>{
+      const pick=b.dataset.pick;picker.remove();
+      if(pick==='cancel')return;
+      try{
+        if(pick==='ty'&&already.ty)await client.removeCompletion(id,'ty');
+        else if(pick==='kk'&&already.kk)await client.removeCompletion(id,'kk');
+        else await client.complete(id,pick);
+        toast('Updated.');await renderHousehold();await applyHouseholdRewards();
+      }catch(e){toast('Could not update: '+e.message)}
+    };
+  });
+}
+async function renderHousehold(){
+  const setup=el('householdSetup'),body=el('householdBody');
+  const client=hhClient();
+  if(!client){setup.classList.remove('hid');body.classList.add('hid');return}
+  setup.classList.add('hid');body.classList.remove('hid');
+  const {from,to,start,end}=hhWeekRange();
+  el('hhrange').textContent=`${start.toLocaleDateString(undefined,{month:'short',day:'numeric'})} – ${end.toLocaleDateString(undefined,{month:'short',day:'numeric'})}`;
+  try{
+    const {items}=await client.list(from,to);
+    hhCache=items||[];
+    el('hhlist').innerHTML=hhCache.length?hhCache.map(hhItemRow).join(''):'<p class="sub">Nothing on the shared calendar these two weeks.</p>';
+    el('hhlist').querySelectorAll('[data-hh]').forEach(row=>{
+      row.onclick=e=>{if(e.target.closest('[data-hh-arch]'))return;hhOpenComplete(row.dataset.hh)};
+    });
+    el('hhlist').querySelectorAll('[data-hh-arch]').forEach(b=>{
+      b.onclick=async e=>{e.stopPropagation();
+        try{await client.archive(b.dataset.hhArch);toast('Archived.');await renderHousehold()}
+        catch(err){toast('Could not archive: '+err.message)}};
+    });
+  }catch(e){el('hhlist').innerHTML=`<p class="sub">Could not load the shared calendar: ${esc(e.message)}</p>`}
+}
 let syncT=null,syncState='off',syncBlocked=false;
 function isKKSave(o){return !!o&&!!o.attr&&['vig','stl','dev','kin','nrv'].every(k=>typeof o.attr[k]==='number')&&typeof o.xp==='number'}
 function syncPush(){if(syncBlocked)return;const c=SYNC.get();if(!c||!c.url||!c.token)return;
@@ -2052,6 +2209,27 @@ function render(){
 }
 
 el('cadd').onclick=addCustom;
+el('hhsave').onclick=async()=>{
+  const url=el('hhurl').value.trim(),tok=el('hhtok').value.trim();
+  if(!url||!tok){toast('Paste the URL and token first.');return}
+  hhSet({url,token:tok});toast('Connecting…');
+  await renderHousehold();await applyHouseholdRewards();
+};
+el('hhdisconnect').onclick=()=>{localStorage.removeItem(HH_KEY);renderHousehold();toast('Disconnected.')};
+el('hhprev').onclick=()=>{hhWeekOffset--;renderHousehold()};
+el('hhnext').onclick=()=>{hhWeekOffset++;renderHousehold()};
+el('hhadd').onclick=async()=>{
+  const client=hhClient();if(!client)return;
+  const title=el('hhtext').value.trim();
+  if(!title){toast('Write something first.');return}
+  if(!el('hhdate').value){toast('Pick a date.');return}
+  try{
+    await client.add({title,date:el('hhdate').value,time:el('hhtime').value||null,
+      notes:el('hhnotes').value.trim(),plannedFor:el('hhfor').value,importance:el('hhimp').value});
+    el('hhtext').value='';el('hhnotes').value='';el('hhtime').value='';
+    toast('Added to the shared calendar.');await renderHousehold();
+  }catch(e){toast('Could not add: '+e.message)}
+};
 el('tmradd').onclick=addTomorrow;
 el('tmrtext').onkeydown=e=>{if(e.key==='Enter')addTomorrow()};
 el('cscope').onchange=()=>el('datewrap').classList.toggle('hid',el('cscope').value!=='date');
@@ -2116,9 +2294,10 @@ el('logmatch').onclick=()=>{
   render();save();
   if(after>before){hero3dCheer();confetti(120,'center');setTimeout(pixelNext,600)}
   else toast(`+${grand} xp on the court.`)};
-const APP_VERSION='4.1.1';
+const APP_VERSION='4.2.0';
 const TABS={
  today:['p-board','p-commit','p-lift','p-boss','p-special','cipanel','p-draw'],
+ together:['p-household'],
  plan:['p-log','p-week','p-season'],
  hero:['p-hero','p-gear','p-comps','p-attrs','p-skills','p-pb','p-stats','p-bw'],
  night:['p-review','p-match','p-recent']
@@ -2132,6 +2311,7 @@ function showTab(t){
   Object.keys(TABS).forEach(k=>el('t-'+k).classList.toggle('hid',k!==t));
   [...document.querySelectorAll('.tabs button')].forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   scrollTo({top:0,behavior:'smooth'});
+  if(t==='together')renderHousehold();
   if(t==='hero'){hero3dInit();
     if(!reduced){const stage=document.getElementById('pixelstage');if(stage){stage.classList.remove('pixel-tap');void stage.offsetWidth;stage.classList.add('pixel-tap');setTimeout(()=>stage.classList.remove('pixel-tap'),450)}}}
 }
@@ -2149,10 +2329,6 @@ function renderStatus(){
   const tb=document.querySelector('.tabs button[data-t="today"]');
   if(tb){let n=tb.querySelector('.n');if(!n){n=document.createElement('span');n.className='n';tb.appendChild(n)}
     n.textContent=open;n.style.display=open?'':'none'}
-  const pending=S.custom.filter(x=>!x.done).length;
-  const pb=document.querySelector('.tabs button[data-t="plan"]');
-  if(pb){let n=pb.querySelector('.n');if(!n){n=document.createElement('span');n.className='n';pb.appendChild(n)}
-    n.textContent=pending;n.style.display=pending?'':'none'}
 }
 
 /* ---------- ten-second undo ----------

@@ -1,5 +1,5 @@
 /* Kaitlyn's Quest service worker — network-first, cache as fallback. */
-const CACHE='kkquest-v4.1.1'; // bump with APP_VERSION in index.html on every deploy
+const CACHE='kkquest-v4.2.0'; // bump with APP_VERSION in index.html on every deploy
 const ICONS=['campfire','castle-room','cave','flying-dragon','hooded-traveler','hunter-and-wolf',
  'journal-and-quill','knight-swinging-sword','minotaur','owl','potion-bottle','signpost','sleeping-dragon',
  'stone-bridge','sword-and-shield','treasure-chest','watchtower','witch-hut','witch-with-staff','wizard-fireball'];
