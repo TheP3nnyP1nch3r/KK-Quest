@@ -1,11 +1,32 @@
-KK Quest 4.2.2
+Kaitlyn's Quest 5.0.0
 
-Hero scenery changes at 6 a.m. and 6 p.m. using the device local time.
-All 16 scenes cycle in order over eight days. Refreshing keeps the same scene.
-Scenes are cached for offline use after the updated service worker installs.
-Progress, equipment, profile, and cloud sync settings are unchanged.
+This release rebuilds her app on Ty's latest engine (7.1.0). Her saved progress, equipment and
+settings carry over unchanged: the save key is the same one her app already uses.
 
-Upload the extracted contents to the existing GitHub repository root,
-including assets/scenes and hero-scenes.js. Do not upload only the ZIP.
-Allow Cloudflare to finish deploying, then reopen or refresh the app.
-No changes to the Cloudflare Worker or KV are required.
+What is new for her (all of it from Ty's current app)
+- Today tab: Main quests first, then the daily commitments and quest board; the optional
+  adventures and boss are tucked into one collapsible section.
+- A "How is your capacity today?" check that scores nothing.
+- Carryover help: after three rollovers an item offers Make smaller, Reschedule or Release.
+- Weigh-in: a prompt from 8 in the morning when five days have passed since the last entry.
+  The log lives in Extras.
+- Busy Day has no weekly limit.
+- Repeating tasks can be stopped without deleting the current one.
+- "Already done" when logging something that is already finished.
+- Streak milestones at 30, 60, 90, 180 and 365 days.
+- Vitality has a tap-to-read explanation.
+- A daily scripture on the Hero tab.
+- Together tab: the shared calendar with Ty.
+- A fix that makes every penalty respect the same daily loss cap (the sixth seasonal
+  commitment used to take XP outside it).
+- Many more outfits, weapons and two more companions (owlbear, phoenix).
+
+What stays hers
+- Her attributes, quests, bosses, seasons, skills, companions (Ty and Lawson) and birthdays.
+- Burn Boot Camp: logging a session now also completes the daily movement commitment.
+- Her title map and theme song, her hero scenes (6am and 6pm), her parchment background.
+- Weapon angles: sword, axe, hammer and paddle at -100 degrees, staff and spear at 100 degrees
+  (other blade and pole weapons follow the same rule).
+- No church check-in, no headwear or off-hand slots.
+
+Deploying: see README.txt.
